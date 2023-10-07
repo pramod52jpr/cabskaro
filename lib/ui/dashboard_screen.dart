@@ -1,3 +1,4 @@
+import 'package:cabskaro/components/bottom_navigator.dart';
 import 'package:cabskaro/components/cab_types.dart';
 import 'package:cabskaro/components/location_points.dart';
 import 'package:cabskaro/ui/cabs_availability_screen.dart';
@@ -249,38 +250,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 const SizedBox(
                   height: 10,
                 ),
-                Container(
-                  margin: const EdgeInsets.only(left: 30, right: 30, bottom: 10),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(50),
-                      boxShadow: const [
-                        BoxShadow(color: Colors.grey, blurRadius: 5)
-                      ]),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      InkWell(
-                          onTap: () {},
-                          child: Image.asset(
-                            "assets/images/icons/bottom-btn-first.png",
-                            height: 40,
-                          )),
-                      InkWell(
-                          onTap: () {},
-                          child: Image.asset(
-                            "assets/images/icons/bottom-btn-car.png",
-                            height: 40,
-                          )),
-                      InkWell(
-                          onTap: () {},
-                          child: Image.asset(
-                            "assets/images/icons/bottom-btn-user.png",
-                            height: 40,
-                          ))
-                    ],
-                  ),
-                )
+                const BottomNavigator(),
               ],
             ),
           )
