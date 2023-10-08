@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 
 class LocationPoints extends StatefulWidget {
-  const LocationPoints({super.key});
+  final VoidCallback onTapStart;
+  final VoidCallback onTapEnd;
+  const LocationPoints({
+    super.key,
+    required this.onTapStart,
+    required this.onTapEnd,
+  });
 
   @override
   State<LocationPoints> createState() => _LocationPointsState();
@@ -46,11 +52,12 @@ class _LocationPointsState extends State<LocationPoints> {
           Column(
             children: [
               InkWell(
-                onTap: () {},
+                onTap: widget.onTapStart,
                 child: Container(
                   width: 240,
                   height: 30,
-                  padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(50),
                       border: Border.all(color: Colors.grey, width: 1)),
@@ -64,16 +71,17 @@ class _LocationPointsState extends State<LocationPoints> {
                 height: 10,
               ),
               InkWell(
-                onTap: () {},
+                onTap: widget.onTapEnd,
                 child: Container(
                   width: 240,
                   height: 30,
-                  padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(50),
                       border: Border.all(color: Colors.grey, width: 1)),
                   child: const Text(
-                    "Enter your destination point",
+                    "Enter your destination",
                     style: TextStyle(overflow: TextOverflow.ellipsis),
                   ),
                 ),

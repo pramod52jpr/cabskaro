@@ -20,7 +20,10 @@ class _CabsAvaibilityScreenState extends State<CabsAvaibilityScreen> {
           title: const Text("Cabs Karo")),
       body: Column(
         children: [
-          const LocationPoints(),
+          LocationPoints(
+            onTapStart: () {},
+            onTapEnd: () {},
+          ),
           CabTypes(
             onTapFourSeater: () {
               Navigator.pushReplacement(

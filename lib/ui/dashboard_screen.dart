@@ -1,7 +1,14 @@
+import 'dart:async';
+
 import 'package:cabskaro/components/bottom_navigator.dart';
 import 'package:cabskaro/components/cab_types.dart';
 import 'package:cabskaro/components/location_points.dart';
+import 'package:cabskaro/dialog/search_location.dart';
+import 'package:cabskaro/services/services.dart';
 import 'package:cabskaro/ui/cabs_availability_screen.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:flutter/material.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -12,14 +19,50 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
+  Completer<GoogleMapController> _completer = Completer();
+  double latitude = 12.876;
+  double longitude = 12.087;
+  double zoom = 1.0;
+  List<Marker> marker = [];
+
+  void currentLocation() {
+    Services().getUserLocation().then((value) {
+      if (value != null) {
+        setState(() {
+          latitude = value.latitude;
+          longitude = value.longitude;
+          zoom = 14.0;
+        });
+        setState(() async {
+          marker.add(Marker(
+              markerId: MarkerId("1"),
+              position: LatLng(latitude, longitude),
+              infoWindow: InfoWindow(title: "Current Location")));
+          CameraPosition newCameraPosition =
+              CameraPosition(target: LatLng(latitude, longitude), zoom: zoom);
+          GoogleMapController controller = await _completer.future;
+          controller
+              .animateCamera(CameraUpdate.newCameraPosition(newCameraPosition));
+        });
+      }
+    }).onError((error, stackTrace) {
+      print("The error is " + error.toString());
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    currentLocation();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         children: [
-          const SizedBox(
-            height: 30,
-          ),
+          const SizedBox(height: 30),
           Row(
             children: [
               Column(
@@ -126,7 +169,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
             ],
           ),
-          const LocationPoints(),
+          LocationPoints(
+            onTapStart: () {
+              showGeneralDialog(
+                context: context,
+                pageBuilder: (context, animation, secondaryAnimation) {
+                  return SearchLocation();
+                },
+              );
+            },
+            onTapEnd: () {},
+          ),
           Expanded(
             child: Column(
               children: [
@@ -162,9 +215,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ),
                 Expanded(
                   child: Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 30, vertical: 10),
-                    child: const Text("map"),
+                    margin:
+                        const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+                    child: GoogleMap(
+                      mapType: MapType.terrain,
+                      initialCameraPosition: CameraPosition(
+                          target: LatLng(latitude, longitude), zoom: zoom),
+                      markers: Set.of(marker),
+                      onMapCreated: (controller) {
+                        _completer.complete(controller);
+                      },
+                    ),
                   ),
                 ),
                 Container(
@@ -174,9 +235,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     child: Row(
                       children: [
                         InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            currentLocation();
+                          },
                           child: Container(
-                            padding: const EdgeInsets.all(12),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 5),
                             child: Image.asset(
                               "assets/images/icons/uber-logo.png",
                               height: 40,
@@ -186,7 +250,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         InkWell(
                           onTap: () {},
                           child: Container(
-                            padding: const EdgeInsets.all(12),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 5),
                             child: Image.asset(
                               "assets/images/icons/ola-logo.png",
                               height: 50,
@@ -196,7 +261,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         InkWell(
                           onTap: () {},
                           child: Container(
-                            padding: const EdgeInsets.all(12),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 5),
                             child: Image.asset(
                               "assets/images/icons/rapido-logo.png",
                               height: 40,
@@ -206,7 +272,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         InkWell(
                           onTap: () {},
                           child: Container(
-                            padding: const EdgeInsets.all(12),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 5),
                             child: Image.asset(
                               "assets/images/icons/meru-logo.png",
                               height: 40,
@@ -216,7 +283,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         InkWell(
                           onTap: () {},
                           child: Container(
-                            padding: const EdgeInsets.all(12),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 5),
                             child: Image.asset(
                               "assets/images/icons/blu-smart-logo.png",
                               height: 40,
@@ -226,7 +294,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         InkWell(
                           onTap: () {},
                           child: Container(
-                            padding: const EdgeInsets.all(12),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 5),
                             child: Image.asset(
                               "assets/images/icons/indrive-logo.png",
                               height: 40,
@@ -236,7 +305,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         InkWell(
                           onTap: () {},
                           child: Container(
-                            padding: const EdgeInsets.all(12),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 5),
                             child: Image.asset(
                               "assets/images/icons/bla-bla-logo.png",
                               height: 40,

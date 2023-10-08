@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:cabskaro/components/verifycode_dialog.dart';
+import 'package:cabskaro/dialog/verifycode_dialog.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
