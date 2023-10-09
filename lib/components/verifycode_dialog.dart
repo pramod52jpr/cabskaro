@@ -34,7 +34,7 @@ class _VerifyCodeState extends State<VerifyCode> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 200),
+      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 170),
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(10),

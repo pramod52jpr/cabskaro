@@ -54,7 +54,7 @@ class _LocationPointsState extends State<LocationPoints> {
               InkWell(
                 onTap: widget.onTapStart,
                 child: Container(
-                  width: 240,
+                  width: 200,
                   height: 30,
                   padding:
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -73,7 +73,7 @@ class _LocationPointsState extends State<LocationPoints> {
               InkWell(
                 onTap: widget.onTapEnd,
                 child: Container(
-                  width: 240,
+                  width: 200,
                   height: 30,
                   padding:
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 5),

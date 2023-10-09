@@ -3,12 +3,10 @@ import 'dart:async';
 import 'package:cabskaro/components/bottom_navigator.dart';
 import 'package:cabskaro/components/cab_types.dart';
 import 'package:cabskaro/components/location_points.dart';
-import 'package:cabskaro/dialog/search_location.dart';
 import 'package:cabskaro/services/services.dart';
 import 'package:cabskaro/ui/cabs_availability_screen.dart';
+import 'package:cabskaro/ui/search_location.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:flutter/material.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -25,6 +23,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
   double zoom = 1.0;
   List<Marker> marker = [];
 
+  void animateLocation() async {
+    CameraPosition newCameraPosition =
+        CameraPosition(target: LatLng(latitude, longitude), zoom: zoom);
+    GoogleMapController controller = await _completer.future;
+    controller.animateCamera(CameraUpdate.newCameraPosition(newCameraPosition));
+  }
+
   void currentLocation() {
     Services().getUserLocation().then((value) {
       if (value != null) {
@@ -32,27 +37,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
           latitude = value.latitude;
           longitude = value.longitude;
           zoom = 14.0;
-        });
-        setState(() async {
           marker.add(Marker(
               markerId: MarkerId("1"),
               position: LatLng(latitude, longitude),
               infoWindow: InfoWindow(title: "Current Location")));
-          CameraPosition newCameraPosition =
-              CameraPosition(target: LatLng(latitude, longitude), zoom: zoom);
-          GoogleMapController controller = await _completer.future;
-          controller
-              .animateCamera(CameraUpdate.newCameraPosition(newCameraPosition));
+          animateLocation();
         });
       }
     }).onError((error, stackTrace) {
-      print("The error is " + error.toString());
+      Services().toastmsg("There is some error", false);
     });
   }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     currentLocation();
   }
@@ -171,12 +169,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
           LocationPoints(
             onTapStart: () {
-              showGeneralDialog(
-                context: context,
-                pageBuilder: (context, animation, secondaryAnimation) {
-                  return SearchLocation();
-                },
-              );
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => SearchLocation(),
+                  ));
             },
             onTapEnd: () {},
           ),
@@ -248,7 +245,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           ),
                         ),
                         InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => DashboardScreen(),
+                                ));
+                          },
                           child: Container(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 12, vertical: 5),

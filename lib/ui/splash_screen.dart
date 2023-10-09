@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:cabskaro/services/services.dart';
 import 'package:cabskaro/ui/login_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

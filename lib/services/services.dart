@@ -21,13 +21,13 @@ class Services {
     }
   }
 
-  void toastmsg(String msg, bool success) {
+  void toastmsg(String msg, bool status) {
     Fluttertoast.showToast(
         msg: msg,
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
-        backgroundColor: success ? Colors.green : Colors.red,
+        backgroundColor: status ? Colors.green : Colors.red,
         textColor: Colors.white,
         fontSize: 16.0);
   }
