@@ -1,15 +1,15 @@
 import 'dart:async';
 
-import 'package:cabskaro/components/bottom_navigator.dart';
-import 'package:cabskaro/components/cab_companies.dart';
-import 'package:cabskaro/components/cab_types.dart';
-import 'package:cabskaro/components/location_points.dart';
-import 'package:cabskaro/services/services.dart';
-import 'package:cabskaro/ui/cabs_availability_screen.dart';
-import 'package:cabskaro/ui/ola_ui/ola_screen.dart';
-import 'package:cabskaro/ui/search_end_location.dart';
-import 'package:cabskaro/ui/search_start_location.dart';
+import 'package:cabskaro/controller/services/services.dart';
 import 'package:cabskaro/ui/uber_ui/uber_screen.dart';
+import 'package:cabskaro/view/screens/homepage/cabs_availability_screen/cabs_availability_screen.dart';
+import 'package:cabskaro/view/screens/homepage/components/bottom_navigator.dart';
+import 'package:cabskaro/view/screens/homepage/components/cab_types.dart';
+import 'package:cabskaro/view/screens/homepage/components/location_points.dart';
+import 'package:cabskaro/view/screens/homepage/searching_locations/search_end_location.dart';
+import 'package:cabskaro/view/screens/homepage/searching_locations/search_start_location.dart';
+import 'package:cabskaro/view/screens/ola_ui/ola_screen.dart';
+import 'package:cabskaro/view/widgets/cab_companies.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';

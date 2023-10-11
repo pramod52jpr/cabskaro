@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:cabskaro/ui/ola_ui/ola_screen.dart';
+import 'package:cabskaro/view/screens/ola_ui/ola_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:uuid/uuid.dart';

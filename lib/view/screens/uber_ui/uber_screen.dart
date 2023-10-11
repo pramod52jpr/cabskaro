@@ -1,10 +1,10 @@
 import 'dart:async';
 
-import 'package:cabskaro/components/bottom_navigator.dart';
-import 'package:cabskaro/components/cab_companies.dart';
-import 'package:cabskaro/services/services.dart';
-import 'package:cabskaro/ui/ola_ui/ola_search_end_location.dart';
-import 'package:cabskaro/ui/ola_ui/ola_search_start_location.dart';
+import 'package:cabskaro/controller/services/services.dart';
+import 'package:cabskaro/view/screens/homepage/components/bottom_navigator.dart';
+import 'package:cabskaro/view/screens/ola_ui/ola_search_end_location.dart';
+import 'package:cabskaro/view/screens/ola_ui/ola_search_start_location.dart';
+import 'package:cabskaro/view/widgets/cab_companies.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geocoding/geocoding.dart';

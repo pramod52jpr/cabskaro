@@ -1,4 +1,4 @@
-import 'package:cabskaro/ui/splash_screen.dart';
+import 'package:cabskaro/view/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 
 void main(){

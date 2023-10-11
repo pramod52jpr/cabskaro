@@ -11,20 +11,20 @@ import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class OlaScreen extends StatefulWidget {
+class UberScreen extends StatefulWidget {
   final String locType;
   final String location;
-  const OlaScreen({
+  const UberScreen({
     super.key,
     this.locType = "start",
     this.location = "current",
   });
 
   @override
-  State<OlaScreen> createState() => _OlaScreenState();
+  State<UberScreen> createState() => _UberScreenState();
 }
 
-class _OlaScreenState extends State<OlaScreen> {
+class _UberScreenState extends State<UberScreen> {
   Completer<GoogleMapController> _completer = Completer();
   static const String STARTLOC = "start";
   static const String STARTLAT = "startLat";
@@ -282,36 +282,34 @@ class _OlaScreenState extends State<OlaScreen> {
       child: Column(
         children: [
           Expanded(
-              child: Stack(
-                children:[ GoogleMap(
-                      mapType: MapType.terrain,
-                      initialCameraPosition: CameraPosition(
-                          target: LatLng(startLatitude, startLongitude),
-                          zoom: zoom),
-                      markers: Set.of(marker),
-                      polylines: Set<Polyline>.of(polylines.values),
-                      myLocationEnabled: true,
-                      onMapCreated: (controller) {
-                        _completer.complete(controller);
-                      },
-                        ),
-                        InkWell(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: Container(
-                            height: 35,
-                            width: 35,
-                            margin: EdgeInsets.all(20),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              shape: BoxShape.circle,
-                              boxShadow: [BoxShadow(blurRadius: 10,color: Colors.grey)]),
-                              child: Icon(Icons.arrow_back),
-                          ),
-                        )
-                ]
-              )),
+              child: Stack(children: [
+            GoogleMap(
+              mapType: MapType.terrain,
+              initialCameraPosition: CameraPosition(
+                  target: LatLng(startLatitude, startLongitude), zoom: zoom),
+              markers: Set.of(marker),
+              polylines: Set<Polyline>.of(polylines.values),
+              myLocationEnabled: true,
+              onMapCreated: (controller) {
+                _completer.complete(controller);
+              },
+            ),
+            InkWell(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Container(
+                height: 35,
+                width: 35,
+                margin: EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                    boxShadow: [BoxShadow(blurRadius: 10, color: Colors.grey)]),
+                child: Icon(Icons.arrow_back),
+              ),
+            )
+          ])),
           Padding(
             padding: const EdgeInsets.all(10),
             child: Row(
@@ -351,11 +349,12 @@ class _OlaScreenState extends State<OlaScreen> {
                   children: [
                     InkWell(
                       onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => OlaSearchStartLocation(),
-                  ));},
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => OlaSearchStartLocation(),
+                            ));
+                      },
                       child: Hero(
                         tag: "startOla",
                         child: Material(
@@ -381,11 +380,12 @@ class _OlaScreenState extends State<OlaScreen> {
                     ),
                     InkWell(
                       onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => OlaSearchEndLocation(),
-                  ));},
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => OlaSearchEndLocation(),
+                            ));
+                      },
                       child: Hero(
                         tag: "endOla",
                         child: Material(
@@ -548,12 +548,34 @@ class _OlaScreenState extends State<OlaScreen> {
               ),
             ),
           ),
-          Container(
-            width: double.infinity,
-            margin: EdgeInsets.symmetric(horizontal: 25),
-            padding: EdgeInsets.all(15),
-            decoration: BoxDecoration(color: Colors.black,borderRadius: BorderRadius.circular(10)),
-            child: Text("Book OLA",textAlign: TextAlign.center, style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 15),),
+          InkWell(
+            onTap: () {
+              showModalBottomSheet(
+                showDragHandle: true,
+                isDismissible: false,
+                enableDrag: false,
+                routeSettings: RouteSettings(name: "tyuil"),
+                context: context,
+                builder: (context) {
+                  return Container(child: Text("data"));
+                },
+              );
+            },
+            child: Container(
+              width: double.infinity,
+              margin: EdgeInsets.symmetric(horizontal: 25),
+              padding: EdgeInsets.all(15),
+              decoration: BoxDecoration(
+                  color: Colors.black, borderRadius: BorderRadius.circular(10)),
+              child: Text(
+                "Book OLA",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15),
+              ),
+            ),
           ),
           CabCompanies(
             onTapUber: () {},
@@ -564,7 +586,7 @@ class _OlaScreenState extends State<OlaScreen> {
             onTapIndrive: () {},
             onTapBlaBla: () {},
           ),
-          BottomNavigator()
+          BottomNavigator(),
         ],
       ),
     );

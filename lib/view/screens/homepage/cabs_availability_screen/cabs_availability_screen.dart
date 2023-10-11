@@ -1,6 +1,6 @@
-import 'package:cabskaro/components/bottom_navigator.dart';
-import 'package:cabskaro/components/cab_types.dart';
-import 'package:cabskaro/components/location_points.dart';
+import 'package:cabskaro/view/screens/homepage/components/bottom_navigator.dart';
+import 'package:cabskaro/view/screens/homepage/components/cab_types.dart';
+import 'package:cabskaro/view/screens/homepage/components/location_points.dart';
 import 'package:flutter/material.dart';
 
 class CabsAvaibilityScreen extends StatefulWidget {

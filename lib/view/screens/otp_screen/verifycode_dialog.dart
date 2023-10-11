@@ -1,4 +1,4 @@
-import 'package:cabskaro/ui/dashboard_screen.dart';
+import 'package:cabskaro/view/screens/homepage/dashboard_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
