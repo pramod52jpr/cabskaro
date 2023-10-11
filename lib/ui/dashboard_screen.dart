@@ -1,16 +1,29 @@
 import 'dart:async';
 
 import 'package:cabskaro/components/bottom_navigator.dart';
+import 'package:cabskaro/components/cab_companies.dart';
 import 'package:cabskaro/components/cab_types.dart';
 import 'package:cabskaro/components/location_points.dart';
 import 'package:cabskaro/services/services.dart';
 import 'package:cabskaro/ui/cabs_availability_screen.dart';
-import 'package:cabskaro/ui/search_location.dart';
+import 'package:cabskaro/ui/ola_ui/ola_screen.dart';
+import 'package:cabskaro/ui/search_end_location.dart';
+import 'package:cabskaro/ui/search_start_location.dart';
+import 'package:cabskaro/ui/uber_ui/uber_screen.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DashboardScreen extends StatefulWidget {
-  const DashboardScreen({super.key});
+  final String locType;
+  final String location;
+  const DashboardScreen({
+    super.key,
+    this.locType = "start",
+    this.location = "current",
+  });
 
   @override
   State<DashboardScreen> createState() => _DashboardScreenState();
@@ -18,41 +31,254 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   Completer<GoogleMapController> _completer = Completer();
-  double latitude = 12.876;
-  double longitude = 12.087;
+  static const String STARTLOC = "start";
+  static const String STARTLAT = "startLat";
+  static const String STARTLON = "startLon";
+  static const String ENDLOC = "end";
+  static const String ENDLAT = "endLat";
+  static const String ENDLON = "endLon";
+  String startLocationName = "Current Location";
+  double startLatitude = 0.0;
+  double startLongitude = 0.0;
+  String endLocationName = "Select Destination";
+  double endLatitude = 0.0;
+  double endLongitude = 0.0;
   double zoom = 1.0;
   List<Marker> marker = [];
+  PolylinePoints polylinePoints = PolylinePoints();
+  Map<PolylineId, Polyline> polylines = {};
 
-  void animateLocation() async {
+// start location
+
+  void animateStartLocation(double latitude, double longitude) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString(STARTLOC, "Current Location");
+    prefs.setDouble(STARTLAT, latitude);
+    prefs.setDouble(STARTLON, longitude);
+    setState(() {
+      startLatitude = latitude;
+      startLongitude = longitude;
+    });
+    setState(() {
+      startLocationName = prefs.getString(STARTLOC)!;
+      startLatitude = prefs.getDouble(STARTLAT)!;
+      startLongitude = prefs.getDouble(STARTLON)!;
+    });
     CameraPosition newCameraPosition =
         CameraPosition(target: LatLng(latitude, longitude), zoom: zoom);
     GoogleMapController controller = await _completer.future;
-    controller.animateCamera(CameraUpdate.newCameraPosition(newCameraPosition));
+    controller
+        .animateCamera(CameraUpdate.newCameraPosition(newCameraPosition))
+        .then((value) {
+      if (endLatitude != 0.0 &&
+          endLongitude != 0.0 &&
+          startLatitude != 0.0 &&
+          startLongitude != 0.0) {
+        getDirections();
+      }
+    });
   }
 
-  void currentLocation() {
-    Services().getUserLocation().then((value) {
-      if (value != null) {
-        setState(() {
-          latitude = value.latitude;
-          longitude = value.longitude;
-          zoom = 14.0;
-          marker.add(Marker(
-              markerId: MarkerId("1"),
-              position: LatLng(latitude, longitude),
-              infoWindow: InfoWindow(title: "Current Location")));
-          animateLocation();
-        });
+  void animateStart(double latitude, double longitude) async {
+    CameraPosition newCameraPosition =
+        CameraPosition(target: LatLng(latitude, longitude), zoom: zoom);
+    GoogleMapController controller = await _completer.future;
+    controller
+        .animateCamera(CameraUpdate.newCameraPosition(newCameraPosition))
+        .then((value) {
+      if (endLatitude != 0.0 &&
+          endLongitude != 0.0 &&
+          startLatitude != 0.0 &&
+          startLongitude != 0.0) {
+        getDirections();
       }
-    }).onError((error, stackTrace) {
-      Services().toastmsg("There is some error", false);
     });
+  }
+
+  void setStartValue(double latitude, double longitude) {
+    setState(() {
+      zoom = 14.0;
+      marker.add(Marker(
+        markerId: MarkerId("1"),
+        position: LatLng(latitude, longitude),
+      ));
+
+      if (endLatitude != 0.0 && endLongitude != 0.0) {
+        marker.add(Marker(
+          markerId: MarkerId("2"),
+          position: LatLng(endLatitude, endLongitude),
+        ));
+      }
+    });
+    setState(() {
+      startLatitude = latitude;
+      startLongitude = longitude;
+      zoom = 14.0;
+    });
+  }
+
+  void getStartLocation() async {
+    List<Location> location = await locationFromAddress(widget.location);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString(STARTLOC, widget.location);
+    prefs.setDouble(STARTLAT, location[0].latitude);
+    prefs.setDouble(STARTLON, location[0].longitude);
+
+    setStartValue(location[0].latitude, location[0].longitude);
+    setState(() {
+      startLocationName = prefs.getString(STARTLOC)!;
+      startLatitude = prefs.getDouble(STARTLAT)!;
+      startLongitude = prefs.getDouble(STARTLON)!;
+    });
+    animateStart(location[0].latitude, location[0].longitude);
+  }
+
+  void startLocation() async {
+    if (widget.location == "current") {
+      Services().getUserLocation().then((value) {
+        if (value != null) {
+          setState(() {
+            zoom = 14.0;
+            marker.add(Marker(
+              markerId: MarkerId("1"),
+              position: LatLng(value.latitude, value.longitude),
+            ));
+            if (endLatitude != 0.0 && endLongitude != 0.0) {
+              marker.add(Marker(
+                markerId: MarkerId("2"),
+                position: LatLng(endLatitude, endLongitude),
+              ));
+            }
+            animateStartLocation(value.latitude, value.longitude);
+          });
+        }
+      }).onError((error, stackTrace) {
+        Services().toastmsg("There is some error", false);
+      });
+    } else {
+      getStartLocation();
+    }
+  }
+
+// start location end
+// end location start
+
+  void setEndValue(double latitude, double longitude) {
+    setState(() {
+      zoom = 14.0;
+      marker.add(Marker(
+        markerId: MarkerId("2"),
+        position: LatLng(latitude, longitude),
+      ));
+
+      if (startLatitude != 0.0 && startLongitude != 0.0) {
+        marker.add(Marker(
+          markerId: MarkerId("1"),
+          position: LatLng(startLatitude, startLongitude),
+        ));
+      }
+    });
+    setState(() {
+      endLatitude = latitude;
+      endLongitude = longitude;
+      zoom = 14.0;
+    });
+  }
+
+  void animateEnd(double latitude, double longitude) async {
+    CameraPosition newCameraPosition =
+        CameraPosition(target: LatLng(latitude, longitude), zoom: zoom);
+    GoogleMapController controller = await _completer.future;
+    controller
+        .animateCamera(CameraUpdate.newCameraPosition(newCameraPosition))
+        .then((value) {
+      if (endLatitude != 0.0 &&
+          endLongitude != 0.0 &&
+          startLatitude != 0.0 &&
+          startLongitude != 0.0) {
+        getDirections();
+      }
+    });
+  }
+
+  void endLocation() async {
+    List<Location> location = await locationFromAddress(widget.location);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString(ENDLOC, widget.location);
+    prefs.setDouble(ENDLAT, location[0].latitude);
+    prefs.setDouble(ENDLON, location[0].longitude);
+
+    setEndValue(location[0].latitude, location[0].longitude);
+    setState(() {
+      endLocationName = prefs.getString(ENDLOC)!;
+      endLatitude = prefs.getDouble(ENDLAT)!;
+      endLongitude = prefs.getDouble(ENDLON)!;
+    });
+    animateEnd(location[0].latitude, location[0].longitude);
+  }
+
+// end location end
+
+  void savedLocations() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (prefs.getString(STARTLOC) != null && prefs.getString(ENDLOC) != null) {
+      setState(() {
+        startLocationName = prefs.getString(STARTLOC)!;
+        startLatitude = prefs.getDouble(STARTLAT)!;
+        startLongitude = prefs.getDouble(STARTLON)!;
+        endLocationName = prefs.getString(ENDLOC)!;
+        endLatitude = prefs.getDouble(ENDLAT)!;
+        endLongitude = prefs.getDouble(ENDLON)!;
+        zoom = 14.0;
+      });
+      if (endLatitude != 0.0 &&
+          endLongitude != 0.0 &&
+          startLatitude != 0.0 &&
+          startLongitude != 0.0) {
+        getDirections();
+      }
+    }
   }
 
   @override
   void initState() {
     super.initState();
-    currentLocation();
+    savedLocations();
+    if (widget.locType == "start") {
+      startLocation();
+    } else {
+      endLocation();
+    }
+  }
+
+  void getDirections() async {
+    List<LatLng> polylineCoordinates = [];
+    List<dynamic> points = [];
+    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+      "AIzaSyA0r0oRC03tITR0FNYVfKT-SlXEvf_FDp0",
+      PointLatLng(startLatitude, startLongitude),
+      PointLatLng(endLatitude, endLongitude),
+      travelMode: TravelMode.driving,
+    );
+    if (result.points.isNotEmpty) {
+      result.points.forEach((PointLatLng pointLatLng) {
+        polylineCoordinates
+          ..add(LatLng(pointLatLng.latitude, pointLatLng.longitude));
+        points.add({'lat': pointLatLng.latitude, 'lng': pointLatLng.longitude});
+      });
+    }
+    addPolyline(polylineCoordinates);
+  }
+
+  void addPolyline(List<LatLng> polylineCoordinates) {
+    PolylineId id = PolylineId('poly');
+    Polyline polyline = Polyline(
+        polylineId: id,
+        color: Colors.green,
+        points: polylineCoordinates,
+        width: 3);
+    polylines[id] = polyline;
+    setState(() {});
   }
 
   @override
@@ -168,14 +394,23 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ],
           ),
           LocationPoints(
+            startLocation: startLocationName,
+            endLocation: endLocationName,
             onTapStart: () {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => SearchLocation(),
+                    builder: (context) => SearchStartLocation(),
                   ));
             },
-            onTapEnd: () {},
+            onTapEnd: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => SearchEndLocation(),
+                  ));
+            },
+            onTapInterchange: () {},
           ),
           Expanded(
             child: Column(
@@ -217,108 +452,36 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     child: GoogleMap(
                       mapType: MapType.terrain,
                       initialCameraPosition: CameraPosition(
-                          target: LatLng(latitude, longitude), zoom: zoom),
+                          target: LatLng(startLatitude, startLongitude),
+                          zoom: zoom),
                       markers: Set.of(marker),
+                      polylines: Set<Polyline>.of(polylines.values),
+                      myLocationEnabled: true,
                       onMapCreated: (controller) {
                         _completer.complete(controller);
                       },
                     ),
                   ),
                 ),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            currentLocation();
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 5),
-                            child: Image.asset(
-                              "assets/images/icons/uber-logo.png",
-                              height: 40,
-                            ),
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () {
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => DashboardScreen(),
-                                ));
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 5),
-                            child: Image.asset(
-                              "assets/images/icons/ola-logo.png",
-                              height: 50,
-                            ),
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () {},
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 5),
-                            child: Image.asset(
-                              "assets/images/icons/rapido-logo.png",
-                              height: 40,
-                            ),
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () {},
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 5),
-                            child: Image.asset(
-                              "assets/images/icons/meru-logo.png",
-                              height: 40,
-                            ),
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () {},
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 5),
-                            child: Image.asset(
-                              "assets/images/icons/blu-smart-logo.png",
-                              height: 40,
-                            ),
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () {},
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 5),
-                            child: Image.asset(
-                              "assets/images/icons/indrive-logo.png",
-                              height: 40,
-                            ),
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () {},
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 5),
-                            child: Image.asset(
-                              "assets/images/icons/bla-bla-logo.png",
-                              height: 40,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                CabCompanies(
+                  onTapUber: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => UberScreen(),
+                        ));},
+                  onTapOla: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => OlaScreen(),
+                        ));
+                  },
+                  onTapRapido: () {},
+                  onTapMeru: () {},
+                  onTapBlueSmart: () {},
+                  onTapIndrive: () {},
+                  onTapBlaBla: () {},
                 ),
                 const SizedBox(
                   height: 10,

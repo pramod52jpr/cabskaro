@@ -15,18 +15,16 @@ class _SplashScreenState extends State<SplashScreen> {
   bool firstAnimation = false;
   bool splashAnimation = false;
   bool secondAnimation = false;
-  var btnOpacity=0.0;
+  var btnOpacity = 0.0;
   var opacity = 0.0;
   var ropeOpacity = 1.0;
-  
+
   @override
   void initState() {
     super.initState();
     animate();
-    Services().getUserLocation().then((value){
-      print(value);
-    }).onError((error, stackTrace) {
-      print(error.toString());
+    Services().getUserLocation().then((value) {}).onError((error, stackTrace) {
+      Services().toastmsg("There is some error", false);
     });
   }
 
@@ -71,6 +69,7 @@ class _SplashScreenState extends State<SplashScreen> {
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Stack(
                     alignment: Alignment.bottomCenter,
@@ -213,7 +212,7 @@ class _SplashScreenState extends State<SplashScreen> {
                             ),
                           ),
                           const SizedBox(
-                            height: 40,
+                            height: 35,
                           )
                         ],
                       ),
@@ -221,7 +220,7 @@ class _SplashScreenState extends State<SplashScreen> {
                         color: Colors.white,
                         child: Image.asset(
                           "assets/images/icons/placeholder.png",
-                          height: 45,
+                          height: 50,
                           alignment: Alignment.centerLeft,
                         ),
                       ),
@@ -241,14 +240,16 @@ class _SplashScreenState extends State<SplashScreen> {
                         shape: MaterialStateProperty.all(RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30))),
                         padding: MaterialStateProperty.all(
-                            const EdgeInsets.symmetric(horizontal: 20, vertical: 10)),
+                            const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 10)),
                         backgroundColor: MaterialStateColor.resolveWith(
-                            (states) => const Color.fromRGBO(227, 132, 42, 0.8))),
+                            (states) =>
+                                const Color.fromRGBO(227, 132, 42, 0.8))),
                     onPressed: () {
                       setState(() {
                         secondAnimation = true;
                         ropeOpacity = 0.0;
-                        btnOpacity=0.0;
+                        btnOpacity = 0.0;
                       });
                       Timer(
                         const Duration(seconds: 1),

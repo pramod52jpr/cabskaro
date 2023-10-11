@@ -45,6 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Stack(
                     alignment: Alignment.bottomCenter,
@@ -166,7 +167,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                           const SizedBox(
-                            height: 40,
+                            height: 35,
                           )
                         ],
                       ),
@@ -177,7 +178,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           color: Colors.white,
                           child: Image.asset(
                             "assets/images/icons/placeholder.png",
-                            height: 45,
+                            height: 50,
                             alignment: Alignment.centerLeft,
                           ),
                         ),

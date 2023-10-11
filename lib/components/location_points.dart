@@ -3,10 +3,16 @@ import 'package:flutter/material.dart';
 class LocationPoints extends StatefulWidget {
   final VoidCallback onTapStart;
   final VoidCallback onTapEnd;
+  final VoidCallback onTapInterchange;
+  final String startLocation;
+  final String endLocation;
   const LocationPoints({
     super.key,
     required this.onTapStart,
     required this.onTapEnd,
+    required this.onTapInterchange,
+    required this.startLocation,
+    required this.endLocation,
   });
 
   @override
@@ -14,6 +20,7 @@ class LocationPoints extends StatefulWidget {
 }
 
 class _LocationPointsState extends State<LocationPoints> {
+  String a="";
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -53,17 +60,22 @@ class _LocationPointsState extends State<LocationPoints> {
             children: [
               InkWell(
                 onTap: widget.onTapStart,
-                child: Container(
-                  width: 200,
-                  height: 30,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50),
-                      border: Border.all(color: Colors.grey, width: 1)),
-                  child: const Text(
-                    "Enter your starting point",
-                    style: TextStyle(overflow: TextOverflow.ellipsis),
+                child: Hero(
+                  tag: "start",
+                  child: Material(
+                    child: Container(
+                      width: 200,
+                      height: 30,
+                      padding:
+                          const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          border: Border.all(color: Colors.grey, width: 1)),
+                      child: Text(widget.startLocation,style: TextStyle(
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -72,25 +84,33 @@ class _LocationPointsState extends State<LocationPoints> {
               ),
               InkWell(
                 onTap: widget.onTapEnd,
-                child: Container(
-                  width: 200,
-                  height: 30,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50),
-                      border: Border.all(color: Colors.grey, width: 1)),
-                  child: const Text(
-                    "Enter your destination",
-                    style: TextStyle(overflow: TextOverflow.ellipsis),
+                child: Hero(
+                  tag: "end",
+                  child: Material(
+                    child: Container(
+                      width: 200,
+                      height: 30,
+                      padding:
+                          const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          border: Border.all(color: Colors.grey, width: 1)),
+                      child: Text(
+                        widget.endLocation,
+                        style: TextStyle(overflow: TextOverflow.ellipsis),
+                      ),
+                    ),
                   ),
                 ),
               ),
             ],
           ),
-          Image.asset(
-            "assets/images/icons/double-arrow.png",
-            height: 20,
+          InkWell(
+            onTap: widget.onTapInterchange,
+            child: Image.asset(
+              "assets/images/icons/double-arrow.png",
+              height: 20,
+            ),
           )
         ],
       ),

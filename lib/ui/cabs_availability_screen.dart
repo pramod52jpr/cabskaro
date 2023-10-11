@@ -23,6 +23,11 @@ class _CabsAvaibilityScreenState extends State<CabsAvaibilityScreen> {
           LocationPoints(
             onTapStart: () {},
             onTapEnd: () {},
+            onTapInterchange: () {
+              
+            },
+            startLocation: "my location",
+            endLocation: "last location",
           ),
           CabTypes(
             onTapFourSeater: () {
