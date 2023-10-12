@@ -236,49 +236,49 @@ class _SplashScreenState extends State<SplashScreen> {
                 duration: const Duration(seconds: 1),
                 opacity: btnOpacity,
                 child: ElevatedButton(
-                    style: ButtonStyle(
-                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30))),
-                        padding: MaterialStateProperty.all(
-                            const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 10)),
-                        backgroundColor: MaterialStateColor.resolveWith(
-                            (states) =>
-                                const Color.fromRGBO(227, 132, 42, 0.8))),
-                    onPressed: () {
-                      setState(() {
-                        secondAnimation = true;
-                        ropeOpacity = 0.0;
-                        btnOpacity = 0.0;
-                      });
-                      Timer(
-                        const Duration(seconds: 1),
-                        () {
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const LoginScreen(),
-                              ));
-                        },
-                      );
-                    },
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Text(
-                          "LOG IN",
-                          style: TextStyle(fontSize: 20, color: Colors.black),
-                        ),
-                        const SizedBox(
-                          width: 30,
-                        ),
-                        Image.asset(
-                          "assets/images/icons/right-arrow.png",
-                          width: 15,
-                          color: Colors.black,
-                        )
-                      ],
-                    )),
+                  style: ButtonStyle(
+                      shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30))),
+                      padding: MaterialStateProperty.all(
+                          const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 10)),
+                      backgroundColor: MaterialStateColor.resolveWith(
+                          (states) => const Color.fromRGBO(227, 132, 42, 0.8))),
+                  onPressed: () {
+                    setState(() {
+                      secondAnimation = true;
+                      ropeOpacity = 0.0;
+                      btnOpacity = 0.0;
+                    });
+                    Timer(
+                      const Duration(seconds: 1),
+                      () {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const LoginScreen(),
+                            ));
+                      },
+                    );
+                  },
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Text(
+                        "LOG IN",
+                        style: TextStyle(fontSize: 20, color: Colors.black),
+                      ),
+                      const SizedBox(
+                        width: 30,
+                      ),
+                      Image.asset(
+                        "assets/images/icons/right-arrow.png",
+                        width: 15,
+                        color: Colors.black,
+                      )
+                    ],
+                  ),
+                ),
               )
             ],
           ),
