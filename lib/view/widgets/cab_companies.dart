@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class CabCompanies extends StatefulWidget {
+class CabCompanies extends StatelessWidget {
   final VoidCallback onTapUber;
   final VoidCallback onTapOla;
   final VoidCallback onTapRapido;
@@ -20,11 +20,6 @@ class CabCompanies extends StatefulWidget {
   });
 
   @override
-  State<CabCompanies> createState() => _CabCompaniesState();
-}
-
-class _CabCompaniesState extends State<CabCompanies> {
-  @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -33,7 +28,7 @@ class _CabCompaniesState extends State<CabCompanies> {
         child: Row(
           children: [
             InkWell(
-              onTap: widget.onTapUber,
+              onTap: onTapUber,
               child: Container(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
@@ -44,7 +39,7 @@ class _CabCompaniesState extends State<CabCompanies> {
               ),
             ),
             InkWell(
-              onTap: widget.onTapOla,
+              onTap: onTapOla,
               child: Container(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
@@ -55,7 +50,7 @@ class _CabCompaniesState extends State<CabCompanies> {
               ),
             ),
             InkWell(
-              onTap: widget.onTapRapido,
+              onTap: onTapRapido,
               child: Container(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
@@ -66,7 +61,7 @@ class _CabCompaniesState extends State<CabCompanies> {
               ),
             ),
             InkWell(
-              onTap: widget.onTapMeru,
+              onTap: onTapMeru,
               child: Container(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
@@ -77,7 +72,7 @@ class _CabCompaniesState extends State<CabCompanies> {
               ),
             ),
             InkWell(
-              onTap: widget.onTapBlueSmart,
+              onTap: onTapBlueSmart,
               child: Container(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
@@ -88,7 +83,7 @@ class _CabCompaniesState extends State<CabCompanies> {
               ),
             ),
             InkWell(
-              onTap: widget.onTapIndrive,
+              onTap: onTapIndrive,
               child: Container(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
@@ -99,7 +94,7 @@ class _CabCompaniesState extends State<CabCompanies> {
               ),
             ),
             InkWell(
-              onTap: widget.onTapBlaBla,
+              onTap: onTapBlaBla,
               child: Container(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 5),

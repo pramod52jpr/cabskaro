@@ -1,16 +1,16 @@
 import 'dart:async';
 
-import 'package:cabskaro/controller/services/services.dart';
-import 'package:cabskaro/view/screens/homepage/cabs_availability_screen/cabs_availability_screen.dart';
 import 'package:cabskaro/view/screens/homepage/components/bottom_navigator.dart';
+import 'package:cabskaro/view/screens/rapido_ui/rapido_screen.dart';
+import 'package:cabskaro/view/widgets/cab_companies.dart';
 import 'package:cabskaro/view/screens/homepage/components/cab_types.dart';
 import 'package:cabskaro/view/screens/homepage/components/location_points.dart';
+import 'package:cabskaro/controller/services/services.dart';
+import 'package:cabskaro/view/screens/homepage/cabs_availability_screen/cabs_availability_screen.dart';
+import 'package:cabskaro/view/screens/ola_ui/ola_screen.dart';
 import 'package:cabskaro/view/screens/homepage/searching_locations/search_end_location.dart';
 import 'package:cabskaro/view/screens/homepage/searching_locations/search_start_location.dart';
-import 'package:cabskaro/view/screens/ola_ui/ola_screen.dart';
-import 'package:cabskaro/view/screens/rapido_ui/rapido_screen.dart';
 import 'package:cabskaro/view/screens/uber_ui/uber_screen.dart';
-import 'package:cabskaro/view/widgets/cab_companies.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -31,7 +31,7 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  Completer<GoogleMapController> _completer = Completer();
+  final Completer<GoogleMapController> _completer = Completer();
   static const String STARTLOC = "start";
   static const String STARTLAT = "startLat";
   static const String STARTLON = "startLon";
@@ -100,13 +100,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
     setState(() {
       zoom = 14.0;
       marker.add(Marker(
-        markerId: MarkerId("1"),
+        markerId: const MarkerId("1"),
         position: LatLng(latitude, longitude),
       ));
 
       if (endLatitude != 0.0 && endLongitude != 0.0) {
         marker.add(Marker(
-          markerId: MarkerId("2"),
+          markerId: const MarkerId("2"),
           position: LatLng(endLatitude, endLongitude),
         ));
       }
@@ -141,12 +141,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
           setState(() {
             zoom = 14.0;
             marker.add(Marker(
-              markerId: MarkerId("1"),
+              markerId: const MarkerId("1"),
               position: LatLng(value.latitude, value.longitude),
             ));
             if (endLatitude != 0.0 && endLongitude != 0.0) {
               marker.add(Marker(
-                markerId: MarkerId("2"),
+                markerId: const MarkerId("2"),
                 position: LatLng(endLatitude, endLongitude),
               ));
             }
@@ -168,13 +168,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
     setState(() {
       zoom = 14.0;
       marker.add(Marker(
-        markerId: MarkerId("2"),
+        markerId: const MarkerId("2"),
         position: LatLng(latitude, longitude),
       ));
 
       if (startLatitude != 0.0 && startLongitude != 0.0) {
         marker.add(Marker(
-          markerId: MarkerId("1"),
+          markerId: const MarkerId("1"),
           position: LatLng(startLatitude, startLongitude),
         ));
       }
@@ -262,17 +262,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
       travelMode: TravelMode.driving,
     );
     if (result.points.isNotEmpty) {
-      result.points.forEach((PointLatLng pointLatLng) {
+      for (var pointLatLng in result.points) {
         polylineCoordinates
-          ..add(LatLng(pointLatLng.latitude, pointLatLng.longitude));
+          .add(LatLng(pointLatLng.latitude, pointLatLng.longitude));
         points.add({'lat': pointLatLng.latitude, 'lng': pointLatLng.longitude});
-      });
+      }
     }
     addPolyline(polylineCoordinates);
   }
 
   void addPolyline(List<LatLng> polylineCoordinates) {
-    PolylineId id = PolylineId('poly');
+    PolylineId id = const PolylineId('poly');
     Polyline polyline = Polyline(
         polylineId: id,
         color: Colors.blue,
@@ -402,14 +402,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => SearchStartLocation(),
+                      builder: (context) => const SearchStartLocation(),
                     ));
               },
               onTapEnd: () {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => SearchEndLocation(),
+                      builder: (context) => const SearchEndLocation(),
                     ));
               },
               onTapInterchange: () {},
@@ -422,28 +422,28 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const CabsAvaibilityScreen(),
+                            builder: (context) =>  CabsAvaibilityScreen(),
                           ));
                     },
                     onTapFourPlusSeater: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const CabsAvaibilityScreen(),
+                            builder: (context) =>  CabsAvaibilityScreen(),
                           ));
                     },
                     onTapAuto: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const CabsAvaibilityScreen(),
+                            builder: (context) =>  CabsAvaibilityScreen(),
                           ));
                     },
                     onTapBike: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const CabsAvaibilityScreen(),
+                            builder: (context) =>  CabsAvaibilityScreen(),
                           ));
                     },
                   ),
@@ -470,7 +470,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => UberScreen(),
+                            builder: (context) => const UberScreen(),
                           ));},
                     onTapOla: () {
                       Navigator.push(
@@ -484,7 +484,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => RapidoScreen(),
-                          ));},
+                          ));
+                    },
                     onTapMeru: () {},
                     onTapBlueSmart: () {},
                     onTapIndrive: () {},

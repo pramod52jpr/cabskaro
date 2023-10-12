@@ -14,14 +14,13 @@ class OlaSearchStartLocation extends StatefulWidget {
 }
 
 class _OlaSearchStartLocationState extends State<OlaSearchStartLocation> {
-  TextEditingController _searchController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
   var uuid = const Uuid();
   String _sessionToken = "";
   List<dynamic> data = [];
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _searchController.addListener(() {
       onChange(_searchController.text.toString());
@@ -32,11 +31,11 @@ class _OlaSearchStartLocationState extends State<OlaSearchStartLocation> {
     setState(() {
       _sessionToken = uuid.v4();
     });
-    String google_api_key = "AIzaSyA0r0oRC03tITR0FNYVfKT-SlXEvf_FDp0";
+    String googleApiKey = "AIzaSyA0r0oRC03tITR0FNYVfKT-SlXEvf_FDp0";
     String baseUrl =
         "https://maps.googleapis.com/maps/api/place/autocomplete/json";
     String request =
-        "$baseUrl?input=$input&key=$google_api_key&sessiontoken=$_sessionToken";
+        "$baseUrl?input=$input&key=$googleApiKey&sessiontoken=$_sessionToken";
     http.Response response;
     response = await http.get(Uri.parse(request));
     if (response.statusCode == 200) {

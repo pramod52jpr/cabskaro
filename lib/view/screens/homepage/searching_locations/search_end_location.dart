@@ -52,8 +52,7 @@ class _SearchEndLocationState extends State<SearchEndLocation> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      child: Padding(
-        padding: const EdgeInsets.all(10),
+      child: SafeArea(
         child: Column(
           children: [
             const SizedBox(height: 25),

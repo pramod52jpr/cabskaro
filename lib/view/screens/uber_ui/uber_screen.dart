@@ -1,10 +1,10 @@
 import 'dart:async';
 
-import 'package:cabskaro/controller/services/services.dart';
 import 'package:cabskaro/view/screens/homepage/components/bottom_navigator.dart';
+import 'package:cabskaro/view/widgets/cab_companies.dart';
+import 'package:cabskaro/controller/services/services.dart';
 import 'package:cabskaro/view/screens/ola_ui/ola_search_end_location.dart';
 import 'package:cabskaro/view/screens/ola_ui/ola_search_start_location.dart';
-import 'package:cabskaro/view/widgets/cab_companies.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geocoding/geocoding.dart';
@@ -25,7 +25,7 @@ class UberScreen extends StatefulWidget {
 }
 
 class _UberScreenState extends State<UberScreen> {
-  Completer<GoogleMapController> _completer = Completer();
+  final Completer<GoogleMapController> _completer = Completer();
   static const String STARTLOC = "start";
   static const String STARTLAT = "startLat";
   static const String STARTLON = "startLon";
@@ -94,13 +94,13 @@ class _UberScreenState extends State<UberScreen> {
     setState(() {
       zoom = 14.0;
       marker.add(Marker(
-        markerId: MarkerId("1"),
+        markerId: const MarkerId("1"),
         position: LatLng(latitude, longitude),
       ));
 
       if (endLatitude != 0.0 && endLongitude != 0.0) {
         marker.add(Marker(
-          markerId: MarkerId("2"),
+          markerId: const MarkerId("2"),
           position: LatLng(endLatitude, endLongitude),
         ));
       }
@@ -135,12 +135,12 @@ class _UberScreenState extends State<UberScreen> {
           setState(() {
             zoom = 14.0;
             marker.add(Marker(
-              markerId: MarkerId("1"),
+              markerId: const MarkerId("1"),
               position: LatLng(value.latitude, value.longitude),
             ));
             if (endLatitude != 0.0 && endLongitude != 0.0) {
               marker.add(Marker(
-                markerId: MarkerId("2"),
+                markerId: const MarkerId("2"),
                 position: LatLng(endLatitude, endLongitude),
               ));
             }
@@ -162,13 +162,13 @@ class _UberScreenState extends State<UberScreen> {
     setState(() {
       zoom = 14.0;
       marker.add(Marker(
-        markerId: MarkerId("2"),
+        markerId: const MarkerId("2"),
         position: LatLng(latitude, longitude),
       ));
 
       if (startLatitude != 0.0 && startLongitude != 0.0) {
         marker.add(Marker(
-          markerId: MarkerId("1"),
+          markerId: const MarkerId("1"),
           position: LatLng(startLatitude, startLongitude),
         ));
       }
@@ -256,17 +256,17 @@ class _UberScreenState extends State<UberScreen> {
       travelMode: TravelMode.driving,
     );
     if (result.points.isNotEmpty) {
-      result.points.forEach((PointLatLng pointLatLng) {
+      for (var pointLatLng in result.points) {
         polylineCoordinates
-          ..add(LatLng(pointLatLng.latitude, pointLatLng.longitude));
+          .add(LatLng(pointLatLng.latitude, pointLatLng.longitude));
         points.add({'lat': pointLatLng.latitude, 'lng': pointLatLng.longitude});
-      });
+      }
     }
     addPolyline(polylineCoordinates);
   }
 
   void addPolyline(List<LatLng> polylineCoordinates) {
-    PolylineId id = PolylineId('poly');
+    PolylineId id = const PolylineId('poly');
     Polyline polyline = Polyline(
         polylineId: id,
         color: Colors.green,
@@ -279,310 +279,312 @@ class _UberScreenState extends State<UberScreen> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      child: Column(
-        children: [
-          Expanded(
-              child: Stack(children: [
-            GoogleMap(
-              mapType: MapType.terrain,
-              initialCameraPosition: CameraPosition(
-                  target: LatLng(startLatitude, startLongitude), zoom: zoom),
-              markers: Set.of(marker),
-              polylines: Set<Polyline>.of(polylines.values),
-              myLocationEnabled: true,
-              onMapCreated: (controller) {
-                _completer.complete(controller);
-              },
-            ),
-            InkWell(
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: Container(
-                height: 35,
-                width: 35,
-                margin: EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.circle,
-                    boxShadow: [BoxShadow(blurRadius: 10, color: Colors.grey)]),
-                child: Icon(Icons.arrow_back),
+      child: SafeArea(
+        child: Column(
+          children: [
+            Expanded(
+                child: Stack(children: [
+              GoogleMap(
+                mapType: MapType.terrain,
+                initialCameraPosition: CameraPosition(
+                    target: LatLng(startLatitude, startLongitude), zoom: zoom),
+                markers: Set.of(marker),
+                polylines: Set<Polyline>.of(polylines.values),
+                myLocationEnabled: true,
+                onMapCreated: (controller) {
+                  _completer.complete(controller);
+                },
               ),
-            )
-          ])),
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: Row(
-              children: [
-                Column(
-                  children: [
-                    Container(
-                      height: 10,
-                      width: 10,
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle, color: Colors.green),
-                    ),
-                    SizedBox(
-                      height: 2,
-                    ),
-                    Container(
-                      height: 15,
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.grey, width: 1)),
-                    ),
-                    SizedBox(
-                      height: 2,
-                    ),
-                    Container(
-                      height: 10,
-                      width: 10,
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle, color: Colors.red),
-                    ),
-                  ],
+              InkWell(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Container(
+                  height: 35,
+                  width: 35,
+                  margin: const EdgeInsets.all(20),
+                  decoration: const BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                      boxShadow: [BoxShadow(blurRadius: 10, color: Colors.grey)]),
+                  child: const Icon(Icons.arrow_back),
                 ),
-                SizedBox(
-                  width: 20,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => OlaSearchStartLocation(),
-                            ));
-                      },
-                      child: Hero(
-                        tag: "startOla",
-                        child: Material(
-                          child: Container(
-                            width: 200,
-                            height: 30,
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 2, vertical: 5),
-                            child: Text(
-                              startLocationName,
-                              style: TextStyle(
-                                overflow: TextOverflow.ellipsis,
+              )
+            ])),
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: Row(
+                children: [
+                  Column(
+                    children: [
+                      Container(
+                        height: 10,
+                        width: 10,
+                        decoration: const BoxDecoration(
+                            shape: BoxShape.circle, color: Colors.green),
+                      ),
+                      const SizedBox(
+                        height: 2,
+                      ),
+                      Container(
+                        height: 15,
+                        decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey, width: 1)),
+                      ),
+                      const SizedBox(
+                        height: 2,
+                      ),
+                      Container(
+                        height: 10,
+                        width: 10,
+                        decoration: const BoxDecoration(
+                            shape: BoxShape.circle, color: Colors.red),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const OlaSearchStartLocation(),
+                              ));
+                        },
+                        child: Hero(
+                          tag: "startOla",
+                          child: Material(
+                            child: Container(
+                              width: 200,
+                              height: 30,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 2, vertical: 5),
+                              child: Text(
+                                startLocationName,
+                                style: const TextStyle(
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                               ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                    Container(
-                      width: 320,
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.grey, width: 0.5)),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => OlaSearchEndLocation(),
-                            ));
-                      },
-                      child: Hero(
-                        tag: "endOla",
-                        child: Material(
-                          child: Container(
-                            width: 200,
-                            height: 30,
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 2, vertical: 5),
-                            child: Text(
-                              endLocationName,
-                              style: TextStyle(overflow: TextOverflow.ellipsis),
+                      Container(
+                        width: 320,
+                        decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey, width: 0.5)),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const OlaSearchEndLocation(),
+                              ));
+                        },
+                        child: Hero(
+                          tag: "endOla",
+                          child: Material(
+                            child: Container(
+                              width: 200,
+                              height: 30,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 2, vertical: 5),
+                              child: Text(
+                                endLocationName,
+                                style: const TextStyle(overflow: TextOverflow.ellipsis),
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          Container(
-            width: double.infinity,
-            decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey, width: 0.5)),
-          ),
-          Container(
-            height: 300,
-            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  ListTile(
-                    title: Text("Mini"),
-                    leading: CircleAvatar(
-                      radius: 20,
-                      child: Image.asset(
-                        "assets/images/cabsicon/mini.png",
-                      ),
-                      backgroundColor: Colors.transparent,
-                    ),
-                    trailing: Text("Rs. 185.52/-"),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Comfy hatchbacks at pocket-friendly fares."),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text("4 min away")
-                      ],
-                    ),
-                  ),
-                  ListTile(
-                    title: Text("Prime SUV"),
-                    leading: CircleAvatar(
-                      radius: 20,
-                      child: Image.asset(
-                        "assets/images/cabsicon/suv.png",
-                      ),
-                      backgroundColor: Colors.transparent,
-                    ),
-                    trailing: Text("Rs. 185.52/-"),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Comfy hatchbacks at pocket-friendly fares."),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text("4 min away")
-                      ],
-                    ),
-                  ),
-                  ListTile(
-                    title: Text("Bike"),
-                    leading: CircleAvatar(
-                      radius: 20,
-                      child: Image.asset(
-                        "assets/images/cabsicon/bike.png",
-                      ),
-                      backgroundColor: Colors.transparent,
-                    ),
-                    trailing: Text("Rs. 185.52/-"),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Comfy hatchbacks at pocket-friendly fares."),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text("4 min away")
-                      ],
-                    ),
-                  ),
-                  ListTile(
-                    title: Text("Prime Sedan"),
-                    leading: CircleAvatar(
-                      radius: 20,
-                      child: Image.asset(
-                        "assets/images/cabsicon/sedan.png",
-                      ),
-                      backgroundColor: Colors.transparent,
-                    ),
-                    trailing: Text("Rs. 185.52/-"),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Comfy hatchbacks at pocket-friendly fares."),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text("4 min away")
-                      ],
-                    ),
-                  ),
-                  ListTile(
-                    title: Text("Prime Sedan"),
-                    leading: CircleAvatar(
-                      radius: 20,
-                      child: Image.asset(
-                        "assets/images/cabsicon/sedan.png",
-                      ),
-                      backgroundColor: Colors.transparent,
-                    ),
-                    trailing: Text("Rs. 185.52/-"),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Comfy hatchbacks at pocket-friendly fares."),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text("4 min away")
-                      ],
-                    ),
-                  ),
-                  ListTile(
-                    title: Text("Prime Sedan"),
-                    leading: CircleAvatar(
-                      radius: 20,
-                      child: Image.asset(
-                        "assets/images/cabsicon/sedan.png",
-                      ),
-                      backgroundColor: Colors.transparent,
-                    ),
-                    trailing: Text("Rs. 185.52/-"),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Comfy hatchbacks at pocket-friendly fares."),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text("4 min away")
-                      ],
-                    ),
+                    ],
                   ),
                 ],
               ),
             ),
-          ),
-          InkWell(
-            onTap: () {
-              showModalBottomSheet(
-                showDragHandle: true,
-                context: context, builder: (context) {
-                return Scaffold(body: Text("data"));
-              },);
-            },
-            child: Container(
+            Container(
               width: double.infinity,
-              margin: EdgeInsets.symmetric(horizontal: 25),
-              padding: EdgeInsets.all(15),
               decoration: BoxDecoration(
-                  color: Colors.black, borderRadius: BorderRadius.circular(10)),
-              child: Text(
-                "Book OLA",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 15),
+                  border: Border.all(color: Colors.grey, width: 0.5)),
+            ),
+            Container(
+              height: 300,
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    ListTile(
+                      title: const Text("Mini"),
+                      leading: CircleAvatar(
+                        radius: 20,
+                        backgroundColor: Colors.transparent,
+                        child: Image.asset(
+                          "assets/images/cabsicon/mini.png",
+                        ),
+                      ),
+                      trailing: const Text("Rs. 185.52/-"),
+                      subtitle: const Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Comfy hatchbacks at pocket-friendly fares."),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text("4 min away")
+                        ],
+                      ),
+                    ),
+                    ListTile(
+                      title: const Text("Prime SUV"),
+                      leading: CircleAvatar(
+                        radius: 20,
+                        child: Image.asset(
+                          "assets/images/cabsicon/suv.png",
+                        ),
+                        backgroundColor: Colors.transparent,
+                      ),
+                      trailing: const Text("Rs. 185.52/-"),
+                      subtitle: const Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Comfy hatchbacks at pocket-friendly fares."),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text("4 min away")
+                        ],
+                      ),
+                    ),
+                    ListTile(
+                      title: const Text("Bike"),
+                      leading: CircleAvatar(
+                        radius: 20,
+                        child: Image.asset(
+                          "assets/images/cabsicon/bike.png",
+                        ),
+                        backgroundColor: Colors.transparent,
+                      ),
+                      trailing: const Text("Rs. 185.52/-"),
+                      subtitle: const Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Comfy hatchbacks at pocket-friendly fares."),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text("4 min away")
+                        ],
+                      ),
+                    ),
+                    ListTile(
+                      title: const Text("Prime Sedan"),
+                      leading: CircleAvatar(
+                        radius: 20,
+                        child: Image.asset(
+                          "assets/images/cabsicon/sedan.png",
+                        ),
+                        backgroundColor: Colors.transparent,
+                      ),
+                      trailing: const Text("Rs. 185.52/-"),
+                      subtitle: const Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Comfy hatchbacks at pocket-friendly fares."),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text("4 min away")
+                        ],
+                      ),
+                    ),
+                    ListTile(
+                      title: const Text("Prime Sedan"),
+                      leading: CircleAvatar(
+                        radius: 20,
+                        child: Image.asset(
+                          "assets/images/cabsicon/sedan.png",
+                        ),
+                        backgroundColor: Colors.transparent,
+                      ),
+                      trailing: const Text("Rs. 185.52/-"),
+                      subtitle: const Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Comfy hatchbacks at pocket-friendly fares."),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text("4 min away")
+                        ],
+                      ),
+                    ),
+                    ListTile(
+                      title: const Text("Prime Sedan"),
+                      leading: CircleAvatar(
+                        radius: 20,
+                        child: Image.asset(
+                          "assets/images/cabsicon/sedan.png",
+                        ),
+                        backgroundColor: Colors.transparent,
+                      ),
+                      trailing: const Text("Rs. 185.52/-"),
+                      subtitle: const Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Comfy hatchbacks at pocket-friendly fares."),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text("4 min away")
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          CabCompanies(
-            onTapUber: () {},
-            onTapOla: () {},
-            onTapRapido: () {},
-            onTapMeru: () {},
-            onTapBlueSmart: () {},
-            onTapIndrive: () {},
-            onTapBlaBla: () {},
-          ),
-          BottomNavigator()
-        ],
+            InkWell(
+              onTap: () {
+                showModalBottomSheet(
+                  showDragHandle: true,
+                  context: context, builder: (context) {
+                  return const Scaffold(body: Text("data"));
+                },);
+              },
+              child: Container(
+                width: double.infinity,
+                margin: const EdgeInsets.symmetric(horizontal: 25),
+                padding: const EdgeInsets.all(15),
+                decoration: BoxDecoration(
+                    color: Colors.black, borderRadius: BorderRadius.circular(10)),
+                child: const Text(
+                  "Book OLA",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15),
+                ),
+              ),
+            ),
+            CabCompanies(
+              onTapUber: () {},
+              onTapOla: () {},
+              onTapRapido: () {},
+              onTapMeru: () {},
+              onTapBlueSmart: () {},
+              onTapIndrive: () {},
+              onTapBlaBla: () {},
+            ),
+            const BottomNavigator()
+          ],
+        ),
       ),
     );
   }

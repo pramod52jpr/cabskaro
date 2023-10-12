@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
 
-class BottomNavigator extends StatefulWidget {
+class BottomNavigator extends StatelessWidget {
   const BottomNavigator({super.key});
 
-  @override
-  State<BottomNavigator> createState() => _BottomNavigatorState();
-}
-
-class _BottomNavigatorState extends State<BottomNavigator> {
   @override
   Widget build(BuildContext context) {
     return Container(
