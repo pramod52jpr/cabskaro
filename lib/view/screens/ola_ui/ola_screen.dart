@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cabskaro/view/screens/homepage/components/bottom_navigator.dart';
+import 'package:cabskaro/view/screens/rapido_ui/rapido_screen.dart';
 import 'package:cabskaro/view/widgets/cab_companies.dart';
 import 'package:cabskaro/controller/services/services.dart';
 import 'package:cabskaro/view/screens/ola_ui/ola_search_end_location.dart';
@@ -16,7 +17,7 @@ class OlaScreen extends StatefulWidget {
   final String location;
   const OlaScreen({
     super.key,
-    this.locType = "start",
+    this.locType = "",
     this.location = "current",
   });
 
@@ -32,10 +33,10 @@ class _OlaScreenState extends State<OlaScreen> {
   static const String ENDLOC = "end";
   static const String ENDLAT = "endLat";
   static const String ENDLON = "endLon";
-  String startLocationName = "Current Location";
+  String startLocationName = "Pickup Location";
   double startLatitude = 0.0;
   double startLongitude = 0.0;
-  String endLocationName = "Select Destination";
+  String endLocationName = "Destination Location";
   double endLatitude = 0.0;
   double endLongitude = 0.0;
   double zoom = 1.0;
@@ -99,6 +100,7 @@ class _OlaScreenState extends State<OlaScreen> {
       ));
 
       if (endLatitude != 0.0 && endLongitude != 0.0) {
+        zoom = 11.0;
         marker.add(Marker(
           markerId: const MarkerId("2"),
           position: LatLng(endLatitude, endLongitude),
@@ -139,6 +141,7 @@ class _OlaScreenState extends State<OlaScreen> {
               position: LatLng(value.latitude, value.longitude),
             ));
             if (endLatitude != 0.0 && endLongitude != 0.0) {
+              zoom = 11.0;
               marker.add(Marker(
                 markerId: const MarkerId("2"),
                 position: LatLng(endLatitude, endLongitude),
@@ -167,6 +170,7 @@ class _OlaScreenState extends State<OlaScreen> {
       ));
 
       if (startLatitude != 0.0 && startLongitude != 0.0) {
+        zoom = 11.0;
         marker.add(Marker(
           markerId: const MarkerId("1"),
           position: LatLng(startLatitude, startLongitude),
@@ -216,22 +220,43 @@ class _OlaScreenState extends State<OlaScreen> {
 
   void savedLocations() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (prefs.getString(STARTLOC) != null && prefs.getString(ENDLOC) != null) {
+    if (prefs.getString(STARTLOC) != null) {
       setState(() {
         startLocationName = prefs.getString(STARTLOC)!;
         startLatitude = prefs.getDouble(STARTLAT)!;
         startLongitude = prefs.getDouble(STARTLON)!;
+        zoom = 14.0;
+      });
+    }
+    if (prefs.getString(ENDLOC) != null) {
+      setState(() {
         endLocationName = prefs.getString(ENDLOC)!;
         endLatitude = prefs.getDouble(ENDLAT)!;
         endLongitude = prefs.getDouble(ENDLON)!;
         zoom = 14.0;
       });
-      if (endLatitude != 0.0 &&
-          endLongitude != 0.0 &&
-          startLatitude != 0.0 &&
-          startLongitude != 0.0) {
-        getDirections();
-      }
+    }
+    if (endLatitude != 0.0 &&
+        endLongitude != 0.0 &&
+        startLatitude != 0.0 &&
+        startLongitude != 0.0) {
+      setState(() {
+        zoom = 11.0;
+        marker.add(Marker(
+          markerId: const MarkerId("2"),
+          position: LatLng(endLatitude, endLongitude),
+        ));
+        marker.add(Marker(
+          markerId: const MarkerId("1"),
+          position: LatLng(startLatitude, startLongitude),
+        ));
+      });
+      CameraPosition newCameraPosition =
+          CameraPosition(target: LatLng(endLatitude, endLongitude), zoom: zoom);
+      GoogleMapController controller = await _completer.future;
+      controller
+          .animateCamera(CameraUpdate.newCameraPosition(newCameraPosition));
+      getDirections();
     }
   }
 
@@ -241,7 +266,7 @@ class _OlaScreenState extends State<OlaScreen> {
     savedLocations();
     if (widget.locType == "start") {
       startLocation();
-    } else {
+    } else if (widget.locType == "end") {
       endLocation();
     }
   }
@@ -256,11 +281,11 @@ class _OlaScreenState extends State<OlaScreen> {
       travelMode: TravelMode.driving,
     );
     if (result.points.isNotEmpty) {
-      result.points.forEach((PointLatLng pointLatLng) {
+      for (var pointLatLng in result.points) {
         polylineCoordinates
-          ..add(LatLng(pointLatLng.latitude, pointLatLng.longitude));
+            .add(LatLng(pointLatLng.latitude, pointLatLng.longitude));
         points.add({'lat': pointLatLng.latitude, 'lng': pointLatLng.longitude});
-      });
+      }
     }
     addPolyline(polylineCoordinates);
   }
@@ -269,7 +294,7 @@ class _OlaScreenState extends State<OlaScreen> {
     PolylineId id = const PolylineId('poly');
     Polyline polyline = Polyline(
         polylineId: id,
-        color: Colors.green,
+        color: Colors.blue,
         points: polylineCoordinates,
         width: 3);
     polylines[id] = polyline;
@@ -278,41 +303,42 @@ class _OlaScreenState extends State<OlaScreen> {
 
   @override
   Widget build(BuildContext context) {
+    MediaQueryData mediaQuery = MediaQuery.of(context);
     return Material(
       child: SafeArea(
         child: Column(
           children: [
             Expanded(
-                child: Stack(
-                  children:[ GoogleMap(
-                        mapType: MapType.terrain,
-                        initialCameraPosition: CameraPosition(
-                            target: LatLng(startLatitude, startLongitude),
-                            zoom: zoom),
-                        markers: Set.of(marker),
-                        polylines: Set<Polyline>.of(polylines.values),
-                        myLocationEnabled: true,
-                        onMapCreated: (controller) {
-                          _completer.complete(controller);
-                        },
-                          ),
-                          InkWell(
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                            child: Container(
-                              height: 35,
-                              width: 35,
-                              margin: const EdgeInsets.all(20),
-                              decoration: const BoxDecoration(
-                                color: Colors.white,
-                                shape: BoxShape.circle,
-                                boxShadow: [BoxShadow(blurRadius: 10,color: Colors.grey)]),
-                                child: const Icon(Icons.arrow_back),
-                            ),
-                          )
-                  ]
-                )),
+                child: Stack(children: [
+              GoogleMap(
+                mapType: MapType.terrain,
+                initialCameraPosition: CameraPosition(
+                    target: LatLng(startLatitude, startLongitude), zoom: zoom),
+                markers: Set.of(marker),
+                polylines: Set<Polyline>.of(polylines.values),
+                myLocationEnabled: true,
+                onMapCreated: (controller) {
+                  _completer.complete(controller);
+                },
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Container(
+                  height: 35,
+                  width: 35,
+                  margin: const EdgeInsets.all(20),
+                  decoration: const BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(blurRadius: 10, color: Colors.grey)
+                      ]),
+                  child: const Icon(Icons.arrow_back),
+                ),
+              )
+            ])),
             Padding(
               padding: const EdgeInsets.all(10),
               child: Row(
@@ -352,16 +378,18 @@ class _OlaScreenState extends State<OlaScreen> {
                     children: [
                       InkWell(
                         onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const OlaSearchStartLocation(),
-                    ));},
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const OlaSearchStartLocation(),
+                              ));
+                        },
                         child: Hero(
                           tag: "startOla",
                           child: Material(
                             child: Container(
-                              width: 200,
+                              width: mediaQuery.size.width * 0.8,
                               height: 30,
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 2, vertical: 5),
@@ -376,28 +404,31 @@ class _OlaScreenState extends State<OlaScreen> {
                         ),
                       ),
                       Container(
-                        width: 320,
+                        width: mediaQuery.size.width * 0.8,
                         decoration: BoxDecoration(
                             border: Border.all(color: Colors.grey, width: 0.5)),
                       ),
                       InkWell(
                         onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const OlaSearchEndLocation(),
-                    ));},
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const OlaSearchEndLocation(),
+                              ));
+                        },
                         child: Hero(
                           tag: "endOla",
                           child: Material(
                             child: Container(
-                              width: 200,
+                              width: mediaQuery.size.width * 0.8,
                               height: 30,
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 2, vertical: 5),
                               child: Text(
                                 endLocationName,
-                                style: const TextStyle(overflow: TextOverflow.ellipsis),
+                                style: const TextStyle(
+                                    overflow: TextOverflow.ellipsis),
                               ),
                             ),
                           ),
@@ -553,13 +584,27 @@ class _OlaScreenState extends State<OlaScreen> {
               width: double.infinity,
               margin: const EdgeInsets.symmetric(horizontal: 25),
               padding: const EdgeInsets.all(15),
-              decoration: BoxDecoration(color: Colors.black,borderRadius: BorderRadius.circular(10)),
-              child: const Text("Book OLA",textAlign: TextAlign.center, style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 15),),
+              decoration: BoxDecoration(
+                  color: Colors.black, borderRadius: BorderRadius.circular(10)),
+              child: const Text(
+                "Book OLA",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15),
+              ),
             ),
             CabCompanies(
               onTapUber: () {},
               onTapOla: () {},
-              onTapRapido: () {},
+              onTapRapido: () {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => RapidoScreen(),
+                    ));
+              },
               onTapMeru: () {},
               onTapBlueSmart: () {},
               onTapIndrive: () {},

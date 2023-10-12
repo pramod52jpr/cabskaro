@@ -2,9 +2,10 @@ import 'dart:async';
 
 import 'package:cabskaro/controller/services/services.dart';
 import 'package:cabskaro/view/screens/homepage/components/bottom_navigator.dart';
+import 'package:cabskaro/view/screens/meru_ui/meru_search_end_location.dart';
+import 'package:cabskaro/view/screens/meru_ui/meru_search_start_location.dart';
 import 'package:cabskaro/view/screens/ola_ui/ola_screen.dart';
-import 'package:cabskaro/view/screens/rapido_ui/rapido_search_end_location.dart';
-import 'package:cabskaro/view/screens/rapido_ui/rapido_search_start_location.dart';
+import 'package:cabskaro/view/screens/rapido_ui/rapido_screen.dart';
 import 'package:cabskaro/view/widgets/cab_companies.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
@@ -13,20 +14,20 @@ import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class RapidoScreen extends StatefulWidget {
+class MeruScreen extends StatefulWidget {
   final String locType;
   final String location;
-  const RapidoScreen({
+  const MeruScreen({
     super.key,
     this.locType = "",
     this.location = "current",
   });
 
   @override
-  State<RapidoScreen> createState() => _RapidoScreenState();
+  State<MeruScreen> createState() => _MeruScreenState();
 }
 
-class _RapidoScreenState extends State<RapidoScreen> {
+class _MeruScreenState extends State<MeruScreen> {
   Completer<GoogleMapController> _completer = Completer();
   static const String STARTLOC = "start";
   static const String STARTLAT = "startLat";
@@ -322,45 +323,26 @@ class _RapidoScreenState extends State<RapidoScreen> {
                   _completer.complete(controller);
                 },
               ),
-              Padding(
-                padding: const EdgeInsets.all(10),
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 15),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                            blurRadius: 5,
-                            color: Colors.grey,
-                            spreadRadius: 2,
-                            offset: Offset(2, 2))
-                      ]),
-                  height: 80,
-                  child: Row(
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(20),
+                        bottomRight: Radius.circular(20)),
+                    boxShadow: [
+                      BoxShadow(
+                          blurRadius: 5,
+                          color: Colors.grey,
+                          spreadRadius: 2,
+                          offset: Offset(2, 2))
+                    ]),
+                height: 100,
+                child: Stack(children: [
+                  Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          FaIcon(
-                            FontAwesomeIcons.locationCrosshairs,
-                            size: 20,
-                            color: Colors.green,
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          FaIcon(
-                            FontAwesomeIcons.locationDot,
-                            size: 20,
-                            color: Colors.red,
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        width: 20,
-                      ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -371,7 +353,7 @@ class _RapidoScreenState extends State<RapidoScreen> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) =>
-                                        RapidoSearchStartLocation(),
+                                        MeruSearchStartLocation(),
                                   ));
                             },
                             child: Hero(
@@ -380,24 +362,37 @@ class _RapidoScreenState extends State<RapidoScreen> {
                                 child: Container(
                                   width: mediaQuery.size.width * 0.7,
                                   height: 30,
-                                  color: Colors.white,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      border: Border.all(
+                                          color: Colors.grey, width: 1),
+                                      borderRadius: BorderRadius.circular(5)),
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal: 2, vertical: 5),
-                                  child: Text(
-                                    startLocationName,
-                                    style: TextStyle(
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
+                                      horizontal: 5, vertical: 5),
+                                  child: Row(
+                                    children: [
+                                      FaIcon(
+                                        FontAwesomeIcons.circleDot,
+                                        size: 17,
+                                        color: const Color.fromARGB(
+                                            255, 56, 167, 60),
+                                      ),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      Text(
+                                        startLocationName,
+                                        style: TextStyle(
+                                            overflow: TextOverflow.ellipsis),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
                             ),
                           ),
-                          Container(
-                            width: mediaQuery.size.width * 0.7,
-                            decoration: BoxDecoration(
-                                border:
-                                    Border.all(color: Colors.grey, width: 0.5)),
+                          SizedBox(
+                            height: 10,
                           ),
                           InkWell(
                             onTap: () {
@@ -405,7 +400,7 @@ class _RapidoScreenState extends State<RapidoScreen> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) =>
-                                        RapidoSearchEndLocation(),
+                                        MeruSearchEndLocation(),
                                   ));
                             },
                             child: Hero(
@@ -414,13 +409,29 @@ class _RapidoScreenState extends State<RapidoScreen> {
                                 child: Container(
                                   width: mediaQuery.size.width * 0.7,
                                   height: 30,
-                                  color: Colors.white,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      border: Border.all(
+                                          color: Colors.grey, width: 1),
+                                      borderRadius: BorderRadius.circular(5)),
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal: 2, vertical: 5),
-                                  child: Text(
-                                    endLocationName,
-                                    style: TextStyle(
-                                        overflow: TextOverflow.ellipsis),
+                                      horizontal: 5, vertical: 5),
+                                  child: Row(
+                                    children: [
+                                      FaIcon(
+                                        FontAwesomeIcons.circleDot,
+                                        size: 17,
+                                        color: Colors.black,
+                                      ),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      Text(
+                                        endLocationName,
+                                        style: TextStyle(
+                                            overflow: TextOverflow.ellipsis),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
@@ -430,7 +441,24 @@ class _RapidoScreenState extends State<RapidoScreen> {
                       ),
                     ],
                   ),
-                ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      height: 35,
+                      width: 35,
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(
+                        Icons.arrow_back_ios,
+                        size: 20,
+                      ),
+                    ),
+                  )
+                ]),
               ),
             ])),
             ConstrainedBox(
@@ -455,50 +483,106 @@ class _RapidoScreenState extends State<RapidoScreen> {
                     children: [
                       Column(
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: [
-                                    Image.asset(
-                                      "assets/images/cabsicon/motobike.png",
-                                      height: 30,
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text("Bike"),
-                                  ],
-                                ),
-                                Text("4 min away"),
-                                Text("Rs. 185.52/-"),
-                              ],
+                          Container(
+                            padding: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(color: Colors.grey,width: 1)),
+                            child: ListTile(
+                              contentPadding: EdgeInsets.zero,
+                              title: Text(
+                                  "Comfy hatchbacks at pocket-friendly fares.",style: TextStyle(
+                                    fontSize: 14,
+                                    color: Color.fromARGB(169, 0, 0, 0)),),
+                              leading: Column(
+                                children: [
+                                  CircleAvatar(
+                                    backgroundColor: Colors.white,
+                                    child: Image.asset(
+                                        "assets/images/cabsicon/suv.png"),
+                                  ),
+                                  Text("Lite"),
+                                ],
+                              ),
+                              trailing: Text("Rs 185.52/-"),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: [
-                                    Image.asset(
-                                      "assets/images/cabsicon/auto.png",
-                                      height: 30,
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text("Auto"),
-                                  ],
-                                ),
-                                Text("4 min away"),
-                                Text("Rs. 185.52/-"),
-                              ],
+                          SizedBox(height: 10,),
+                          Container(
+                            padding: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(color: Colors.grey,width: 1)),
+                            child: ListTile(
+                              contentPadding: EdgeInsets.zero,
+                              title: Text(
+                                  "Comfy hatchbacks at pocket-friendly fares.",style: TextStyle(
+                                    fontSize: 14,
+                                    color: Color.fromARGB(169, 0, 0, 0)),),
+                              leading: Column(
+                                children: [
+                                  CircleAvatar(
+                                    backgroundColor: Colors.white,
+                                    child: Image.asset(
+                                        "assets/images/cabsicon/suv.png"),
+                                  ),
+                                  Text("Lite"),
+                                ],
+                              ),
+                              trailing: Text("Rs 185.52/-"),
                             ),
                           ),
+                          SizedBox(height: 10,),
+                          Container(
+                            padding: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(color: Colors.grey,width: 1)),
+                            child: ListTile(
+                              contentPadding: EdgeInsets.zero,
+                              title: Text(
+                                  "Comfy hatchbacks at pocket-friendly fares.",style: TextStyle(
+                                    fontSize: 14,
+                                    color: Color.fromARGB(169, 0, 0, 0)),),
+                              leading: Column(
+                                children: [
+                                  CircleAvatar(
+                                    backgroundColor: Colors.white,
+                                    child: Image.asset(
+                                        "assets/images/cabsicon/suv.png"),
+                                  ),
+                                  Text("Lite"),
+                                ],
+                              ),
+                              trailing: Text("Rs 185.52/-"),
+                            ),
+                          ),
+                          SizedBox(height: 10,),
+                          Container(
+                            padding: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(color: Colors.grey,width: 1)),
+                            child: ListTile(
+                              contentPadding: EdgeInsets.zero,
+                              title: Text(
+                                  "Comfy hatchbacks at pocket-friendly fares.",style: TextStyle(
+                                    fontSize: 14,
+                                    color: Color.fromARGB(169, 0, 0, 0)),),
+                              leading: Column(
+                                children: [
+                                  CircleAvatar(
+                                    backgroundColor: Colors.white,
+                                    child: Image.asset(
+                                        "assets/images/cabsicon/suv.png"),
+                                  ),
+                                  Text("Lite"),
+                                ],
+                              ),
+                              trailing: Text("Rs 185.52/-"),
+                            ),
+                          ),
+                          SizedBox(height: 10,),
                         ],
                       )
                     ],
@@ -529,10 +613,10 @@ class _RapidoScreenState extends State<RapidoScreen> {
                 margin: EdgeInsets.symmetric(horizontal: 25),
                 padding: EdgeInsets.all(15),
                 decoration: BoxDecoration(
-                    color: Color.fromRGBO(237, 205, 20, 1),
+                    color: Color.fromRGBO(248, 182, 77, 1),
                     borderRadius: BorderRadius.circular(10)),
                 child: Text(
-                  "Book Rapido",
+                  "Book Meru",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.black,
@@ -551,8 +635,20 @@ class _RapidoScreenState extends State<RapidoScreen> {
                       builder: (context) => OlaScreen(),
                     ));
               },
-              onTapRapido: () {},
-              onTapMeru: () {},
+              onTapRapido: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => RapidoScreen(),
+                    ));
+              },
+              onTapMeru: () {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MeruScreen(),
+                    ));
+              },
               onTapBlueSmart: () {},
               onTapIndrive: () {},
               onTapBlaBla: () {},

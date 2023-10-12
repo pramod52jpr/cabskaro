@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cabskaro/controller/services/services.dart';
 import 'package:cabskaro/view/screens/otp_screen/login_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -12,6 +13,12 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  static const String STARTLOC = "start";
+  static const String STARTLAT = "startLat";
+  static const String STARTLON = "startLon";
+  static const String ENDLOC = "end";
+  static const String ENDLAT = "endLat";
+  static const String ENDLON = "endLon";
   bool firstAnimation = false;
   bool splashAnimation = false;
   bool secondAnimation = false;
@@ -19,9 +26,20 @@ class _SplashScreenState extends State<SplashScreen> {
   var opacity = 0.0;
   var ropeOpacity = 1.0;
 
+  void deletePrefs()async{
+    SharedPreferences prefs=await SharedPreferences.getInstance();
+    prefs.remove(STARTLOC);
+    prefs.remove(STARTLAT);
+    prefs.remove(STARTLON);
+    prefs.remove(ENDLOC);
+    prefs.remove(ENDLAT);
+    prefs.remove(ENDLON);
+  }
+
   @override
   void initState() {
     super.initState();
+    deletePrefs();
     animate();
     Services().getUserLocation().then((value) {}).onError((error, stackTrace) {
       Services().toastmsg("There is some error", false);
