@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:cabskaro/ui/dashboard_screen.dart';
+import 'package:cabskaro/view/screens/homepage/dashboard_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 import 'package:http/http.dart' as http;
@@ -52,8 +52,7 @@ class _SearchEndLocationState extends State<SearchEndLocation> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      child: Padding(
-        padding: const EdgeInsets.all(10),
+      child: SafeArea(
         child: Column(
           children: [
             const SizedBox(height: 25),

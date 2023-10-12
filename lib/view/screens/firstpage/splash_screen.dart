@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:cabskaro/services/services.dart';
-import 'package:cabskaro/ui/login_screen.dart';
+import 'package:cabskaro/controller/services/services.dart';
+import 'package:cabskaro/view/screens/otp_screen/login_screen.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {

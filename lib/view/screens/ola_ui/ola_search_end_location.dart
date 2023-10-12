@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:cabskaro/ui/ola_ui/ola_screen.dart';
+import 'package:cabskaro/view/screens/ola_ui/ola_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 import 'package:http/http.dart' as http;
@@ -20,7 +20,7 @@ class _OlaSearchEndLocationState extends State<OlaSearchEndLocation> {
 
   @override
   void initState() {
-    // TODO: implement initState
+  
     super.initState();
     _searchController.addListener(() {
       onChange(_searchController.text.toString());
@@ -31,11 +31,11 @@ class _OlaSearchEndLocationState extends State<OlaSearchEndLocation> {
     setState(() {
       _sessionToken = uuid.v4();
     });
-    String google_api_key = "AIzaSyA0r0oRC03tITR0FNYVfKT-SlXEvf_FDp0";
+    String googleApiKey = "AIzaSyA0r0oRC03tITR0FNYVfKT-SlXEvf_FDp0";
     String baseUrl =
         "https://maps.googleapis.com/maps/api/place/autocomplete/json";
     String request =
-        "$baseUrl?input=$input&key=$google_api_key&sessiontoken=$_sessionToken";
+        "$baseUrl?input=$input&key=$googleApiKey&sessiontoken=$_sessionToken";
     http.Response response;
     response = await http.get(Uri.parse(request));
     if (response.statusCode == 200) {

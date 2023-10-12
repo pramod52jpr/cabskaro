@@ -90,7 +90,7 @@ class _CabTypesState extends State<CabTypes> {
               const SizedBox(
                 height: 10,
               ),
-              const Text("4+ Seater")
+              const Text("4+ Seater"),
             ],
           ),
           Column(
