@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cabskaro/controller/services/test.dart';
 import 'package:cabskaro/view/screens/homepage/components/bottom_navigator.dart';
 import 'package:cabskaro/view/widgets/cab_companies.dart';
 import 'package:cabskaro/view/screens/homepage/components/cab_types.dart';
@@ -443,7 +444,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>  CabsAvaibilityScreen(),
+                            builder: (context) =>  UberTripEstimatesScreen(),
                           ));
                     },
                   ),
