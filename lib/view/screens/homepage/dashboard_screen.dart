@@ -1,7 +1,9 @@
 import 'dart:async';
 
-import 'package:cabskaro/controller/services/test.dart';
+import 'package:cabskaro/view/screens/blusmart_ui/blusmart_screen.dart';
 import 'package:cabskaro/view/screens/homepage/components/bottom_navigator.dart';
+import 'package:cabskaro/view/screens/meru_ui/meru_screen.dart';
+import 'package:cabskaro/view/screens/rapido_ui/rapido_screen.dart';
 import 'package:cabskaro/view/widgets/cab_companies.dart';
 import 'package:cabskaro/view/screens/homepage/components/cab_types.dart';
 import 'package:cabskaro/view/screens/homepage/components/location_points.dart';
@@ -22,7 +24,7 @@ class DashboardScreen extends StatefulWidget {
   final String location;
   const DashboardScreen({
     super.key,
-    this.locType = "start",
+    this.locType = "",
     this.location = "current",
   });
 
@@ -38,10 +40,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
   static const String ENDLOC = "end";
   static const String ENDLAT = "endLat";
   static const String ENDLON = "endLon";
-  String startLocationName = "Current Location";
+  String startLocationName = "Pickup Location";
   double startLatitude = 0.0;
   double startLongitude = 0.0;
-  String endLocationName = "Select Destination";
+  String endLocationName = "Destination Location";
   double endLatitude = 0.0;
   double endLongitude = 0.0;
   double zoom = 1.0;
@@ -105,6 +107,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ));
 
       if (endLatitude != 0.0 && endLongitude != 0.0) {
+        zoom = 11.0;
         marker.add(Marker(
           markerId: const MarkerId("2"),
           position: LatLng(endLatitude, endLongitude),
@@ -145,6 +148,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               position: LatLng(value.latitude, value.longitude),
             ));
             if (endLatitude != 0.0 && endLongitude != 0.0) {
+              zoom = 11.0;
               marker.add(Marker(
                 markerId: const MarkerId("2"),
                 position: LatLng(endLatitude, endLongitude),
@@ -173,6 +177,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ));
 
       if (startLatitude != 0.0 && startLongitude != 0.0) {
+        zoom = 11.0;
         marker.add(Marker(
           markerId: const MarkerId("1"),
           position: LatLng(startLatitude, startLongitude),
@@ -222,22 +227,43 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   void savedLocations() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (prefs.getString(STARTLOC) != null && prefs.getString(ENDLOC) != null) {
+    if (prefs.getString(STARTLOC) != null) {
       setState(() {
         startLocationName = prefs.getString(STARTLOC)!;
         startLatitude = prefs.getDouble(STARTLAT)!;
         startLongitude = prefs.getDouble(STARTLON)!;
+        zoom = 14.0;
+      });
+    }
+    if (prefs.getString(ENDLOC) != null) {
+      setState(() {
         endLocationName = prefs.getString(ENDLOC)!;
         endLatitude = prefs.getDouble(ENDLAT)!;
         endLongitude = prefs.getDouble(ENDLON)!;
         zoom = 14.0;
       });
-      if (endLatitude != 0.0 &&
-          endLongitude != 0.0 &&
-          startLatitude != 0.0 &&
-          startLongitude != 0.0) {
-        getDirections();
-      }
+    }
+    if (endLatitude != 0.0 &&
+        endLongitude != 0.0 &&
+        startLatitude != 0.0 &&
+        startLongitude != 0.0) {
+      setState(() {
+        zoom = 11.0;
+        marker.add(Marker(
+          markerId: const MarkerId("2"),
+          position: LatLng(endLatitude, endLongitude),
+        ));
+        marker.add(Marker(
+          markerId: const MarkerId("1"),
+          position: LatLng(startLatitude, startLongitude),
+        ));
+      });
+      CameraPosition newCameraPosition =
+          CameraPosition(target: LatLng(endLatitude, endLongitude), zoom: zoom);
+      GoogleMapController controller = await _completer.future;
+      controller
+          .animateCamera(CameraUpdate.newCameraPosition(newCameraPosition));
+      getDirections();
     }
   }
 
@@ -247,7 +273,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     savedLocations();
     if (widget.locType == "start") {
       startLocation();
-    } else {
+    } else if (widget.locType == "end") {
       endLocation();
     }
   }
@@ -264,7 +290,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     if (result.points.isNotEmpty) {
       for (var pointLatLng in result.points) {
         polylineCoordinates
-          .add(LatLng(pointLatLng.latitude, pointLatLng.longitude));
+            .add(LatLng(pointLatLng.latitude, pointLatLng.longitude));
         points.add({'lat': pointLatLng.latitude, 'lng': pointLatLng.longitude});
       }
     }
@@ -275,11 +301,26 @@ class _DashboardScreenState extends State<DashboardScreen> {
     PolylineId id = const PolylineId('poly');
     Polyline polyline = Polyline(
         polylineId: id,
-        color: Colors.green,
+        color: Colors.blue,
         points: polylineCoordinates,
         width: 3);
     polylines[id] = polyline;
     setState(() {});
+  }
+
+  Future interchangeLocations() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (prefs.getString(STARTLOC) != null && prefs.getString(ENDLOC) != null) {
+      setState(() {
+        prefs.setString(STARTLOC, endLocationName);
+        prefs.setDouble(STARTLAT, endLatitude);
+        prefs.setDouble(STARTLON, endLongitude);
+
+        prefs.setString(ENDLOC, startLocationName);
+        prefs.setDouble(ENDLAT, startLatitude);
+        prefs.setDouble(ENDLON, startLongitude);
+      });
+    }
   }
 
   @override
@@ -288,7 +329,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            const SizedBox(height: 30),
             Row(
               children: [
                 Column(
@@ -328,16 +368,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     decoration: BoxDecoration(
                         boxShadow: const [
                           BoxShadow(
-                              color: Colors.grey, blurRadius: 5, spreadRadius: 1)
+                              color: Colors.grey,
+                              blurRadius: 5,
+                              spreadRadius: 1)
                         ],
                         border: Border.all(
                             color: const Color.fromRGBO(227, 132, 42, 0.8)),
                         borderRadius: BorderRadius.circular(10),
                         image: const DecorationImage(
-                            image:
-                                AssetImage("assets/images/icons/backscreen.jpg"),
+                            image: AssetImage(
+                                "assets/images/icons/backscreen.jpg"),
                             fit: BoxFit.cover)),
-                            
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -413,7 +454,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       builder: (context) => const SearchEndLocation(),
                     ));
               },
-              onTapInterchange: () {},
+              onTapInterchange: () {
+                interchangeLocations().then((value) {
+                  savedLocations();
+                });
+              },
             ),
             Expanded(
               child: Column(
@@ -423,35 +468,35 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>  CabsAvaibilityScreen(),
+                            builder: (context) => const CabsAvaibilityScreen(),
                           ));
                     },
                     onTapFourPlusSeater: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>  CabsAvaibilityScreen(),
+                            builder: (context) => const CabsAvaibilityScreen(),
                           ));
                     },
                     onTapAuto: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>  CabsAvaibilityScreen(),
+                            builder: (context) => const CabsAvaibilityScreen(),
                           ));
                     },
                     onTapBike: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>  UberTripEstimatesScreen(),
+                            builder: (context) => CabsAvaibilityScreen(),
                           ));
                     },
                   ),
                   Expanded(
                     child: Container(
-                      margin:
-                          const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 30, vertical: 5),
                       child: GoogleMap(
                         mapType: MapType.terrain,
                         initialCameraPosition: CameraPosition(
@@ -472,7 +517,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => const UberScreen(),
-                          ));},
+                          ));
+                    },
                     onTapOla: () {
                       Navigator.push(
                           context,
@@ -480,9 +526,25 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             builder: (context) => const OlaScreen(),
                           ));
                     },
-                    onTapRapido: () {},
-                    onTapMeru: () {},
-                    onTapBlueSmart: () {},
+                    onTapRapido: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const RapidoScreen(),
+                          ));
+                    },
+                    onTapMeru: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const MeruScreen(),
+                          ));},
+                    onTapBlueSmart: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const BlusmartScreen(),
+                          ));},
                     onTapIndrive: () {},
                     onTapBlaBla: () {},
                   ),

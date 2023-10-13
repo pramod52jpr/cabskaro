@@ -23,6 +23,7 @@ class _LocationPointsState extends State<LocationPoints> {
   String a="";
   @override
   Widget build(BuildContext context) {
+  MediaQueryData mediaQuery=MediaQuery.of(context);
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
       padding: const EdgeInsets.all(10),
@@ -64,7 +65,7 @@ class _LocationPointsState extends State<LocationPoints> {
                   tag: "start",
                   child: Material(
                     child: Container(
-                      width: 200,
+                      width: mediaQuery.size.width*0.6,
                       height: 30,
                       padding:
                           const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -88,7 +89,7 @@ class _LocationPointsState extends State<LocationPoints> {
                   tag: "end",
                   child: Material(
                     child: Container(
-                      width: 200,
+                      width: mediaQuery.size.width*0.6,
                       height: 30,
                       padding:
                           const EdgeInsets.symmetric(horizontal: 10, vertical: 5),

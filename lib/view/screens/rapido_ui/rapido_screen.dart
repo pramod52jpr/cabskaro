@@ -1,31 +1,32 @@
 import 'dart:async';
 
-import 'package:cabskaro/view/screens/homepage/components/bottom_navigator.dart';
-import 'package:cabskaro/view/screens/rapido_ui/rapido_screen.dart';
-import 'package:cabskaro/view/widgets/cab_companies.dart';
 import 'package:cabskaro/controller/services/services.dart';
-import 'package:cabskaro/view/screens/ola_ui/ola_search_end_location.dart';
-import 'package:cabskaro/view/screens/ola_ui/ola_search_start_location.dart';
+import 'package:cabskaro/view/screens/homepage/components/bottom_navigator.dart';
+import 'package:cabskaro/view/screens/ola_ui/ola_screen.dart';
+import 'package:cabskaro/view/screens/rapido_ui/rapido_search_end_location.dart';
+import 'package:cabskaro/view/screens/rapido_ui/rapido_search_start_location.dart';
+import 'package:cabskaro/view/widgets/cab_companies.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class OlaScreen extends StatefulWidget {
+class RapidoScreen extends StatefulWidget {
   final String locType;
   final String location;
-  const OlaScreen({
+  const RapidoScreen({
     super.key,
     this.locType = "",
     this.location = "current",
   });
 
   @override
-  State<OlaScreen> createState() => _OlaScreenState();
+  State<RapidoScreen> createState() => _RapidoScreenState();
 }
 
-class _OlaScreenState extends State<OlaScreen> {
+class _RapidoScreenState extends State<RapidoScreen> {
   Completer<GoogleMapController> _completer = Completer();
   static const String STARTLOC = "start";
   static const String STARTLAT = "startLat";
@@ -321,296 +322,242 @@ class _OlaScreenState extends State<OlaScreen> {
                   _completer.complete(controller);
                 },
               ),
-              InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                },
+              Padding(
+                padding: const EdgeInsets.all(10),
                 child: Container(
-                  height: 35,
-                  width: 35,
-                  margin: const EdgeInsets.all(20),
-                  decoration: const BoxDecoration(
+                  padding: EdgeInsets.symmetric(horizontal: 15),
+                  decoration: BoxDecoration(
                       color: Colors.white,
-                      shape: BoxShape.circle,
+                      borderRadius: BorderRadius.circular(20),
                       boxShadow: [
-                        BoxShadow(blurRadius: 10, color: Colors.grey)
+                        BoxShadow(
+                            blurRadius: 5,
+                            color: Colors.grey,
+                            spreadRadius: 2,
+                            offset: Offset(2, 2))
                       ]),
-                  child: const Icon(Icons.arrow_back),
-                ),
-              )
-            ])),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: Row(
-                children: [
-                  Column(
+                  height: 80,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Container(
-                        height: 10,
-                        width: 10,
-                        decoration: const BoxDecoration(
-                            shape: BoxShape.circle, color: Colors.green),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          FaIcon(
+                            FontAwesomeIcons.locationCrosshairs,
+                            size: 20,
+                            color: Colors.green,
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          FaIcon(
+                            FontAwesomeIcons.locationDot,
+                            size: 20,
+                            color: Colors.red,
+                          ),
+                        ],
                       ),
-                      const SizedBox(
-                        height: 2,
+                      SizedBox(
+                        width: 20,
                       ),
-                      Container(
-                        height: 15,
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey, width: 1)),
-                      ),
-                      const SizedBox(
-                        height: 2,
-                      ),
-                      Container(
-                        height: 10,
-                        width: 10,
-                        decoration: const BoxDecoration(
-                            shape: BoxShape.circle, color: Colors.red),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    const OlaSearchStartLocation(),
-                              ));
-                        },
-                        child: Hero(
-                          tag: "startOla",
-                          child: Material(
-                            child: Container(
-                              width: mediaQuery.size.width * 0.8,
-                              height: 30,
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 2, vertical: 5),
-                              child: Text(
-                                startLocationName,
-                                style: const TextStyle(
-                                  overflow: TextOverflow.ellipsis,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        RapidoSearchStartLocation(),
+                                  ));
+                            },
+                            child: Hero(
+                              tag: "startRapido",
+                              child: Material(
+                                child: Container(
+                                  width: mediaQuery.size.width * 0.7,
+                                  height: 30,
+                                  color: Colors.white,
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 2, vertical: 5),
+                                  child: Text(
+                                    startLocationName,
+                                    style: TextStyle(
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                      ),
-                      Container(
-                        width: mediaQuery.size.width * 0.8,
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey, width: 0.5)),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    const OlaSearchEndLocation(),
-                              ));
-                        },
-                        child: Hero(
-                          tag: "endOla",
-                          child: Material(
-                            child: Container(
-                              width: mediaQuery.size.width * 0.8,
-                              height: 30,
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 2, vertical: 5),
-                              child: Text(
-                                endLocationName,
-                                style: const TextStyle(
-                                    overflow: TextOverflow.ellipsis),
+                          Container(
+                            width: mediaQuery.size.width * 0.7,
+                            decoration: BoxDecoration(
+                                border:
+                                    Border.all(color: Colors.grey, width: 0.5)),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        RapidoSearchEndLocation(),
+                                  ));
+                            },
+                            child: Hero(
+                              tag: "endRapido",
+                              child: Material(
+                                child: Container(
+                                  width: mediaQuery.size.width * 0.7,
+                                  height: 30,
+                                  color: Colors.white,
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 2, vertical: 5),
+                                  child: Text(
+                                    endLocationName,
+                                    style: TextStyle(
+                                        overflow: TextOverflow.ellipsis),
+                                  ),
+                                ),
                               ),
                             ),
                           ),
-                        ),
+                        ],
                       ),
                     ],
                   ),
-                ],
+                ),
               ),
-            ),
-            Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey, width: 0.5)),
-            ),
-            Container(
-              height: 300,
-              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    ListTile(
-                      title: const Text("Mini"),
-                      leading: CircleAvatar(
-                        radius: 20,
-                        child: Image.asset(
-                          "assets/images/cabsicon/mini.png",
-                        ),
-                        backgroundColor: Colors.transparent,
-                      ),
-                      trailing: const Text("Rs. 185.52/-"),
-                      subtitle: const Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+            ])),
+            ConstrainedBox(
+              constraints: BoxConstraints(maxHeight: 230),
+              child: Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.circular(20)),
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        blurRadius: 5,
+                        color: Colors.grey,
+                        spreadRadius: 0,
+                        offset: Offset(0, -5),
+                      )
+                    ]),
+                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Column(
                         children: [
-                          Text("Comfy hatchbacks at pocket-friendly fares."),
-                          SizedBox(
-                            height: 5,
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    Image.asset(
+                                      "assets/images/cabsicon/motobike.png",
+                                      height: 30,
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text("Bike"),
+                                  ],
+                                ),
+                                Text("4 min away"),
+                                Text("Rs. 185.52/-"),
+                              ],
+                            ),
                           ),
-                          Text("4 min away")
-                        ],
-                      ),
-                    ),
-                    ListTile(
-                      title: const Text("Prime SUV"),
-                      leading: CircleAvatar(
-                        radius: 20,
-                        child: Image.asset(
-                          "assets/images/cabsicon/suv.png",
-                        ),
-                        backgroundColor: Colors.transparent,
-                      ),
-                      trailing: const Text("Rs. 185.52/-"),
-                      subtitle: const Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Comfy hatchbacks at pocket-friendly fares."),
-                          SizedBox(
-                            height: 5,
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    Image.asset(
+                                      "assets/images/cabsicon/auto.png",
+                                      height: 30,
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text("Auto"),
+                                  ],
+                                ),
+                                Text("4 min away"),
+                                Text("Rs. 185.52/-"),
+                              ],
+                            ),
                           ),
-                          Text("4 min away")
                         ],
-                      ),
-                    ),
-                    ListTile(
-                      title: const Text("Bike"),
-                      leading: CircleAvatar(
-                        radius: 20,
-                        child: Image.asset(
-                          "assets/images/cabsicon/bike.png",
-                        ),
-                        backgroundColor: Colors.transparent,
-                      ),
-                      trailing: const Text("Rs. 185.52/-"),
-                      subtitle: const Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Comfy hatchbacks at pocket-friendly fares."),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text("4 min away")
-                        ],
-                      ),
-                    ),
-                    ListTile(
-                      title: const Text("Prime Sedan"),
-                      leading: CircleAvatar(
-                        radius: 20,
-                        child: Image.asset(
-                          "assets/images/cabsicon/sedan.png",
-                        ),
-                        backgroundColor: Colors.transparent,
-                      ),
-                      trailing: const Text("Rs. 185.52/-"),
-                      subtitle: const Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Comfy hatchbacks at pocket-friendly fares."),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text("4 min away")
-                        ],
-                      ),
-                    ),
-                    ListTile(
-                      title: const Text("Prime Sedan"),
-                      leading: CircleAvatar(
-                        radius: 20,
-                        child: Image.asset(
-                          "assets/images/cabsicon/sedan.png",
-                        ),
-                        backgroundColor: Colors.transparent,
-                      ),
-                      trailing: const Text("Rs. 185.52/-"),
-                      subtitle: const Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Comfy hatchbacks at pocket-friendly fares."),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text("4 min away")
-                        ],
-                      ),
-                    ),
-                    ListTile(
-                      title: const Text("Prime Sedan"),
-                      leading: CircleAvatar(
-                        radius: 20,
-                        child: Image.asset(
-                          "assets/images/cabsicon/sedan.png",
-                        ),
-                        backgroundColor: Colors.transparent,
-                      ),
-                      trailing: const Text("Rs. 185.52/-"),
-                      subtitle: const Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Comfy hatchbacks at pocket-friendly fares."),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text("4 min away")
-                        ],
-                      ),
-                    ),
-                  ],
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
-            Container(
-              width: double.infinity,
-              margin: const EdgeInsets.symmetric(horizontal: 25),
-              padding: const EdgeInsets.all(15),
-              decoration: BoxDecoration(
-                  color: Colors.black, borderRadius: BorderRadius.circular(10)),
-              child: const Text(
-                "Book OLA",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Colors.white,
+            InkWell(
+              onTap: () {
+                showModalBottomSheet(
+                  showDragHandle: true,
+                  context: context,
+                  isDismissible: false,
+                  enableDrag: false,
+                  isScrollControlled: false,
+                  useRootNavigator: false,
+                  constraints: BoxConstraints(
+                      maxHeight: 3000,
+                      minHeight: 200,
+                      minWidth: double.infinity),
+                  builder: (context) {
+                    return Text("data");
+                  },
+                );
+              },
+              child: Container(
+                width: double.infinity,
+                margin: EdgeInsets.symmetric(horizontal: 25),
+                padding: EdgeInsets.all(15),
+                decoration: BoxDecoration(
+                    color: Color.fromRGBO(237, 205, 20, 1),
+                    borderRadius: BorderRadius.circular(10)),
+                child: Text(
+                  "Book Rapido",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.black,
                     fontWeight: FontWeight.bold,
-                    fontSize: 15),
+                    fontSize: 15,
+                  ),
+                ),
               ),
             ),
             CabCompanies(
               onTapUber: () {},
-              onTapOla: () {},
-              onTapRapido: () {
+              onTapOla: () {
                 Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => RapidoScreen(),
+                      builder: (context) => OlaScreen(),
                     ));
               },
+              onTapRapido: () {},
               onTapMeru: () {},
               onTapBlueSmart: () {},
               onTapIndrive: () {},
               onTapBlaBla: () {},
             ),
-            const BottomNavigator()
+            BottomNavigator()
           ],
         ),
       ),

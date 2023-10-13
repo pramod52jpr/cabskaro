@@ -1,4 +1,3 @@
-
 import 'package:cabskaro/view/screens/homepage/components/bottom_navigator.dart';
 import 'package:cabskaro/view/screens/homepage/components/cab_types.dart';
 import 'package:cabskaro/view/screens/homepage/components/location_points.dart';
