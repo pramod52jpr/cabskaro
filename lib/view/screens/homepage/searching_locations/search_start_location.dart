@@ -14,7 +14,7 @@ class SearchStartLocation extends StatefulWidget {
 }
 
 class _SearchStartLocationState extends State<SearchStartLocation> {
-  TextEditingController _searchController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
   var uuid = const Uuid();
   String _sessionToken = "";
   List<dynamic> data = [];

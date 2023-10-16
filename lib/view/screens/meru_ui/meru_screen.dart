@@ -28,7 +28,7 @@ class MeruScreen extends StatefulWidget {
 }
 
 class _MeruScreenState extends State<MeruScreen> {
-  Completer<GoogleMapController> _completer = Completer();
+  final Completer<GoogleMapController> _completer = Completer();
   static const String STARTLOC = "start";
   static const String STARTLAT = "startLat";
   static const String STARTLON = "startLon";
@@ -324,8 +324,8 @@ class _MeruScreenState extends State<MeruScreen> {
                 },
               ),
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                decoration: BoxDecoration(
+                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(20),
@@ -353,7 +353,7 @@ class _MeruScreenState extends State<MeruScreen> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) =>
-                                        MeruSearchStartLocation(),
+                                        const MeruSearchStartLocation(),
                                   ));
                             },
                             child: Hero(
@@ -371,18 +371,18 @@ class _MeruScreenState extends State<MeruScreen> {
                                       horizontal: 5, vertical: 5),
                                   child: Row(
                                     children: [
-                                      FaIcon(
+                                      const FaIcon(
                                         FontAwesomeIcons.circleDot,
                                         size: 17,
-                                        color: const Color.fromARGB(
+                                        color: Color.fromARGB(
                                             255, 56, 167, 60),
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         width: 5,
                                       ),
                                       Text(
                                         startLocationName,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             overflow: TextOverflow.ellipsis),
                                       ),
                                     ],
@@ -391,7 +391,7 @@ class _MeruScreenState extends State<MeruScreen> {
                               ),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           InkWell(
@@ -400,7 +400,7 @@ class _MeruScreenState extends State<MeruScreen> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) =>
-                                        MeruSearchEndLocation(),
+                                        const MeruSearchEndLocation(),
                                   ));
                             },
                             child: Hero(
@@ -418,17 +418,17 @@ class _MeruScreenState extends State<MeruScreen> {
                                       horizontal: 5, vertical: 5),
                                   child: Row(
                                     children: [
-                                      FaIcon(
+                                      const FaIcon(
                                         FontAwesomeIcons.circleDot,
                                         size: 17,
                                         color: Colors.black,
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         width: 5,
                                       ),
                                       Text(
                                         endLocationName,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             overflow: TextOverflow.ellipsis),
                                       ),
                                     ],
@@ -462,9 +462,9 @@ class _MeruScreenState extends State<MeruScreen> {
               ),
             ])),
             ConstrainedBox(
-              constraints: BoxConstraints(maxHeight: 230),
+              constraints: const BoxConstraints(maxHeight: 230),
               child: Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(20),
                         topRight: Radius.circular(20)),
@@ -477,20 +477,20 @@ class _MeruScreenState extends State<MeruScreen> {
                         offset: Offset(0, -5),
                       )
                     ]),
-                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
                       Column(
                         children: [
                           Container(
-                            padding: EdgeInsets.all(10),
+                            padding: const EdgeInsets.all(10),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               border: Border.all(color: Colors.grey,width: 1)),
                             child: ListTile(
                               contentPadding: EdgeInsets.zero,
-                              title: Text(
+                              title: const Text(
                                   "Comfy hatchbacks at pocket-friendly fares.",style: TextStyle(
                                     fontSize: 14,
                                     color: Color.fromARGB(169, 0, 0, 0)),),
@@ -501,21 +501,21 @@ class _MeruScreenState extends State<MeruScreen> {
                                     child: Image.asset(
                                         "assets/images/cabsicon/suv.png"),
                                   ),
-                                  Text("Lite"),
+                                  const Text("Lite"),
                                 ],
                               ),
-                              trailing: Text("Rs 185.52/-"),
+                              trailing: const Text("Rs 185.52/-"),
                             ),
                           ),
-                          SizedBox(height: 10,),
+                          const SizedBox(height: 10,),
                           Container(
-                            padding: EdgeInsets.all(10),
+                            padding: const EdgeInsets.all(10),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               border: Border.all(color: Colors.grey,width: 1)),
                             child: ListTile(
                               contentPadding: EdgeInsets.zero,
-                              title: Text(
+                              title: const Text(
                                   "Comfy hatchbacks at pocket-friendly fares.",style: TextStyle(
                                     fontSize: 14,
                                     color: Color.fromARGB(169, 0, 0, 0)),),
@@ -526,21 +526,21 @@ class _MeruScreenState extends State<MeruScreen> {
                                     child: Image.asset(
                                         "assets/images/cabsicon/suv.png"),
                                   ),
-                                  Text("Lite"),
+                                  const Text("Lite"),
                                 ],
                               ),
-                              trailing: Text("Rs 185.52/-"),
+                              trailing: const Text("Rs 185.52/-"),
                             ),
                           ),
-                          SizedBox(height: 10,),
+                          const SizedBox(height: 10,),
                           Container(
-                            padding: EdgeInsets.all(10),
+                            padding: const EdgeInsets.all(10),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               border: Border.all(color: Colors.grey,width: 1)),
                             child: ListTile(
                               contentPadding: EdgeInsets.zero,
-                              title: Text(
+                              title: const Text(
                                   "Comfy hatchbacks at pocket-friendly fares.",style: TextStyle(
                                     fontSize: 14,
                                     color: Color.fromARGB(169, 0, 0, 0)),),
@@ -551,21 +551,21 @@ class _MeruScreenState extends State<MeruScreen> {
                                     child: Image.asset(
                                         "assets/images/cabsicon/suv.png"),
                                   ),
-                                  Text("Lite"),
+                                  const Text("Lite"),
                                 ],
                               ),
-                              trailing: Text("Rs 185.52/-"),
+                              trailing: const Text("Rs 185.52/-"),
                             ),
                           ),
-                          SizedBox(height: 10,),
+                          const SizedBox(height: 10,),
                           Container(
-                            padding: EdgeInsets.all(10),
+                            padding: const EdgeInsets.all(10),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               border: Border.all(color: Colors.grey,width: 1)),
                             child: ListTile(
                               contentPadding: EdgeInsets.zero,
-                              title: Text(
+                              title: const Text(
                                   "Comfy hatchbacks at pocket-friendly fares.",style: TextStyle(
                                     fontSize: 14,
                                     color: Color.fromARGB(169, 0, 0, 0)),),
@@ -576,13 +576,13 @@ class _MeruScreenState extends State<MeruScreen> {
                                     child: Image.asset(
                                         "assets/images/cabsicon/suv.png"),
                                   ),
-                                  Text("Lite"),
+                                  const Text("Lite"),
                                 ],
                               ),
-                              trailing: Text("Rs 185.52/-"),
+                              trailing: const Text("Rs 185.52/-"),
                             ),
                           ),
-                          SizedBox(height: 10,),
+                          const SizedBox(height: 10,),
                         ],
                       )
                     ],
@@ -599,23 +599,23 @@ class _MeruScreenState extends State<MeruScreen> {
                   enableDrag: false,
                   isScrollControlled: false,
                   useRootNavigator: false,
-                  constraints: BoxConstraints(
+                  constraints: const BoxConstraints(
                       maxHeight: 3000,
                       minHeight: 200,
                       minWidth: double.infinity),
                   builder: (context) {
-                    return Text("data");
+                    return const Text("data");
                   },
                 );
               },
               child: Container(
                 width: double.infinity,
-                margin: EdgeInsets.symmetric(horizontal: 25),
-                padding: EdgeInsets.all(15),
+                margin: const EdgeInsets.symmetric(horizontal: 25),
+                padding: const EdgeInsets.all(15),
                 decoration: BoxDecoration(
-                    color: Color.fromRGBO(248, 182, 77, 1),
+                    color: const Color.fromRGBO(248, 182, 77, 1),
                     borderRadius: BorderRadius.circular(10)),
-                child: Text(
+                child: const Text(
                   "Book Meru",
                   textAlign: TextAlign.center,
                   style: TextStyle(
@@ -632,28 +632,28 @@ class _MeruScreenState extends State<MeruScreen> {
                 Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => OlaScreen(),
+                      builder: (context) => const OlaScreen(),
                     ));
               },
               onTapRapido: () {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => RapidoScreen(),
+                      builder: (context) => const RapidoScreen(),
                     ));
               },
               onTapMeru: () {
                 Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => MeruScreen(),
+                      builder: (context) => const MeruScreen(),
                     ));
               },
               onTapBlueSmart: () {},
               onTapIndrive: () {},
               onTapBlaBla: () {},
             ),
-            BottomNavigator()
+            const BottomNavigator()
           ],
         ),
       ),

@@ -26,7 +26,7 @@ class OlaScreen extends StatefulWidget {
 }
 
 class _OlaScreenState extends State<OlaScreen> {
-  Completer<GoogleMapController> _completer = Completer();
+  final Completer<GoogleMapController> _completer = Completer();
   static const String STARTLOC = "start";
   static const String STARTLAT = "startLat";
   static const String STARTLON = "startLon";
@@ -454,10 +454,10 @@ class _OlaScreenState extends State<OlaScreen> {
                       title: const Text("Mini"),
                       leading: CircleAvatar(
                         radius: 20,
+                        backgroundColor: Colors.transparent,
                         child: Image.asset(
                           "assets/images/cabsicon/mini.png",
                         ),
-                        backgroundColor: Colors.transparent,
                       ),
                       trailing: const Text("Rs. 185.52/-"),
                       subtitle: const Column(
@@ -475,10 +475,10 @@ class _OlaScreenState extends State<OlaScreen> {
                       title: const Text("Prime SUV"),
                       leading: CircleAvatar(
                         radius: 20,
+                        backgroundColor: Colors.transparent,
                         child: Image.asset(
                           "assets/images/cabsicon/suv.png",
                         ),
-                        backgroundColor: Colors.transparent,
                       ),
                       trailing: const Text("Rs. 185.52/-"),
                       subtitle: const Column(
@@ -496,10 +496,10 @@ class _OlaScreenState extends State<OlaScreen> {
                       title: const Text("Bike"),
                       leading: CircleAvatar(
                         radius: 20,
+                        backgroundColor: Colors.transparent,
                         child: Image.asset(
                           "assets/images/cabsicon/bike.png",
                         ),
-                        backgroundColor: Colors.transparent,
                       ),
                       trailing: const Text("Rs. 185.52/-"),
                       subtitle: const Column(
@@ -517,10 +517,10 @@ class _OlaScreenState extends State<OlaScreen> {
                       title: const Text("Prime Sedan"),
                       leading: CircleAvatar(
                         radius: 20,
+                        backgroundColor: Colors.transparent,
                         child: Image.asset(
                           "assets/images/cabsicon/sedan.png",
                         ),
-                        backgroundColor: Colors.transparent,
                       ),
                       trailing: const Text("Rs. 185.52/-"),
                       subtitle: const Column(
@@ -538,10 +538,10 @@ class _OlaScreenState extends State<OlaScreen> {
                       title: const Text("Prime Sedan"),
                       leading: CircleAvatar(
                         radius: 20,
+                        backgroundColor: Colors.transparent,
                         child: Image.asset(
                           "assets/images/cabsicon/sedan.png",
                         ),
-                        backgroundColor: Colors.transparent,
                       ),
                       trailing: const Text("Rs. 185.52/-"),
                       subtitle: const Column(
@@ -559,10 +559,10 @@ class _OlaScreenState extends State<OlaScreen> {
                       title: const Text("Prime Sedan"),
                       leading: CircleAvatar(
                         radius: 20,
+                        backgroundColor: Colors.transparent,
                         child: Image.asset(
                           "assets/images/cabsicon/sedan.png",
                         ),
-                        backgroundColor: Colors.transparent,
                       ),
                       trailing: const Text("Rs. 185.52/-"),
                       subtitle: const Column(
@@ -602,7 +602,7 @@ class _OlaScreenState extends State<OlaScreen> {
                 Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => RapidoScreen(),
+                      builder: (context) => const RapidoScreen(),
                     ));
               },
               onTapMeru: () {},

@@ -72,7 +72,7 @@ class _LocationPointsState extends State<LocationPoints> {
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(50),
                           border: Border.all(color: Colors.grey, width: 1)),
-                      child: Text(widget.startLocation,style: TextStyle(
+                      child: Text(widget.startLocation,style: const TextStyle(
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
@@ -98,7 +98,7 @@ class _LocationPointsState extends State<LocationPoints> {
                           border: Border.all(color: Colors.grey, width: 1)),
                       child: Text(
                         widget.endLocation,
-                        style: TextStyle(overflow: TextOverflow.ellipsis),
+                        style: const TextStyle(overflow: TextOverflow.ellipsis),
                       ),
                     ),
                   ),

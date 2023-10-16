@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "313226788999",
+    "project_id": "cabskaro-2fc88",
+    "storage_bucket": "cabskaro-2fc88.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:313226788999:android:74b1fe08f7a0549453f822",
+        "android_client_info": {
+          "package_name": "com.example.cabskaro"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC9hj-AeVscH1FVftdXYH74rPSdXGaeMOE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
