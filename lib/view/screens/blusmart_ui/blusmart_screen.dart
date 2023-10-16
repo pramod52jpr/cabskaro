@@ -1,11 +1,15 @@
 import 'dart:async';
 
 import 'package:cabskaro/controller/services/services.dart';
+import 'package:cabskaro/view/screens/blabla_ui/blabla_screen.dart';
 import 'package:cabskaro/view/screens/homepage/components/bottom_navigator.dart';
+import 'package:cabskaro/view/screens/indrive_ui/indrive_screen.dart';
+import 'package:cabskaro/view/screens/meru_ui/meru_screen.dart';
 import 'package:cabskaro/view/screens/meru_ui/meru_search_end_location.dart';
 import 'package:cabskaro/view/screens/meru_ui/meru_search_start_location.dart';
 import 'package:cabskaro/view/screens/ola_ui/ola_screen.dart';
 import 'package:cabskaro/view/screens/rapido_ui/rapido_screen.dart';
+import 'package:cabskaro/view/screens/uber_ui/uber_screen.dart';
 import 'package:cabskaro/view/widgets/cab_companies.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
@@ -361,7 +365,7 @@ class _BlusmartScreenState extends State<BlusmartScreen> {
                           ),
                           const FaIcon(
                             FontAwesomeIcons.locationDot,
-                            color: Colors.orange,
+                            color: Colors.red,
                             size: 15,
                           )
                         ],
@@ -385,6 +389,7 @@ class _BlusmartScreenState extends State<BlusmartScreen> {
                             child: Hero(
                               tag: "startRapido",
                               child: Material(
+                                color: Colors.transparent,
                                 child: Container(
                                   width: mediaQuery.size.width * 0.7,
                                   height: 30,
@@ -420,6 +425,7 @@ class _BlusmartScreenState extends State<BlusmartScreen> {
                             child: Hero(
                               tag: "endRapido",
                               child: Material(
+                                color: Colors.transparent,
                                 child: Container(
                                   width: mediaQuery.size.width * 0.7,
                                   height: 30,
@@ -636,7 +642,12 @@ class _BlusmartScreenState extends State<BlusmartScreen> {
               ),
             ),
             CabCompanies(
-              onTapUber: () {},
+              onTapUber: () {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const UberScreen(),
+                    ));},
               onTapOla: () {
                 Navigator.pushReplacement(
                     context,
@@ -645,22 +656,35 @@ class _BlusmartScreenState extends State<BlusmartScreen> {
                     ));
               },
               onTapRapido: () {
-                Navigator.push(
+                Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
                       builder: (context) => const RapidoScreen(),
-                    ));
-              },
+                    ));},
               onTapMeru: () {
                 Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
+                      builder: (context) => const MeruScreen(),
+                    ));},
+              onTapBlueSmart: () {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
                       builder: (context) => const BlusmartScreen(),
-                    ));
-              },
-              onTapBlueSmart: () {},
-              onTapIndrive: () {},
-              onTapBlaBla: () {},
+                    ));},
+              onTapIndrive: () {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const IndriveScreen(),
+                    ));},
+              onTapBlaBla: () {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const BlaBlaScreen(),
+                    ));},
             ),
             const BottomNavigator()
           ],

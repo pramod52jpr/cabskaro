@@ -1,12 +1,12 @@
 import 'dart:async';
 
 import 'package:cabskaro/controller/services/services.dart';
-import 'package:cabskaro/view/screens/blabla_ui/blabla_screen.dart';
+import 'package:cabskaro/view/screens/blabla_ui/blabla_search_end_location.dart';
+import 'package:cabskaro/view/screens/blabla_ui/blabla_search_start_location.dart';
 import 'package:cabskaro/view/screens/blusmart_ui/blusmart_screen.dart';
 import 'package:cabskaro/view/screens/homepage/components/bottom_navigator.dart';
 import 'package:cabskaro/view/screens/indrive_ui/indrive_screen.dart';
-import 'package:cabskaro/view/screens/meru_ui/meru_search_end_location.dart';
-import 'package:cabskaro/view/screens/meru_ui/meru_search_start_location.dart';
+import 'package:cabskaro/view/screens/meru_ui/meru_screen.dart';
 import 'package:cabskaro/view/screens/ola_ui/ola_screen.dart';
 import 'package:cabskaro/view/screens/rapido_ui/rapido_screen.dart';
 import 'package:cabskaro/view/screens/uber_ui/uber_screen.dart';
@@ -18,20 +18,20 @@ import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class MeruScreen extends StatefulWidget {
+class BlaBlaScreen extends StatefulWidget {
   final String locType;
   final String location;
-  const MeruScreen({
+  const BlaBlaScreen({
     super.key,
     this.locType = "",
     this.location = "current",
   });
 
   @override
-  State<MeruScreen> createState() => _MeruScreenState();
+  State<BlaBlaScreen> createState() => _BlaBlaScreenState();
 }
 
-class _MeruScreenState extends State<MeruScreen> {
+class _BlaBlaScreenState extends State<BlaBlaScreen> {
   final Completer<GoogleMapController> _completer = Completer();
   static const String STARTLOC = "start";
   static const String STARTLAT = "startLat";
@@ -327,27 +327,45 @@ class _MeruScreenState extends State<MeruScreen> {
                   _completer.complete(controller);
                 },
               ),
-              Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(20),
-                        bottomRight: Radius.circular(20)),
-                    boxShadow: [
-                      BoxShadow(
-                          blurRadius: 5,
-                          color: Colors.grey,
-                          spreadRadius: 2,
-                          offset: Offset(2, 2))
-                    ]),
-                height: 100,
-                child: Stack(children: [
-                  Row(
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: const [
+                        BoxShadow(
+                            blurRadius: 5,
+                            color: Colors.grey,
+                            spreadRadius: 2,
+                            offset: Offset(2, 2))
+                      ]),
+                  height: 80,
+                  child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      const Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          FaIcon(
+                            FontAwesomeIcons.locationCrosshairs,
+                            size: 20,
+                            color: Colors.green,
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          FaIcon(
+                            FontAwesomeIcons.locationDot,
+                            size: 20,
+                            color: Colors.red,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        width: 20,
+                      ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -358,48 +376,33 @@ class _MeruScreenState extends State<MeruScreen> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) =>
-                                        const MeruSearchStartLocation(),
+                                        const BlaBlaSearchStartLocation(),
                                   ));
                             },
                             child: Hero(
-                              tag: "startRapido",
+                              tag: "startBlaBla",
                               child: Material(
                                 child: Container(
                                   width: mediaQuery.size.width * 0.7,
                                   height: 30,
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      border: Border.all(
-                                          color: Colors.grey, width: 1),
-                                      borderRadius: BorderRadius.circular(5)),
+                                  color: Colors.white,
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal: 5, vertical: 5),
-                                  child: Row(
-                                    children: [
-                                      const FaIcon(
-                                        FontAwesomeIcons.circleDot,
-                                        size: 17,
-                                        color: Color.fromARGB(255, 56, 167, 60),
-                                      ),
-                                      const SizedBox(
-                                        width: 5,
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          startLocationName,
-                                          style: const TextStyle(
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
+                                      horizontal: 2, vertical: 5),
+                                  child: Text(
+                                    startLocationName,
+                                    style: const TextStyle(
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
                           ),
-                          const SizedBox(
-                            height: 10,
+                          Container(
+                            width: mediaQuery.size.width * 0.7,
+                            decoration: BoxDecoration(
+                                border:
+                                    Border.all(color: Colors.grey, width: 0.5)),
                           ),
                           InkWell(
                             onTap: () {
@@ -407,40 +410,22 @@ class _MeruScreenState extends State<MeruScreen> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) =>
-                                        const MeruSearchEndLocation(),
+                                        const BlaBlaSearchEndLocation(),
                                   ));
                             },
                             child: Hero(
-                              tag: "endRapido",
+                              tag: "endBlaBla",
                               child: Material(
                                 child: Container(
                                   width: mediaQuery.size.width * 0.7,
                                   height: 30,
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      border: Border.all(
-                                          color: Colors.grey, width: 1),
-                                      borderRadius: BorderRadius.circular(5)),
+                                  color: Colors.white,
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal: 5, vertical: 5),
-                                  child: Row(
-                                    children: [
-                                      const FaIcon(
-                                        FontAwesomeIcons.circleDot,
-                                        size: 17,
-                                        color: Colors.black,
-                                      ),
-                                      const SizedBox(
-                                        width: 5,
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          endLocationName,
-                                          style: const TextStyle(
-                                              overflow: TextOverflow.ellipsis),
-                                        ),
-                                      ),
-                                    ],
+                                      horizontal: 2, vertical: 5),
+                                  child: Text(
+                                    endLocationName,
+                                    style: const TextStyle(
+                                        overflow: TextOverflow.ellipsis),
                                   ),
                                 ),
                               ),
@@ -450,24 +435,7 @@ class _MeruScreenState extends State<MeruScreen> {
                       ),
                     ],
                   ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Container(
-                      height: 35,
-                      width: 35,
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(
-                        Icons.arrow_back_ios,
-                        size: 20,
-                      ),
-                    ),
-                  )
-                ]),
+                ),
               ),
             ])),
             ConstrainedBox(
@@ -486,132 +454,55 @@ class _MeruScreenState extends State<MeruScreen> {
                         offset: Offset(0, -5),
                       )
                     ]),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
                       Column(
                         children: [
-                          Container(
-                            padding: const EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                border:
-                                    Border.all(color: Colors.grey, width: 1)),
-                            child: ListTile(
-                              contentPadding: EdgeInsets.zero,
-                              title: const Text(
-                                "Comfy hatchbacks at pocket-friendly fares.",
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    color: Color.fromARGB(169, 0, 0, 0)),
-                              ),
-                              leading: Column(
-                                children: [
-                                  CircleAvatar(
-                                    backgroundColor: Colors.white,
-                                    child: Image.asset(
-                                        "assets/images/cabsicon/suv.png"),
-                                  ),
-                                  const Text("Lite"),
-                                ],
-                              ),
-                              trailing: const Text("Rs 185.52/-"),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    Image.asset(
+                                      "assets/images/cabsicon/motobike.png",
+                                      height: 30,
+                                    ),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    const Text("Bike"),
+                                  ],
+                                ),
+                                const Text("4 min away"),
+                                const Text("Rs. 185.52/-"),
+                              ],
                             ),
                           ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Container(
-                            padding: const EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                border:
-                                    Border.all(color: Colors.grey, width: 1)),
-                            child: ListTile(
-                              contentPadding: EdgeInsets.zero,
-                              title: const Text(
-                                "Comfy hatchbacks at pocket-friendly fares.",
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    color: Color.fromARGB(169, 0, 0, 0)),
-                              ),
-                              leading: Column(
-                                children: [
-                                  CircleAvatar(
-                                    backgroundColor: Colors.white,
-                                    child: Image.asset(
-                                        "assets/images/cabsicon/suv.png"),
-                                  ),
-                                  const Text("Lite"),
-                                ],
-                              ),
-                              trailing: const Text("Rs 185.52/-"),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    Image.asset(
+                                      "assets/images/cabsicon/auto.png",
+                                      height: 30,
+                                    ),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    const Text("Auto"),
+                                  ],
+                                ),
+                                const Text("4 min away"),
+                                const Text("Rs. 185.52/-"),
+                              ],
                             ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Container(
-                            padding: const EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                border:
-                                    Border.all(color: Colors.grey, width: 1)),
-                            child: ListTile(
-                              contentPadding: EdgeInsets.zero,
-                              title: const Text(
-                                "Comfy hatchbacks at pocket-friendly fares.",
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    color: Color.fromARGB(169, 0, 0, 0)),
-                              ),
-                              leading: Column(
-                                children: [
-                                  CircleAvatar(
-                                    backgroundColor: Colors.white,
-                                    child: Image.asset(
-                                        "assets/images/cabsicon/suv.png"),
-                                  ),
-                                  const Text("Lite"),
-                                ],
-                              ),
-                              trailing: const Text("Rs 185.52/-"),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Container(
-                            padding: const EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                border:
-                                    Border.all(color: Colors.grey, width: 1)),
-                            child: ListTile(
-                              contentPadding: EdgeInsets.zero,
-                              title: const Text(
-                                "Comfy hatchbacks at pocket-friendly fares.",
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    color: Color.fromARGB(169, 0, 0, 0)),
-                              ),
-                              leading: Column(
-                                children: [
-                                  CircleAvatar(
-                                    backgroundColor: Colors.white,
-                                    child: Image.asset(
-                                        "assets/images/cabsicon/suv.png"),
-                                  ),
-                                  const Text("Lite"),
-                                ],
-                              ),
-                              trailing: const Text("Rs 185.52/-"),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 10,
                           ),
                         ],
                       )
@@ -643,10 +534,10 @@ class _MeruScreenState extends State<MeruScreen> {
                 margin: const EdgeInsets.symmetric(horizontal: 25),
                 padding: const EdgeInsets.all(15),
                 decoration: BoxDecoration(
-                    color: const Color.fromRGBO(248, 182, 77, 1),
+                    color: Color.fromARGB(255, 0, 191, 255),
                     borderRadius: BorderRadius.circular(10)),
                 child: const Text(
-                  "Book Meru",
+                  "Book Bla Bla",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.black,
@@ -662,8 +553,7 @@ class _MeruScreenState extends State<MeruScreen> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => const UberScreen(),
-                    ));
-              },
+                    ));},
               onTapOla: () {
                 Navigator.pushReplacement(
                     context,
@@ -676,36 +566,31 @@ class _MeruScreenState extends State<MeruScreen> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => const RapidoScreen(),
-                    ));
-              },
+                    ));},
               onTapMeru: () {
                 Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
                       builder: (context) => const MeruScreen(),
-                    ));
-              },
+                    ));},
               onTapBlueSmart: () {
                 Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
                       builder: (context) => const BlusmartScreen(),
-                    ));
-              },
+                    ));},
               onTapIndrive: () {
                 Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
                       builder: (context) => const IndriveScreen(),
-                    ));
-              },
+                    ));},
               onTapBlaBla: () {
                 Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
                       builder: (context) => const BlaBlaScreen(),
-                    ));
-              },
+                    ));},
             ),
             const BottomNavigator()
           ],

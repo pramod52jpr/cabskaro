@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:cabskaro/view/screens/blabla_ui/blabla_screen.dart';
 import 'package:cabskaro/view/screens/blusmart_ui/blusmart_screen.dart';
 import 'package:cabskaro/view/screens/homepage/components/bottom_navigator.dart';
+import 'package:cabskaro/view/screens/indrive_ui/indrive_screen.dart';
 import 'package:cabskaro/view/screens/meru_ui/meru_screen.dart';
 import 'package:cabskaro/view/screens/rapido_ui/rapido_screen.dart';
 import 'package:cabskaro/view/widgets/cab_companies.dart';
@@ -332,6 +334,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       body: SafeArea(
         child: Column(
           children: [
+            SizedBox(height: 5),
             Row(
               children: [
                 Column(
@@ -548,8 +551,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           MaterialPageRoute(
                             builder: (context) => const BlusmartScreen(),
                           ));},
-                    onTapIndrive: () {},
-                    onTapBlaBla: () {},
+                    onTapIndrive: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const IndriveScreen(),
+                          ));},
+                    onTapBlaBla: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const BlaBlaScreen(),
+                          ));},
                   ),
                   const SizedBox(
                     height: 10,

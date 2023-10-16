@@ -3,34 +3,34 @@ import 'dart:async';
 import 'package:cabskaro/view/screens/blabla_ui/blabla_screen.dart';
 import 'package:cabskaro/view/screens/blusmart_ui/blusmart_screen.dart';
 import 'package:cabskaro/view/screens/homepage/components/bottom_navigator.dart';
-import 'package:cabskaro/view/screens/indrive_ui/indrive_screen.dart';
+import 'package:cabskaro/view/screens/indrive_ui/indrive_search_end_location.dart';
+import 'package:cabskaro/view/screens/indrive_ui/indrive_search_start_location.dart';
 import 'package:cabskaro/view/screens/meru_ui/meru_screen.dart';
+import 'package:cabskaro/view/screens/ola_ui/ola_screen.dart';
 import 'package:cabskaro/view/screens/rapido_ui/rapido_screen.dart';
 import 'package:cabskaro/view/screens/uber_ui/uber_screen.dart';
 import 'package:cabskaro/view/widgets/cab_companies.dart';
 import 'package:cabskaro/controller/services/services.dart';
-import 'package:cabskaro/view/screens/ola_ui/ola_search_end_location.dart';
-import 'package:cabskaro/view/screens/ola_ui/ola_search_start_location.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class OlaScreen extends StatefulWidget {
+class IndriveScreen extends StatefulWidget {
   final String locType;
   final String location;
-  const OlaScreen({
+  const IndriveScreen({
     super.key,
     this.locType = "",
     this.location = "current",
   });
 
   @override
-  State<OlaScreen> createState() => _OlaScreenState();
+  State<IndriveScreen> createState() => _IndriveScreenState();
 }
 
-class _OlaScreenState extends State<OlaScreen> {
+class _IndriveScreenState extends State<IndriveScreen> {
   final Completer<GoogleMapController> _completer = Completer();
   static const String STARTLOC = "start";
   static const String STARTLAT = "startLat";
@@ -387,11 +387,11 @@ class _OlaScreenState extends State<OlaScreen> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) =>
-                                    const OlaSearchStartLocation(),
+                                    const IndriveSearchStartLocation(),
                               ));
                         },
                         child: Hero(
-                          tag: "startOla",
+                          tag: "startIndrive",
                           child: Material(
                             child: Container(
                               width: mediaQuery.size.width * 0.8,
@@ -419,11 +419,11 @@ class _OlaScreenState extends State<OlaScreen> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) =>
-                                    const OlaSearchEndLocation(),
+                                    const IndriveSearchEndLocation(),
                               ));
                         },
                         child: Hero(
-                          tag: "endOla",
+                          tag: "endIndrive",
                           child: Material(
                             child: Container(
                               width: mediaQuery.size.width * 0.8,
@@ -590,12 +590,12 @@ class _OlaScreenState extends State<OlaScreen> {
               margin: const EdgeInsets.symmetric(horizontal: 25),
               padding: const EdgeInsets.all(15),
               decoration: BoxDecoration(
-                  color: Colors.black, borderRadius: BorderRadius.circular(10)),
+                  color: Color.fromARGB(255, 135, 213, 0), borderRadius: BorderRadius.circular(10)),
               child: const Text(
-                "Book OLA",
+                "Book Indrive",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    color: Colors.white,
+                    color: Colors.black,
                     fontWeight: FontWeight.bold,
                     fontSize: 15),
               ),
