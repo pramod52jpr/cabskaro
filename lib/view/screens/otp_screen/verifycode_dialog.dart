@@ -1,15 +1,25 @@
+import 'package:cabskaro/controller/services/services.dart';
+import 'package:cabskaro/view/screens/homepage/components/round_button.dart';
 import 'package:cabskaro/view/screens/homepage/dashboard_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class VerifyCode extends StatefulWidget {
-  const VerifyCode({super.key});
+  final String phoneNumber;
+  final String verificationCode;
+  const VerifyCode({
+    super.key,
+    required this.phoneNumber,
+    required this.verificationCode,
+  });
 
   @override
   State<VerifyCode> createState() => _VerifyCodeState();
 }
 
 class _VerifyCodeState extends State<VerifyCode> {
+  final _auth = FirebaseAuth.instance;
   List verifyCodeController = <TextEditingController>[
     TextEditingController(),
     TextEditingController(),
@@ -19,6 +29,7 @@ class _VerifyCodeState extends State<VerifyCode> {
     TextEditingController(),
   ];
   var code;
+  bool loading = false;
 
   void generateCode() {
     List verifyCode = [];
@@ -209,9 +220,9 @@ class _VerifyCodeState extends State<VerifyCode> {
         const SizedBox(
           height: 10,
         ),
-        const Text(
-          "+91 9899999999",
-          style: TextStyle(
+        Text(
+          widget.phoneNumber,
+          style: const TextStyle(
             fontWeight: FontWeight.normal,
             fontSize: 13,
             color: Colors.black,
@@ -246,6 +257,10 @@ class _VerifyCodeState extends State<VerifyCode> {
                     },
                     decoration: const InputDecoration(
                         contentPadding: EdgeInsets.symmetric(horizontal: 0),
+                        focusedBorder: OutlineInputBorder(borderSide: BorderSide(
+                          color: Colors.grey,
+                          width: 1,
+                        )),
                         border: OutlineInputBorder(
                             borderSide: BorderSide(
                           color: Colors.grey,
@@ -274,7 +289,11 @@ class _VerifyCodeState extends State<VerifyCode> {
                       generateCode();
                     },
                     decoration: const InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(horizontal: 0),
+                        contentPadding: EdgeInsets.symmetric(horizontal: 0),focusedBorder: OutlineInputBorder(borderSide: BorderSide(
+                          color: Colors.grey,
+                          width: 1,
+                        )),
+                        
                         border: OutlineInputBorder(
                             borderSide: BorderSide(
                           color: Colors.grey,
@@ -304,6 +323,11 @@ class _VerifyCodeState extends State<VerifyCode> {
                     },
                     decoration: const InputDecoration(
                         contentPadding: EdgeInsets.symmetric(horizontal: 0),
+                        
+                        focusedBorder: OutlineInputBorder(borderSide: BorderSide(
+                          color: Colors.grey,
+                          width: 1,
+                        )),
                         border: OutlineInputBorder(
                             borderSide: BorderSide(
                           color: Colors.grey,
@@ -333,6 +357,11 @@ class _VerifyCodeState extends State<VerifyCode> {
                     },
                     decoration: const InputDecoration(
                         contentPadding: EdgeInsets.symmetric(horizontal: 0),
+                        
+                        focusedBorder: OutlineInputBorder(borderSide: BorderSide(
+                          color: Colors.grey,
+                          width: 1,
+                        )),
                         border: OutlineInputBorder(
                             borderSide: BorderSide(
                           color: Colors.grey,
@@ -362,6 +391,11 @@ class _VerifyCodeState extends State<VerifyCode> {
                     },
                     decoration: const InputDecoration(
                         contentPadding: EdgeInsets.symmetric(horizontal: 0),
+                        
+                        focusedBorder: OutlineInputBorder(borderSide: BorderSide(
+                          color: Colors.grey,
+                          width: 1,
+                        )),
                         border: OutlineInputBorder(
                             borderSide: BorderSide(
                           color: Colors.grey,
@@ -388,6 +422,10 @@ class _VerifyCodeState extends State<VerifyCode> {
                   },
                   decoration: const InputDecoration(
                       contentPadding: EdgeInsets.symmetric(horizontal: 0),
+                        focusedBorder: OutlineInputBorder(borderSide: BorderSide(
+                          color: Colors.grey,
+                          width: 1,
+                        )),
                       border: OutlineInputBorder(
                           borderSide: BorderSide(
                         color: Colors.grey,
@@ -411,33 +449,69 @@ class _VerifyCodeState extends State<VerifyCode> {
               ),
             ),
             TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  _auth.verifyPhoneNumber(
+                    phoneNumber: widget.phoneNumber,
+                    verificationCompleted: (phoneAuthCredential) {},
+                    verificationFailed: (error) {
+                      Services()
+                          .toastmsg(error.toString().split("]")[1], false);
+                    },
+                    codeSent: (verificationId, forceResendingToken) {
+                      showGeneralDialog(
+                        context: context,
+                        pageBuilder: (context, animation, secondaryAnimation) {
+                          return VerifyCode(
+                              phoneNumber: widget.phoneNumber,
+                              verificationCode: verificationId);
+                        },
+                      );
+                    },
+                    codeAutoRetrievalTimeout: (verificationId) {
+                      Services().toastmsg(verificationId.split("]")[1], false);
+                    },
+                  );
+                },
                 child: const Text(
                   "Resend Otp Again",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))
           ],
         ),
-        ElevatedButton(
-          style: ButtonStyle(
-              shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30))),
-              padding: MaterialStateProperty.all(
-                  const EdgeInsets.symmetric(horizontal: 20, vertical: 10)),
-              backgroundColor: MaterialStateColor.resolveWith(
-                  (states) => const Color.fromRGBO(227, 132, 42, 0.8))),
-          onPressed: () {
-            Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const DashboardScreen(),
-                ),
-                (route) => false);
+        RoundButton(
+          title: "SUBMIT",
+          loading: loading,
+          onPressed: () async {
+            setState(() {
+              loading = true;
+            });
+            if (code.toString().length == 6) {
+              final credential = PhoneAuthProvider.credential(
+                  verificationId: widget.verificationCode, smsCode: code);
+              try {
+                await _auth.signInWithCredential(credential);
+                setState(() {
+                  loading = false;
+                });
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const DashboardScreen(),
+                    ),
+                    (route) => false);
+              } catch (e) {
+                setState(() {
+                  loading = false;
+                });
+                Services().toastmsg(e.toString().split("]")[1], false);
+              }
+            } else {
+              setState(() {
+                loading = false;
+              });
+              Services().toastmsg("Enter The Code", false);
+            }
           },
-          child: const Text(
-            "SUBMIT",
-            style: TextStyle(fontSize: 20, color: Colors.black),
-          ),
         ),
         const SizedBox(
           height: 10,

@@ -28,7 +28,7 @@ class BlusmartScreen extends StatefulWidget {
 }
 
 class _BlusmartScreenState extends State<BlusmartScreen> {
-  Completer<GoogleMapController> _completer = Completer();
+  final Completer<GoogleMapController> _completer = Completer();
   static const String STARTLOC = "start";
   static const String STARTLAT = "startLat";
   static const String STARTLON = "startLon";
@@ -323,8 +323,8 @@ class _BlusmartScreenState extends State<BlusmartScreen> {
                 },
               ),
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                decoration: BoxDecoration(
+                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                decoration: const BoxDecoration(
                   color: Colors.transparent,
                   borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(20),
@@ -336,10 +336,17 @@ class _BlusmartScreenState extends State<BlusmartScreen> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SizedBox(width: 30,),
-                      Column(mainAxisAlignment: MainAxisAlignment.center,
+                      const SizedBox(
+                        width: 30,
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          FaIcon(FontAwesomeIcons.circleDot,color: const Color.fromARGB(255, 48, 146, 52),size: 15,),
+                          const FaIcon(
+                            FontAwesomeIcons.circleDot,
+                            color: Color.fromARGB(255, 48, 146, 52),
+                            size: 15,
+                          ),
                           const SizedBox(
                             height: 2,
                           ),
@@ -352,10 +359,16 @@ class _BlusmartScreenState extends State<BlusmartScreen> {
                           const SizedBox(
                             height: 2,
                           ),
-                          FaIcon(FontAwesomeIcons.locationDot,color: Colors.orange,size: 15,)
+                          const FaIcon(
+                            FontAwesomeIcons.locationDot,
+                            color: Colors.orange,
+                            size: 15,
+                          )
                         ],
                       ),
-                      SizedBox(width: 5,),
+                      const SizedBox(
+                        width: 5,
+                      ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -366,7 +379,7 @@ class _BlusmartScreenState extends State<BlusmartScreen> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) =>
-                                        MeruSearchStartLocation(),
+                                        const MeruSearchStartLocation(),
                                   ));
                             },
                             child: Hero(
@@ -384,14 +397,15 @@ class _BlusmartScreenState extends State<BlusmartScreen> {
                                       horizontal: 5, vertical: 5),
                                   child: Text(
                                     startLocationName,
-                                    style: TextStyle(
-                                        overflow: TextOverflow.ellipsis),
+                                    style: const TextStyle(
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           InkWell(
@@ -400,7 +414,7 @@ class _BlusmartScreenState extends State<BlusmartScreen> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) =>
-                                        MeruSearchEndLocation(),
+                                        const MeruSearchEndLocation(),
                                   ));
                             },
                             child: Hero(
@@ -418,7 +432,7 @@ class _BlusmartScreenState extends State<BlusmartScreen> {
                                       horizontal: 5, vertical: 5),
                                   child: Text(
                                     endLocationName,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         overflow: TextOverflow.ellipsis),
                                   ),
                                 ),
@@ -449,24 +463,24 @@ class _BlusmartScreenState extends State<BlusmartScreen> {
               ),
             ])),
             ConstrainedBox(
-              constraints: BoxConstraints(maxHeight: 230),
+              constraints: const BoxConstraints(maxHeight: 230),
               child: Container(
                 color: Colors.white,
-                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
                       Column(
                         children: [
                           Container(
-                            padding: EdgeInsets.all(10),
+                            padding: const EdgeInsets.all(10),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
                                 border:
                                     Border.all(color: Colors.grey, width: 1)),
                             child: ListTile(
                               contentPadding: EdgeInsets.zero,
-                              title: Text(
+                              title: const Text(
                                 "Comfy hatchbacks at pocket-friendly fares.",
                                 style: TextStyle(
                                     fontSize: 14,
@@ -479,24 +493,24 @@ class _BlusmartScreenState extends State<BlusmartScreen> {
                                     child: Image.asset(
                                         "assets/images/cabsicon/suv.png"),
                                   ),
-                                  Text("Lite"),
+                                  const Text("Lite"),
                                 ],
                               ),
-                              trailing: Text("Rs 185.52/-"),
+                              trailing: const Text("Rs 185.52/-"),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Container(
-                            padding: EdgeInsets.all(10),
+                            padding: const EdgeInsets.all(10),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
                                 border:
                                     Border.all(color: Colors.grey, width: 1)),
                             child: ListTile(
                               contentPadding: EdgeInsets.zero,
-                              title: Text(
+                              title: const Text(
                                 "Comfy hatchbacks at pocket-friendly fares.",
                                 style: TextStyle(
                                     fontSize: 14,
@@ -509,24 +523,24 @@ class _BlusmartScreenState extends State<BlusmartScreen> {
                                     child: Image.asset(
                                         "assets/images/cabsicon/suv.png"),
                                   ),
-                                  Text("Lite"),
+                                  const Text("Lite"),
                                 ],
                               ),
-                              trailing: Text("Rs 185.52/-"),
+                              trailing: const Text("Rs 185.52/-"),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Container(
-                            padding: EdgeInsets.all(10),
+                            padding: const EdgeInsets.all(10),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
                                 border:
                                     Border.all(color: Colors.grey, width: 1)),
                             child: ListTile(
                               contentPadding: EdgeInsets.zero,
-                              title: Text(
+                              title: const Text(
                                 "Comfy hatchbacks at pocket-friendly fares.",
                                 style: TextStyle(
                                     fontSize: 14,
@@ -539,24 +553,24 @@ class _BlusmartScreenState extends State<BlusmartScreen> {
                                     child: Image.asset(
                                         "assets/images/cabsicon/suv.png"),
                                   ),
-                                  Text("Lite"),
+                                  const Text("Lite"),
                                 ],
                               ),
-                              trailing: Text("Rs 185.52/-"),
+                              trailing: const Text("Rs 185.52/-"),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Container(
-                            padding: EdgeInsets.all(10),
+                            padding: const EdgeInsets.all(10),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
                                 border:
                                     Border.all(color: Colors.grey, width: 1)),
                             child: ListTile(
                               contentPadding: EdgeInsets.zero,
-                              title: Text(
+                              title: const Text(
                                 "Comfy hatchbacks at pocket-friendly fares.",
                                 style: TextStyle(
                                     fontSize: 14,
@@ -569,13 +583,13 @@ class _BlusmartScreenState extends State<BlusmartScreen> {
                                     child: Image.asset(
                                         "assets/images/cabsicon/suv.png"),
                                   ),
-                                  Text("Lite"),
+                                  const Text("Lite"),
                                 ],
                               ),
-                              trailing: Text("Rs 185.52/-"),
+                              trailing: const Text("Rs 185.52/-"),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                         ],
@@ -594,23 +608,23 @@ class _BlusmartScreenState extends State<BlusmartScreen> {
                   enableDrag: false,
                   isScrollControlled: false,
                   useRootNavigator: false,
-                  constraints: BoxConstraints(
+                  constraints: const BoxConstraints(
                       maxHeight: 3000,
                       minHeight: 200,
                       minWidth: double.infinity),
                   builder: (context) {
-                    return Text("data");
+                    return const Text("data");
                   },
                 );
               },
               child: Container(
                 width: double.infinity,
-                margin: EdgeInsets.symmetric(horizontal: 25),
-                padding: EdgeInsets.all(15),
+                margin: const EdgeInsets.symmetric(horizontal: 25),
+                padding: const EdgeInsets.all(15),
                 decoration: BoxDecoration(
-                    color: Color.fromRGBO(10, 163, 227, 0.7),
+                    color: const Color.fromRGBO(10, 163, 227, 0.7),
                     borderRadius: BorderRadius.circular(10)),
-                child: Text(
+                child: const Text(
                   "Book Blu Smart",
                   textAlign: TextAlign.center,
                   style: TextStyle(
@@ -627,28 +641,28 @@ class _BlusmartScreenState extends State<BlusmartScreen> {
                 Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => OlaScreen(),
+                      builder: (context) => const OlaScreen(),
                     ));
               },
               onTapRapido: () {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => RapidoScreen(),
+                      builder: (context) => const RapidoScreen(),
                     ));
               },
               onTapMeru: () {
                 Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => BlusmartScreen(),
+                      builder: (context) => const BlusmartScreen(),
                     ));
               },
               onTapBlueSmart: () {},
               onTapIndrive: () {},
               onTapBlaBla: () {},
             ),
-            BottomNavigator()
+            const BottomNavigator()
           ],
         ),
       ),

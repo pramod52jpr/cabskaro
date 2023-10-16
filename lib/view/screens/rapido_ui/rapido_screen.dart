@@ -27,7 +27,7 @@ class RapidoScreen extends StatefulWidget {
 }
 
 class _RapidoScreenState extends State<RapidoScreen> {
-  Completer<GoogleMapController> _completer = Completer();
+  final Completer<GoogleMapController> _completer = Completer();
   static const String STARTLOC = "start";
   static const String STARTLAT = "startLat";
   static const String STARTLON = "startLon";
@@ -325,11 +325,11 @@ class _RapidoScreenState extends State<RapidoScreen> {
               Padding(
                 padding: const EdgeInsets.all(10),
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 15),
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
                   decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
+                      boxShadow: const [
                         BoxShadow(
                             blurRadius: 5,
                             color: Colors.grey,
@@ -340,7 +340,7 @@ class _RapidoScreenState extends State<RapidoScreen> {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Column(
+                      const Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           FaIcon(
@@ -358,7 +358,7 @@ class _RapidoScreenState extends State<RapidoScreen> {
                           ),
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 20,
                       ),
                       Column(
@@ -371,7 +371,7 @@ class _RapidoScreenState extends State<RapidoScreen> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) =>
-                                        RapidoSearchStartLocation(),
+                                        const RapidoSearchStartLocation(),
                                   ));
                             },
                             child: Hero(
@@ -385,7 +385,7 @@ class _RapidoScreenState extends State<RapidoScreen> {
                                       horizontal: 2, vertical: 5),
                                   child: Text(
                                     startLocationName,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
@@ -405,7 +405,7 @@ class _RapidoScreenState extends State<RapidoScreen> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) =>
-                                        RapidoSearchEndLocation(),
+                                        const RapidoSearchEndLocation(),
                                   ));
                             },
                             child: Hero(
@@ -419,7 +419,7 @@ class _RapidoScreenState extends State<RapidoScreen> {
                                       horizontal: 2, vertical: 5),
                                   child: Text(
                                     endLocationName,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         overflow: TextOverflow.ellipsis),
                                   ),
                                 ),
@@ -434,9 +434,9 @@ class _RapidoScreenState extends State<RapidoScreen> {
               ),
             ])),
             ConstrainedBox(
-              constraints: BoxConstraints(maxHeight: 230),
+              constraints: const BoxConstraints(maxHeight: 230),
               child: Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(20),
                         topRight: Radius.circular(20)),
@@ -449,7 +449,7 @@ class _RapidoScreenState extends State<RapidoScreen> {
                         offset: Offset(0, -5),
                       )
                     ]),
-                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
@@ -466,14 +466,14 @@ class _RapidoScreenState extends State<RapidoScreen> {
                                       "assets/images/cabsicon/motobike.png",
                                       height: 30,
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 10,
                                     ),
-                                    Text("Bike"),
+                                    const Text("Bike"),
                                   ],
                                 ),
-                                Text("4 min away"),
-                                Text("Rs. 185.52/-"),
+                                const Text("4 min away"),
+                                const Text("Rs. 185.52/-"),
                               ],
                             ),
                           ),
@@ -488,14 +488,14 @@ class _RapidoScreenState extends State<RapidoScreen> {
                                       "assets/images/cabsicon/auto.png",
                                       height: 30,
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 10,
                                     ),
-                                    Text("Auto"),
+                                    const Text("Auto"),
                                   ],
                                 ),
-                                Text("4 min away"),
-                                Text("Rs. 185.52/-"),
+                                const Text("4 min away"),
+                                const Text("Rs. 185.52/-"),
                               ],
                             ),
                           ),
@@ -515,23 +515,23 @@ class _RapidoScreenState extends State<RapidoScreen> {
                   enableDrag: false,
                   isScrollControlled: false,
                   useRootNavigator: false,
-                  constraints: BoxConstraints(
+                  constraints: const BoxConstraints(
                       maxHeight: 3000,
                       minHeight: 200,
                       minWidth: double.infinity),
                   builder: (context) {
-                    return Text("data");
+                    return const Text("data");
                   },
                 );
               },
               child: Container(
                 width: double.infinity,
-                margin: EdgeInsets.symmetric(horizontal: 25),
-                padding: EdgeInsets.all(15),
+                margin: const EdgeInsets.symmetric(horizontal: 25),
+                padding: const EdgeInsets.all(15),
                 decoration: BoxDecoration(
-                    color: Color.fromRGBO(237, 205, 20, 1),
+                    color: const Color.fromRGBO(237, 205, 20, 1),
                     borderRadius: BorderRadius.circular(10)),
-                child: Text(
+                child: const Text(
                   "Book Rapido",
                   textAlign: TextAlign.center,
                   style: TextStyle(
@@ -548,7 +548,7 @@ class _RapidoScreenState extends State<RapidoScreen> {
                 Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => OlaScreen(),
+                      builder: (context) => const OlaScreen(),
                     ));
               },
               onTapRapido: () {},
@@ -557,7 +557,7 @@ class _RapidoScreenState extends State<RapidoScreen> {
               onTapIndrive: () {},
               onTapBlaBla: () {},
             ),
-            BottomNavigator()
+            const BottomNavigator()
           ],
         ),
       ),

@@ -14,7 +14,7 @@ class BlusmartSearchStartLocation extends StatefulWidget {
 }
 
 class _BlusmartSearchStartLocationState extends State<BlusmartSearchStartLocation> {
-  TextEditingController _searchController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
   var uuid = const Uuid();
   String _sessionToken = "";
   List<dynamic> data = [];
@@ -31,11 +31,11 @@ class _BlusmartSearchStartLocationState extends State<BlusmartSearchStartLocatio
     setState(() {
       _sessionToken = uuid.v4();
     });
-    String google_api_key = "AIzaSyA0r0oRC03tITR0FNYVfKT-SlXEvf_FDp0";
+    String googleApiKey = "AIzaSyA0r0oRC03tITR0FNYVfKT-SlXEvf_FDp0";
     String baseUrl =
         "https://maps.googleapis.com/maps/api/place/autocomplete/json";
     String request =
-        "$baseUrl?input=$input&key=$google_api_key&sessiontoken=$_sessionToken";
+        "$baseUrl?input=$input&key=$googleApiKey&sessiontoken=$_sessionToken";
     http.Response response;
     response = await http.get(Uri.parse(request));
     if (response.statusCode == 200) {
@@ -93,7 +93,7 @@ class _BlusmartSearchStartLocationState extends State<BlusmartSearchStartLocatio
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => BlusmartScreen(
+                                  builder: (context) => const BlusmartScreen(
                                     location: "current",
                                     locType: "start",
                                   ),

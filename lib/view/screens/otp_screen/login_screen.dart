@@ -1,7 +1,13 @@
 import 'dart:async';
 
+import 'package:cabskaro/controller/services/services.dart';
+import 'package:cabskaro/view/screens/homepage/components/round_button.dart';
+import 'package:cabskaro/view/screens/homepage/dashboard_screen.dart';
 import 'package:cabskaro/view/screens/otp_screen/verifycode_dialog.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -11,8 +17,11 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController _phoneEmailController = TextEditingController();
+  var _formKey = GlobalKey<FormState>();
+  final _auth = FirebaseAuth.instance;
+  final TextEditingController _phoneController = TextEditingController();
   var opacity = 0.0;
+  bool loading = false;
 
   @override
   void initState() {
@@ -212,7 +221,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       height: 20,
                     ),
                     const Text(
-                      "Enter Your Email / Mobile",
+                      "Enter Your Mobile No",
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
                         fontSize: 18,
@@ -222,53 +231,134 @@ class _LoginScreenState extends State<LoginScreen> {
                       height: 10,
                     ),
                     Container(
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.grey, width: 1),
-                          borderRadius: BorderRadius.circular(5)),
                       margin: const EdgeInsets.symmetric(horizontal: 30),
-                      child: TextField(
-                        controller: _phoneEmailController,
-                        decoration: const InputDecoration(
-                            hintText: "Please Enter Email / Phone",
-                            border: InputBorder.none,
-                            contentPadding:
-                                EdgeInsets.symmetric(horizontal: 10)),
+                      child: Form(
+                        key: _formKey,
+                        child: TextFormField(
+                          controller: _phoneController,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return "Please Enter Any Number";
+                            }
+                            if (value.length != 10 ||
+                                int.tryParse(value) == null) {
+                              return "Enter Valid Mobile Number";
+                            }
+                            return null;
+                          },
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(10),
+                          ],
+                          keyboardType: TextInputType.phone,
+                          decoration: const InputDecoration(
+                              hintText: "Please Enter Mobile Number",
+                              border: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(5)),
+                                  borderSide:
+                                      BorderSide(color: Colors.grey, width: 1)),
+                              contentPadding:
+                                  EdgeInsets.symmetric(horizontal: 10)),
+                        ),
                       ),
                     ),
                     const SizedBox(
                       height: 10,
                     ),
-                    ElevatedButton(
-                      style: ButtonStyle(
-                          shape: MaterialStateProperty.all(
-                              RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30))),
-                          padding: MaterialStateProperty.all(
-                              const EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 10)),
-                          backgroundColor: MaterialStateColor.resolveWith(
-                              (states) => const Color.fromRGBO(227, 132, 42, 0.8))),
+                    RoundButton(
+                      title: "GET OTP",
+                      loading: loading,
                       onPressed: () {
-                        // try{
-                        //   int phoneNo=int.parse(_phoneEmailController.text.toLowerCase());
-                        //   print(phoneNo.runtimeType);
-                        // }catch(e){
-                        //   String emailId=_phoneEmailController.text.toLowerCase();
-                        //   print(emailId.runtimeType);
-                        // }
-                        showGeneralDialog(
-                          context: context,
-                          pageBuilder:
-                              (context, animation, secondaryAnimation) {
-                            return const VerifyCode();
-                          },
-                        );
+                        if (_formKey.currentState!.validate()) {
+                          setState(() {
+                            loading = true;
+                          });
+                          _auth.verifyPhoneNumber(
+                            phoneNumber: "+91${_phoneController.text}",
+                            verificationCompleted: (phoneAuthCredential) {
+                              setState(() {
+                                loading = false;
+                              });
+                            },
+                            verificationFailed: (error) {
+                              setState(() {
+                                loading = false;
+                              });
+                              Services().toastmsg(
+                                  error.toString().split("]")[1], false);
+                            },
+                            codeSent: (verificationId, forceResendingToken) {
+                              setState(() {
+                                loading = false;
+                              });
+                              showGeneralDialog(
+                                context: context,
+                                pageBuilder:
+                                    (context, animation, secondaryAnimation) {
+                                  return VerifyCode(
+                                      phoneNumber:
+                                          "+91${_phoneController.text}",
+                                      verificationCode: verificationId);
+                                },
+                              );
+                            },
+                            codeAutoRetrievalTimeout: (verificationId) {
+                              setState(() {
+                                loading = false;
+                              });
+                              Services().toastmsg(
+                                  verificationId.split("]")[1], false);
+                            },
+                          );
+                        }
                       },
-                      child: const Text(
-                        "GET OTP",
-                        style: TextStyle(fontSize: 20, color: Colors.black),
-                      ),
-                    )
+                    ),
+                    InkWell(
+                      onTap: () async {
+                        try {
+                          final GoogleSignInAccount? processGoogle =
+                              await GoogleSignIn().signIn();
+                          final GoogleSignInAuthentication accountAuth =
+                              await processGoogle!.authentication;
+                          final credential = GoogleAuthProvider.credential(
+                              accessToken: accountAuth.accessToken,
+                              idToken: accountAuth.idToken);
+                              await _auth.signInWithCredential(credential).then((value){
+                                if(value.additionalUserInfo!.isNewUser){
+                                  _auth.currentUser!.updateDisplayName(value.user!.displayName);
+                                }
+                              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => DashboardScreen(),), (route) => false);
+                              });
+                        } catch (e) {
+                          Services().toastmsg(e.toString(), false);
+                        }
+                      },
+                      child: Container(
+                          margin: EdgeInsets.symmetric(
+                              horizontal: 30, vertical: 20),
+                          padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(color: Colors.grey, width: 1),
+                              borderRadius: BorderRadius.circular(5)),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.network(
+                                "https://static-00.iconduck.com/assets.00/google-icon-2048x2048-czn3g8x8.png",
+                                height: 30,
+                              ),
+                              SizedBox(width: 20),
+                              Text(
+                                "Continue with Google",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.grey,
+                                    fontSize: 18),
+                              ),
+                            ],
+                          )),
+                    ),
                   ],
                 ),
               )

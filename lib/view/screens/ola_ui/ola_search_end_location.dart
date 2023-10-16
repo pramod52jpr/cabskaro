@@ -13,7 +13,7 @@ class OlaSearchEndLocation extends StatefulWidget {
 }
 
 class _OlaSearchEndLocationState extends State<OlaSearchEndLocation> {
-  TextEditingController _searchController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
   var uuid = const Uuid();
   String _sessionToken = "";
   List<dynamic> data = [];

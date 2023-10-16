@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cabskaro/controller/services/services.dart';
+import 'package:cabskaro/view/screens/homepage/components/round_button.dart';
 import 'package:cabskaro/view/screens/otp_screen/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -253,17 +254,10 @@ class _SplashScreenState extends State<SplashScreen> {
               AnimatedOpacity(
                 duration: const Duration(seconds: 1),
                 opacity: btnOpacity,
-                child: ElevatedButton(
-                  style: ButtonStyle(
-                      shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30))),
-                      padding: MaterialStateProperty.all(
-                          const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 10)),
-                      backgroundColor: MaterialStateColor.resolveWith(
-                          (states) => const Color.fromRGBO(227, 132, 42, 0.8))),
-                  onPressed: () {
-                    setState(() {
+                child: RoundButton(
+                  title: "LOG IN",
+                  onPressed:(){
+                  setState(() {
                       secondAnimation = true;
                       ropeOpacity = 0.0;
                       btnOpacity = 0.0;
@@ -278,25 +272,7 @@ class _SplashScreenState extends State<SplashScreen> {
                             ));
                       },
                     );
-                  },
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Text(
-                        "LOG IN",
-                        style: TextStyle(fontSize: 20, color: Colors.black),
-                      ),
-                      const SizedBox(
-                        width: 30,
-                      ),
-                      Image.asset(
-                        "assets/images/icons/right-arrow.png",
-                        width: 15,
-                        color: Colors.black,
-                      )
-                    ],
-                  ),
-                ),
+                }),
               )
             ],
           ),

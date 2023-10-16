@@ -93,7 +93,7 @@ class _OlaSearchStartLocationState extends State<OlaSearchStartLocation> {
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => OlaScreen(
+                                  builder: (context) => const OlaScreen(
                                     location: "current",
                                     locType: "start",
                                   ),

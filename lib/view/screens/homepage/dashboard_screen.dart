@@ -13,6 +13,7 @@ import 'package:cabskaro/view/screens/ola_ui/ola_screen.dart';
 import 'package:cabskaro/view/screens/homepage/searching_locations/search_end_location.dart';
 import 'package:cabskaro/view/screens/homepage/searching_locations/search_start_location.dart';
 import 'package:cabskaro/view/screens/uber_ui/uber_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -33,6 +34,8 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
+  final _auth=FirebaseAuth.instance;
+
   final Completer<GoogleMapController> _completer = Completer();
   static const String STARTLOC = "start";
   static const String STARTLAT = "startLat";
@@ -382,7 +385,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Column(
+                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
@@ -390,7 +393,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               style: TextStyle(fontSize: 16),
                             ),
                             Text(
-                              "Cabs karo",
+                              _auth.currentUser!.displayName??_auth.currentUser!.phoneNumber.toString(),
                               style: TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.bold),
                             ),
@@ -468,28 +471,28 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => CabsAvaibilityScreen(),
+                            builder: (context) => const CabsAvaibilityScreen(),
                           ));
                     },
                     onTapFourPlusSeater: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => CabsAvaibilityScreen(),
+                            builder: (context) => const CabsAvaibilityScreen(),
                           ));
                     },
                     onTapAuto: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => CabsAvaibilityScreen(),
+                            builder: (context) => const CabsAvaibilityScreen(),
                           ));
                     },
                     onTapBike: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => CabsAvaibilityScreen(),
+                            builder: (context) => const CabsAvaibilityScreen(),
                           ));
                     },
                   ),
@@ -523,27 +526,27 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => OlaScreen(),
+                            builder: (context) => const OlaScreen(),
                           ));
                     },
                     onTapRapido: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => RapidoScreen(),
+                            builder: (context) => const RapidoScreen(),
                           ));
                     },
                     onTapMeru: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => MeruScreen(),
+                            builder: (context) => const MeruScreen(),
                           ));},
                     onTapBlueSmart: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => BlusmartScreen(),
+                            builder: (context) => const BlusmartScreen(),
                           ));},
                     onTapIndrive: () {},
                     onTapBlaBla: () {},

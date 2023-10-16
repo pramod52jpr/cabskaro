@@ -444,10 +444,10 @@ class _UberScreenState extends State<UberScreen> {
                       title: const Text("Prime SUV"),
                       leading: CircleAvatar(
                         radius: 20,
+                        backgroundColor: Colors.transparent,
                         child: Image.asset(
                           "assets/images/cabsicon/suv.png",
                         ),
-                        backgroundColor: Colors.transparent,
                       ),
                       trailing: const Text("Rs. 185.52/-"),
                       subtitle: const Column(
@@ -465,10 +465,10 @@ class _UberScreenState extends State<UberScreen> {
                       title: const Text("Bike"),
                       leading: CircleAvatar(
                         radius: 20,
+                        backgroundColor: Colors.transparent,
                         child: Image.asset(
                           "assets/images/cabsicon/bike.png",
                         ),
-                        backgroundColor: Colors.transparent,
                       ),
                       trailing: const Text("Rs. 185.52/-"),
                       subtitle: const Column(
@@ -486,10 +486,10 @@ class _UberScreenState extends State<UberScreen> {
                       title: const Text("Prime Sedan"),
                       leading: CircleAvatar(
                         radius: 20,
+                        backgroundColor: Colors.transparent,
                         child: Image.asset(
                           "assets/images/cabsicon/sedan.png",
                         ),
-                        backgroundColor: Colors.transparent,
                       ),
                       trailing: const Text("Rs. 185.52/-"),
                       subtitle: const Column(
@@ -507,10 +507,10 @@ class _UberScreenState extends State<UberScreen> {
                       title: const Text("Prime Sedan"),
                       leading: CircleAvatar(
                         radius: 20,
+                        backgroundColor: Colors.transparent,
                         child: Image.asset(
                           "assets/images/cabsicon/sedan.png",
                         ),
-                        backgroundColor: Colors.transparent,
                       ),
                       trailing: const Text("Rs. 185.52/-"),
                       subtitle: const Column(
@@ -528,10 +528,10 @@ class _UberScreenState extends State<UberScreen> {
                       title: const Text("Prime Sedan"),
                       leading: CircleAvatar(
                         radius: 20,
+                        backgroundColor: Colors.transparent,
                         child: Image.asset(
                           "assets/images/cabsicon/sedan.png",
                         ),
-                        backgroundColor: Colors.transparent,
                       ),
                       trailing: const Text("Rs. 185.52/-"),
                       subtitle: const Column(
