@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cabskaro/controller/uber_api/uber_login.dart';
 import 'package:cabskaro/view/screens/blabla_ui/blabla_screen.dart';
 import 'package:cabskaro/view/screens/blusmart_ui/blusmart_screen.dart';
 import 'package:cabskaro/view/screens/homepage/components/bottom_navigator.dart';
@@ -339,6 +340,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               children: [
                 Column(
                   children: [
+                    
                     Container(
                       height: 10,
                       width: 30,
@@ -492,6 +494,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           ));
                     },
                     onTapBike: () {
+                      UberServices().generateAndStoreAccessToken();
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //       builder: (context) => TestClassApi(),
+                      //     ));
                       Navigator.push(
                           context,
                           MaterialPageRoute(
