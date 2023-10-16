@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 Future<Map<String, dynamic>?> requestUberTripEstimates() async {
   final shared = await SharedPreferences.getInstance();
-  
+
 String? accessToken = shared.getString('access_token');
 
   final Uri uri = Uri.parse('https://api.uber.com/v1/guests/trips/estimates');
@@ -31,3 +31,6 @@ String? accessToken = shared.getString('access_token');
     return null;
   }
 }
+
+
+

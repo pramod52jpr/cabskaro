@@ -413,142 +413,48 @@ class _UberScreenState extends State<UberScreen> {
               decoration: BoxDecoration(
                   border: Border.all(color: Colors.grey, width: 0.5)),
             ),
-            Container(
-              height: 300,
-              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    ListTile(
-                      title: const Text("Mini"),
-                      leading: CircleAvatar(
-                        radius: 20,
-                        backgroundColor: Colors.transparent,
-                        child: Image.asset(
-                          "assets/images/cabsicon/mini.png",
-                        ),
-                      ),
-                      trailing: const Text("Rs. 185.52/-"),
-                      subtitle: const Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Comfy hatchbacks at pocket-friendly fares."),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text("4 min away")
-                        ],
-                      ),
-                    ),
-                    ListTile(
-                      title: const Text("Prime SUV"),
-                      leading: CircleAvatar(
-                        radius: 20,
-                        child: Image.asset(
-                          "assets/images/cabsicon/suv.png",
-                        ),
-                        backgroundColor: Colors.transparent,
-                      ),
-                      trailing: const Text("Rs. 185.52/-"),
-                      subtitle: const Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Comfy hatchbacks at pocket-friendly fares."),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text("4 min away")
-                        ],
-                      ),
-                    ),
-                    ListTile(
-                      title: const Text("Bike"),
-                      leading: CircleAvatar(
-                        radius: 20,
-                        child: Image.asset(
-                          "assets/images/cabsicon/bike.png",
-                        ),
-                        backgroundColor: Colors.transparent,
-                      ),
-                      trailing: const Text("Rs. 185.52/-"),
-                      subtitle: const Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Comfy hatchbacks at pocket-friendly fares."),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text("4 min away")
-                        ],
-                      ),
-                    ),
-                    ListTile(
-                      title: const Text("Prime Sedan"),
-                      leading: CircleAvatar(
-                        radius: 20,
-                        child: Image.asset(
-                          "assets/images/cabsicon/sedan.png",
-                        ),
-                        backgroundColor: Colors.transparent,
-                      ),
-                      trailing: const Text("Rs. 185.52/-"),
-                      subtitle: const Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Comfy hatchbacks at pocket-friendly fares."),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text("4 min away")
-                        ],
-                      ),
-                    ),
-                    ListTile(
-                      title: const Text("Prime Sedan"),
-                      leading: CircleAvatar(
-                        radius: 20,
-                        child: Image.asset(
-                          "assets/images/cabsicon/sedan.png",
-                        ),
-                        backgroundColor: Colors.transparent,
-                      ),
-                      trailing: const Text("Rs. 185.52/-"),
-                      subtitle: const Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Comfy hatchbacks at pocket-friendly fares."),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text("4 min away")
-                        ],
-                      ),
-                    ),
-                    ListTile(
-                      title: const Text("Prime Sedan"),
-                      leading: CircleAvatar(
-                        radius: 20,
-                        child: Image.asset(
-                          "assets/images/cabsicon/sedan.png",
-                        ),
-                        backgroundColor: Colors.transparent,
-                      ),
-                      trailing: const Text("Rs. 185.52/-"),
-                      subtitle: const Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Comfy hatchbacks at pocket-friendly fares."),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text("4 min away")
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+            Expanded(
+              child: ListView.builder(
+              itemCount: 6, 
+              itemBuilder: (BuildContext context, int index) {
+                String title;
+                String imageAsset;
+                if (index == 0) {
+                  title = "Mini";
+                  imageAsset = "assets/images/cabsicon/mini.png";
+                } else if (index == 1) {
+                  title = "Prime SUV";
+                  imageAsset = "assets/images/cabsicon/suv.png";
+                } else if (index == 2) {
+                  title = "Bike";
+                  imageAsset = "assets/images/cabsicon/bike.png";
+                } else {
+                  title = "Prime Sedan";
+                  imageAsset = "assets/images/cabsicon/sedan.png";
+                }
+            
+                return ListTile(
+                  title: Text(title),
+                  leading: CircleAvatar(
+                    radius: 20,
+                    backgroundColor: Colors.transparent,
+                    child: Image.asset(imageAsset),
+                  ),
+                  trailing: const Text("Rs. 185.52/-"),
+                  subtitle: const Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Comfy hatchbacks at pocket-friendly fares."),
+                      SizedBox(height: 5),
+                      Text("4 min away"),
+                    ],
+                  ),
+                );
+              },
             ),
+            ),
+
+
             InkWell(
               onTap: () {
                 showModalBottomSheet(

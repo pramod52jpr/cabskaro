@@ -1,10 +1,14 @@
 import 'package:cabskaro/view/screens/firstpage/splash_screen.dart';
 import 'package:flutter/material.dart';
 
-void main(){
+
+void main()async{
+  
   runApp(const MyApp());
+
 }
 class MyApp extends StatelessWidget {
+  
   const MyApp({super.key});
 
   @override
