@@ -1,6 +1,12 @@
 import 'dart:async';
 
+import 'package:cabskaro/view/screens/blabla_ui/blabla_screen.dart';
+import 'package:cabskaro/view/screens/blusmart_ui/blusmart_screen.dart';
 import 'package:cabskaro/view/screens/homepage/components/bottom_navigator.dart';
+import 'package:cabskaro/view/screens/indrive_ui/indrive_screen.dart';
+import 'package:cabskaro/view/screens/meru_ui/meru_screen.dart';
+import 'package:cabskaro/view/screens/ola_ui/ola_screen.dart';
+import 'package:cabskaro/view/screens/rapido_ui/rapido_screen.dart';
 import 'package:cabskaro/view/widgets/cab_companies.dart';
 import 'package:cabskaro/controller/services/services.dart';
 import 'package:cabskaro/view/screens/ola_ui/ola_search_end_location.dart';
@@ -481,13 +487,49 @@ class _UberScreenState extends State<UberScreen> {
               ),
             ),
             CabCompanies(
-              onTapUber: () {},
-              onTapOla: () {},
-              onTapRapido: () {},
-              onTapMeru: () {},
-              onTapBlueSmart: () {},
-              onTapIndrive: () {},
-              onTapBlaBla: () {},
+              onTapUber: () {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const UberScreen(),
+                    ));},
+              onTapOla: () {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const OlaScreen(),
+                    ));
+              },
+              onTapRapido: () {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const RapidoScreen(),
+                    ));},
+              onTapMeru: () {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const MeruScreen(),
+                    ));},
+              onTapBlueSmart: () {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const BlusmartScreen(),
+                    ));},
+              onTapIndrive: () {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const IndriveScreen(),
+                    ));},
+              onTapBlaBla: () {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const BlaBlaScreen(),
+                    ));},
             ),
             const BottomNavigator()
           ],

@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:cabskaro/controller/services/services.dart';
 import 'package:cabskaro/view/screens/homepage/components/round_button.dart';
+import 'package:cabskaro/view/screens/homepage/dashboard_screen.dart';
 import 'package:cabskaro/view/screens/otp_screen/login_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -14,6 +16,7 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  final _auth = FirebaseAuth.instance;
   static const String STARTLOC = "start";
   static const String STARTLAT = "startLat";
   static const String STARTLON = "startLon";
@@ -27,8 +30,8 @@ class _SplashScreenState extends State<SplashScreen> {
   var opacity = 0.0;
   var ropeOpacity = 1.0;
 
-  void deletePrefs()async{
-    SharedPreferences prefs=await SharedPreferences.getInstance();
+  void deletePrefs() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove(STARTLOC);
     prefs.remove(STARTLAT);
     prefs.remove(STARTLON);
@@ -54,22 +57,36 @@ class _SplashScreenState extends State<SplashScreen> {
         opacity = 1.0;
       });
     });
-    Timer(
-      const Duration(seconds: 3),
-      () {
-        setState(() {
-          splashAnimation = true;
-        });
-      },
-    );
-    Timer(
-      const Duration(seconds: 4),
-      () {
-        setState(() {
-          btnOpacity = 1.0;
-        });
-      },
-    );
+    if (_auth.currentUser != null) {
+      Timer(
+        Duration(seconds: 4),
+        () {
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                builder: (context) => DashboardScreen(),
+              ),
+              (route) => false);
+        },
+      );
+    } else {
+      Timer(
+        const Duration(seconds: 3),
+        () {
+          setState(() {
+            splashAnimation = true;
+          });
+        },
+      );
+      Timer(
+        const Duration(seconds: 4),
+        () {
+          setState(() {
+            btnOpacity = 1.0;
+          });
+        },
+      );
+    }
   }
 
   @override
@@ -255,24 +272,24 @@ class _SplashScreenState extends State<SplashScreen> {
                 duration: const Duration(seconds: 1),
                 opacity: btnOpacity,
                 child: RoundButton(
-                  title: "LOG IN",
-                  onPressed:(){
-                  setState(() {
-                      secondAnimation = true;
-                      ropeOpacity = 0.0;
-                      btnOpacity = 0.0;
-                    });
-                    Timer(
-                      const Duration(seconds: 1),
-                      () {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const LoginScreen(),
-                            ));
-                      },
-                    );
-                }),
+                    title: "LOG IN",
+                    onPressed: () {
+                      setState(() {
+                        secondAnimation = true;
+                        ropeOpacity = 0.0;
+                        btnOpacity = 0.0;
+                      });
+                      Timer(
+                        const Duration(seconds: 1),
+                        () {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const LoginScreen(),
+                              ));
+                        },
+                      );
+                    }),
               )
             ],
           ),
