@@ -1,7 +1,13 @@
 import 'package:cabskaro/view/const/sizedbox.dart';
+import 'package:cabskaro/view/screens/bottomnav_screens/history_screens.dart';
 import 'package:cabskaro/view/screens/homepage/dashboard_screen.dart';
+import 'package:cabskaro/view/screens/otp_screen/login_screen.dart';
+import 'package:cabskaro/view/screens/settings_pages/about_us.dart';
+import 'package:cabskaro/view/screens/settings_pages/send_feedback.dart';
+import 'package:cabskaro/view/screens/settings_pages/term_of_use.dart';
 import 'package:cabskaro/view/widgets/back_button_widget.dart';
 import 'package:cabskaro/view/widgets/profile_widgets_listtile.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -156,69 +162,97 @@ Row(
   ],
 ),
 Expanded(
-  child:   Card(
-  
-    child:   Container(
-  
-    height: 200,
-  
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),color: Colors.white,),
-  
-    
-  
-      margin: const EdgeInsets.only(left: 20),
-  
-    
-  
-    width: 360,
-  
-    
-  
-      child:  ListView(
-  
-    
-  
-        children: [
-  
-  
-  
-               ProfileWidgetListTile(text: 'FAQs', icon: const Icon(Icons.abc),),
-  
-               ProfileWidgetListTile(text: 'Security & Privacy', icon: const Icon(Icons.abc),),
-  
-               ProfileWidgetListTile(text: 'Manage account', icon: const Icon(Icons.abc),),
-  
-               ProfileWidgetListTile(text: 'About us', icon: const Icon(Icons.abc),),
-  
-               ProfileWidgetListTile(text: 'Term of use', icon: const Icon(Icons.abc),),
-  
-               ProfileWidgetListTile(text: 'Send Feedback', icon: const Icon(Icons.abc),),
-  
-               const ListTile(
-  
-        leading: Icon(Icons.abc), 
-  
-        title: Text(
-  
-          'Logout', 
-  
-        ),
-  
-   
-  
-      ),
-  
+  child:   Padding(
+    padding: const EdgeInsets.all(12.0),
+    child: Container(
       
-  
-        ],
-  
     
+    
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),color: Colors.white,border: Border.all(color: Colors.grey)),
+    
+    
+    
+      margin: const EdgeInsets.only(left: 10),
+    
+    
+    
+    width: 360,
+    
+    
+    
+      child:  ListView(
+    
+    
+    
+        children:  [
+    
+    
+    
+               ProfileWidgetListTile(text: 'FAQs', icon: const Icon(Icons.abc), ontap: () { 
   
+                },),
+    
+               ProfileWidgetListTile(text: 'Security & Privacy', icon: const Icon(Icons.abc), ontap: () {  },),
+    
+               ProfileWidgetListTile(text: 'Manage account', icon: const Icon(Icons.abc), ontap: () {  },),
+    
+               ProfileWidgetListTile(text: 'About us', icon: const Icon(Icons.abc), ontap: () { 
+  Navigator.push(context, MaterialPageRoute(builder: (context){
+    return const AboutUsPage();
+  }));
+  
+                },),
+    
+               ProfileWidgetListTile(text: 'Term of use', icon: const Icon(Icons.abc), ontap: () { 
+                Navigator.push(context, MaterialPageRoute(builder: (context){
+    return const TermsOfUsePage();
+  }));
+                },),
+    
+               ProfileWidgetListTile(text: 'Send Feedback', icon: const Icon(Icons.abc), ontap: () { 
+                Navigator.push(context, MaterialPageRoute(builder: (context){
+                  return SendFeedbackPage();
+                }));
+                },),
+    
+                ListTile(
+                onTap: () => showDialog<String>(
+                      context: context,
+                      builder: (BuildContext context) => AlertDialog(
+                        title: const Text(
+                          'Confirmation!',
+                         
+                        ),
+                        content: const Text(
+                          'Do you wish to logout',
+                        ),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () => Navigator.pop(context, 'Cancel'),
+                            child: const Text(
+                              'Cancel',
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () => logout(context),
+                            child: const Text(
+                              'OK',
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+    
+        leading: const Icon(Icons.abc), 
+        title: const Text(
+          'Logout', 
+        ),
+      ),
+        ]
       ),),
-  
   ),
 ),
- Container(
+                Container(
                   margin: const EdgeInsets.only(left: 30, right: 30, bottom: 10),
                   decoration: BoxDecoration(
                       color: Colors.white,
@@ -241,7 +275,9 @@ Expanded(
                           )),
                       InkWell(
                           onTap: () {
-                           
+                           Navigator.push(context, MaterialPageRoute(builder: (context){
+                            return const HistoryScreen();
+                           }));
                           },
                           child: Image.asset(
                             "assets/images/icons/bottom-btn-car.png",
@@ -264,5 +300,11 @@ Expanded(
       )),
     );
   }
+  
+  void logout(BuildContext context) {
+  FirebaseAuth.instance.signOut();
+  Navigator.pushAndRemoveUntil(context,
+      MaterialPageRoute(builder: (context) => const LoginScreen()), (route) => false);
+}
 }
 

@@ -24,7 +24,7 @@ class BackButtonWidget extends StatelessWidget {
            boxShadow: [BoxShadow(blurRadius: 10, color: Colors.grey)]),
        child: const Icon(Icons.arrow_back),
      ),const SizedBox(width: 90,),
-      Text(text,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),)
+      Text(text,style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 20),)
                   ],
                 ),
               );

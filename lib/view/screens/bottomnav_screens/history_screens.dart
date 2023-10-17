@@ -40,7 +40,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
     return  Scaffold(
       body: SafeArea(child: Column(
         children: [
-                   BackButtonWidget(text: 'Activity',),
+                   BackButtonWidget(text: '',),
               kHeight20,
             Container(
   height: 250,
