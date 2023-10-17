@@ -340,7 +340,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
               children: [
                 Column(
                   children: [
-                    
                     Container(
                       height: 10,
                       width: 30,
@@ -399,7 +398,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             ),
                             Text(
                               _auth.currentUser!.displayName??_auth.currentUser!.phoneNumber.toString(),
-                              style: const TextStyle(
+                              style: TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.bold),
                             ),
                           ],

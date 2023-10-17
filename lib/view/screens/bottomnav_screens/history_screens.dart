@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cabskaro/view/const/sizedbox.dart';
 import 'package:cabskaro/view/screens/bottomnav_screens/profile_screens.dart';
 import 'package:cabskaro/view/screens/homepage/dashboard_screen.dart';
+import 'package:cabskaro/view/widgets/back_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -39,26 +40,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
     return  Scaffold(
       body: SafeArea(child: Column(
         children: [
-                   InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Row(
-                  children: [
-                    Container(
-                      height: 35,
-                      width: 35,
-                      margin: const EdgeInsets.all(20),
-                      decoration: const BoxDecoration(
-                          color: Colors.white,
-                          shape: BoxShape.circle,
-                          boxShadow: [BoxShadow(blurRadius: 10, color: Colors.grey)]),
-                      child: const Icon(Icons.arrow_back),
-                    ),const SizedBox(width: 90,),
-                    const Text('Activity',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),)
-                  ],
-                ),
-              ),
+                   BackButtonWidget(text: 'Activity',),
               kHeight20,
             Container(
   height: 250,
@@ -152,6 +134,16 @@ kHeight10,
                   ),
                   trailing:          Container(
           
+<<<<<<< HEAD
+=======
+          child:  const Row(
+            children: [
+              kWidth10,
+              Icon(Icons.rotate_right),SizedBox(width: 3,),
+              Text('Rebook')
+            ],
+          ),
+>>>>>>> e421dbbde20fff07be975dfcc30cf46d1ce16c04
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),color: Colors.orange),
           margin: const EdgeInsets.only(left: 20),
           height: 35,width: 100,
@@ -222,3 +214,4 @@ kHeight10,
     );
   }
 }
+
