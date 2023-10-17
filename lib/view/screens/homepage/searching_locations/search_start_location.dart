@@ -96,7 +96,7 @@ class _SearchStartLocationState extends State<SearchStartLocation> {
                                 Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => DashboardScreen(
+                                      builder: (context) => const DashboardScreen(
                                         location: "current",
                                         locType: "start",
                                       ),

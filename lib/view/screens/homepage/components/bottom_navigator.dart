@@ -35,7 +35,7 @@ class BottomNavigator extends StatelessWidget {
           InkWell(
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return const ProfileScreen();
+                  return ProfileScreen();
                 }));
               },
               child: Image.asset(
