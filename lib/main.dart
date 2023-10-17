@@ -1,5 +1,4 @@
 import 'package:cabskaro/view/screens/firstpage/splash_screen.dart';
-import 'package:cabskaro/view/screens/settings_pages/faq.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'firebase_options.dart';
@@ -20,7 +19,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: const FaqScreen(),
+      home: const SplashScreen(),
     );
   }
 }

@@ -22,7 +22,7 @@ class UberScreen extends StatefulWidget {
   final String location;
   const UberScreen({
     super.key,
-    this.locType = "start",
+    this.locType = "",
     this.location = "current",
   });
 
