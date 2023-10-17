@@ -48,6 +48,8 @@ dependencies:
   shared_preferences: ^2.2.1
   http:
   uuid: any
+  url_launcher: ^6.1.14
+  mailer: ^6.0.1
 
 dev_dependencies:
   flutter_test:

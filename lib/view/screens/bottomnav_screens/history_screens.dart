@@ -40,7 +40,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
           child: Column(
         children: [
           BackButtonWidget(
-            text: 'Activity',
+            text: '',
           ),
           kHeight20,
           Container(
@@ -102,13 +102,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                 Row(
                   children: [
                     Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Colors.orange),
-                      margin: const EdgeInsets.only(left: 20),
-                      height: 35,
-                      width: 80,
-                      child: const Row(
+                      child: Row(
                         children: [
                           kWidth10,
                           Icon(Icons.star_border),
@@ -118,24 +112,30 @@ class _HistoryScreenState extends State<HistoryScreen> {
                           Text('Rate')
                         ],
                       ),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: Colors.orange),
+                      margin: const EdgeInsets.only(left: 20),
+                      height: 35,
+                      width: 80,
                     ),
                     Container(
+                      child: Row(
+                        children: [
+                          kWidth10,
+                          const Icon(Icons.rotate_right),
+                          SizedBox(
+                            width: 3,
+                          ),
+                          const Text('Rebook')
+                        ],
+                      ),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
                           color: Colors.orange),
                       margin: const EdgeInsets.only(left: 20),
                       height: 35,
                       width: 100,
-                      child: const Row(
-                        children: [
-                          kWidth10,
-                          Icon(Icons.rotate_right),
-                          SizedBox(
-                            width: 3,
-                          ),
-                          Text('Rebook')
-                        ],
-                      ),
                     ),
                   ],
                 ),
@@ -149,7 +149,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
               itemCount: 7,
               itemBuilder: (BuildContext context, int index) {
                 return ListTile(
-                  title: const Text(
+                  title: Text(
                     'Connaught Place, New Delhi',
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                   ),
@@ -159,12 +159,6 @@ class _HistoryScreenState extends State<HistoryScreen> {
                     child: Image.asset('assets/images/cabsicon/motobike.png'),
                   ),
                   trailing: Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Colors.orange),
-                    margin: const EdgeInsets.only(left: 20),
-                    height: 35,
-                    width: 100,
                     child: const Row(
                       children: [
                         kWidth10,
@@ -175,6 +169,12 @@ class _HistoryScreenState extends State<HistoryScreen> {
                         Text('Rebook')
                       ],
                     ),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.orange),
+                    margin: const EdgeInsets.only(left: 20),
+                    height: 35,
+                    width: 100,
                   ),
                   subtitle: const Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -220,7 +220,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                     onTap: () {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) {
-                        return ProfileScreen();
+                        return const ProfileScreen();
                       }));
                     },
                     child: Image.asset(

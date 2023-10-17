@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
 
 class ProfileWidgetListTile extends StatelessWidget {
-  final VoidCallback onTap;
   final String text;
   final Icon icon;
-
-  const ProfileWidgetListTile({
-    required this.onTap,
+final VoidCallback ontap;
+  const ProfileWidgetListTile({super.key, 
     required this.text,
-    required this.icon,
+    required this.icon, required, required this.ontap,
   });
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      onTap: onTap,
+      onTap:ontap ,
       leading: icon, 
       title: Text(
         text, 

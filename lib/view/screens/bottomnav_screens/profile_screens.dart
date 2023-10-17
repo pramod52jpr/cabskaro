@@ -1,19 +1,22 @@
 import 'package:cabskaro/view/const/sizedbox.dart';
+import 'package:cabskaro/view/screens/bottomnav_screens/history_screens.dart';
 import 'package:cabskaro/view/screens/homepage/dashboard_screen.dart';
 import 'package:cabskaro/view/screens/otp_screen/login_screen.dart';
+import 'package:cabskaro/view/screens/settings_pages/about_us.dart';
 import 'package:cabskaro/view/screens/settings_pages/customer_support.dart';
 import 'package:cabskaro/view/screens/settings_pages/faq.dart';
 import 'package:cabskaro/view/screens/settings_pages/manage_account.dart';
 import 'package:cabskaro/view/screens/settings_pages/security_privacy.dart';
+import 'package:cabskaro/view/screens/settings_pages/send_feedback.dart';
 import 'package:cabskaro/view/screens/settings_pages/setting.dart';
+import 'package:cabskaro/view/screens/settings_pages/term_of_use.dart';
 import 'package:cabskaro/view/widgets/back_button_widget.dart';
 import 'package:cabskaro/view/widgets/profile_widgets_listtile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatelessWidget {
-  ProfileScreen({super.key});
-  final _auth = FirebaseAuth.instance;
+  const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +92,7 @@ class ProfileScreen extends StatelessWidget {
                             ),
                             const Padding(
                               padding: EdgeInsets.all(8.0),
-                              child: Text('CabsKaro@gmail.com'),
+                              child: Text('  CabsKaro@gmail.com'),
                             )
                           ],
                         ),
@@ -117,59 +120,58 @@ class ProfileScreen extends StatelessWidget {
                     children: [
                       InkWell(
                         onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => SettingScreen(),
-                              ));
+                          
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return const SettingScreen();
+                      }));
                         },
                         child: Column(
                           children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: Border.all(
-                                    color: const Color(0xFFE3842A), width: 1),
-                              ),
-                              child: CircleAvatar(
-                                radius: 20,
-                                backgroundColor: Colors.white,
-                                child: Image.asset(
-                                    'assets/images/icons/setting.PNG',
-                                    height: 30),
-                              ),
-                            ),
-                            const Text('Setting',
-                                style: TextStyle(fontSize: 15)),
+                      
+                        Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                                color: const Color(0xFFE3842A), width: 1),
+                          ),
+                          child: CircleAvatar(
+                            radius: 20,
+                            backgroundColor: Colors.white,
+                            child: Image.asset('assets/images/icons/setting.PNG',
+                                height: 30),
+                          ),
+                        ),
+                        const Text('Setting', style: TextStyle(fontSize: 15)),
                           ],
                         ),
                       ),
                       const SizedBox(height: 25),
                       InkWell(
                         onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => CustomerSupportScreen(),
-                              ));
+                          
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return const CustomerSupportScreen();
+                      }));
                         },
                         child: Column(
                           children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: Border.all(
-                                    color: const Color(0xFFE3842A), width: 1),
-                              ),
-                              child: CircleAvatar(
-                                radius: 20,
-                                backgroundColor: Colors.white,
-                                child: Image.asset(
-                                    'assets/images/icons/support.png',
-                                    height: 25),
-                              ),
-                            ),
-                            const Text('Support')
+                      
+                        Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                                color: const Color(0xFFE3842A), width: 1),
+                          ),
+                          child: CircleAvatar(
+                            radius: 20,
+                            backgroundColor: Colors.white,
+                            child: Image.asset('assets/images/icons/support.png',
+                                height: 25),
+                          ),
+                        ),
+                        const Text('Support')
                           ],
                         ),
                       )
@@ -178,85 +180,105 @@ class ProfileScreen extends StatelessWidget {
             ],
           ),
           Expanded(
-            child: Card(
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
               child: Container(
-                height: 200,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Colors.white,
-                ),
-                margin: const EdgeInsets.only(left: 20),
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.white,
+                    border: Border.all(color: Colors.grey)),
+                margin: const EdgeInsets.only(left: 10),
                 width: 360,
-                child: ListView(
-                  children: [
-                    ProfileWidgetListTile(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => FaqScreen(),
-                            ));
-                      },
-                      text: 'FAQs',
-                      icon: const Icon(Icons.abc),
-                    ),
-                    ProfileWidgetListTile(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => SecurityAndPrivacy(),
-                            ));
-                      },
-                      text: 'Security & Privacy',
-                      icon: const Icon(Icons.abc),
-                    ),
-                    ProfileWidgetListTile(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ManageAccount(),
-                            ));
-                      },
-                      text: 'Manage account',
-                      icon: const Icon(Icons.abc),
-                    ),
-                    ProfileWidgetListTile(
-                      onTap: () {},
-                      text: 'About us',
-                      icon: const Icon(Icons.abc),
-                    ),
-                    ProfileWidgetListTile(
-                      onTap: () {},
-                      text: 'Term of use',
-                      icon: const Icon(Icons.abc),
-                    ),
-                    ProfileWidgetListTile(
-                      onTap: () {},
-                      text: 'Send Feedback',
-                      icon: const Icon(Icons.abc),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        _auth.signOut().then((value) {
-                          Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => LoginScreen(),
-                              ),
-                              (route) => false);
-                        });
-                      },
-                      child: ListTile(
-                        leading: Icon(Icons.abc),
-                        title: Text(
-                          'Logout',
+                child: ListView(children: [
+                  ProfileWidgetListTile(
+                    text: 'FAQs',
+                    icon: const Icon(Icons.abc),
+                    ontap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return const FaqScreen();
+                      }));},
+                  ),
+                  ProfileWidgetListTile(
+                    text: 'Security & Privacy',
+                    icon: const Icon(Icons.abc),
+                    ontap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return const SecurityAndPrivacy();
+                      }));},
+                  ),
+                  ProfileWidgetListTile(
+                    text: 'Manage account',
+                    icon: const Icon(Icons.abc),
+                    ontap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return const ManageAccount();
+                      }));},
+                  ),
+                  ProfileWidgetListTile(
+                    text: 'About us',
+                    icon: const Icon(Icons.abc),
+                    ontap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return const AboutUsPage();
+                      }));
+                    },
+                  ),
+                  ProfileWidgetListTile(
+                    text: 'Term of use',
+                    icon: const Icon(Icons.abc),
+                    ontap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return const TermsOfUsePage();
+                      }));
+                    },
+                  ),
+                  ProfileWidgetListTile(
+                    text: 'Send Feedback',
+                    icon: const Icon(Icons.abc),
+                    ontap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return SendFeedbackPage();
+                      }));
+                    },
+                  ),
+                  ListTile(
+                    onTap: () => showDialog<String>(
+                      context: context,
+                      builder: (BuildContext context) => AlertDialog(
+                        title: const Text(
+                          'Confirmation!',
                         ),
+                        content: const Text(
+                          'Do you wish to logout',
+                        ),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () => Navigator.pop(context, 'Cancel'),
+                            child: const Text(
+                              'Cancel',
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () => logout(context),
+                            child: const Text(
+                              'OK',
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
+                    leading: const Icon(Icons.abc),
+                    title: const Text(
+                      'Logout',
+                    ),
+                  ),
+                ]),
               ),
             ),
           ),
@@ -283,7 +305,12 @@ class ProfileScreen extends StatelessWidget {
                       height: 40,
                     )),
                 InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return const HistoryScreen();
+                      }));
+                    },
                     child: Image.asset(
                       "assets/images/icons/bottom-btn-car.png",
                       height: 40,
@@ -292,7 +319,7 @@ class ProfileScreen extends StatelessWidget {
                     onTap: () {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) {
-                        return ProfileScreen();
+                        return const ProfileScreen();
                       }));
                     },
                     child: Image.asset(
@@ -305,5 +332,13 @@ class ProfileScreen extends StatelessWidget {
         ],
       )),
     );
+  }
+
+  void logout(BuildContext context) {
+    FirebaseAuth.instance.signOut();
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const LoginScreen()),
+        (route) => false);
   }
 }
