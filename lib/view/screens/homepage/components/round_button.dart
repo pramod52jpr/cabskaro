@@ -13,7 +13,7 @@ class RoundButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: 200,
       height: 55,
       child: ElevatedButton(
@@ -26,10 +26,10 @@ class RoundButton extends StatelessWidget {
                 (states) => const Color.fromRGBO(227, 132, 42, 0.8))),
         onPressed: loading ? () {} : onPressed,
         child: loading
-            ? CircularProgressIndicator(color: Colors.white, strokeWidth: 3)
+            ? const CircularProgressIndicator(color: Colors.white, strokeWidth: 3)
             : Text(
                 title,
-                style: TextStyle(fontSize: 20, color: Colors.black),
+                style: const TextStyle(fontSize: 20, color: Colors.black),
               ),
       ),
     );

@@ -534,7 +534,7 @@ class _BlaBlaScreenState extends State<BlaBlaScreen> {
                 margin: const EdgeInsets.symmetric(horizontal: 25),
                 padding: const EdgeInsets.all(15),
                 decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 0, 191, 255),
+                    color: const Color.fromARGB(255, 0, 191, 255),
                     borderRadius: BorderRadius.circular(10)),
                 child: const Text(
                   "Book Bla Bla",

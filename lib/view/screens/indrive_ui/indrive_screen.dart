@@ -590,7 +590,7 @@ class _IndriveScreenState extends State<IndriveScreen> {
               margin: const EdgeInsets.symmetric(horizontal: 25),
               padding: const EdgeInsets.all(15),
               decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 135, 213, 0), borderRadius: BorderRadius.circular(10)),
+                  color: const Color.fromARGB(255, 135, 213, 0), borderRadius: BorderRadius.circular(10)),
               child: const Text(
                 "Book Indrive",
                 textAlign: TextAlign.center,

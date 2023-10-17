@@ -38,10 +38,10 @@ class _UberScreenState extends State<UberScreen> {
   static const String ENDLOC = "end";
   static const String ENDLAT = "endLat";
   static const String ENDLON = "endLon";
-  String startLocationName = "Current Location";
+  String startLocationName = "Pickup Location";
   double startLatitude = 0.0;
   double startLongitude = 0.0;
-  String endLocationName = "Select Destination";
+  String endLocationName = "Destination Location";
   double endLatitude = 0.0;
   double endLongitude = 0.0;
   double zoom = 1.0;
@@ -105,6 +105,7 @@ class _UberScreenState extends State<UberScreen> {
       ));
 
       if (endLatitude != 0.0 && endLongitude != 0.0) {
+        zoom = 11.0;
         marker.add(Marker(
           markerId: const MarkerId("2"),
           position: LatLng(endLatitude, endLongitude),
@@ -145,6 +146,7 @@ class _UberScreenState extends State<UberScreen> {
               position: LatLng(value.latitude, value.longitude),
             ));
             if (endLatitude != 0.0 && endLongitude != 0.0) {
+              zoom = 11.0;
               marker.add(Marker(
                 markerId: const MarkerId("2"),
                 position: LatLng(endLatitude, endLongitude),
@@ -173,6 +175,7 @@ class _UberScreenState extends State<UberScreen> {
       ));
 
       if (startLatitude != 0.0 && startLongitude != 0.0) {
+        zoom = 11.0;
         marker.add(Marker(
           markerId: const MarkerId("1"),
           position: LatLng(startLatitude, startLongitude),
@@ -222,22 +225,43 @@ class _UberScreenState extends State<UberScreen> {
 
   void savedLocations() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (prefs.getString(STARTLOC) != null && prefs.getString(ENDLOC) != null) {
+    if (prefs.getString(STARTLOC) != null) {
       setState(() {
         startLocationName = prefs.getString(STARTLOC)!;
         startLatitude = prefs.getDouble(STARTLAT)!;
         startLongitude = prefs.getDouble(STARTLON)!;
+        zoom = 14.0;
+      });
+    }
+    if (prefs.getString(ENDLOC) != null) {
+      setState(() {
         endLocationName = prefs.getString(ENDLOC)!;
         endLatitude = prefs.getDouble(ENDLAT)!;
         endLongitude = prefs.getDouble(ENDLON)!;
         zoom = 14.0;
       });
-      if (endLatitude != 0.0 &&
-          endLongitude != 0.0 &&
-          startLatitude != 0.0 &&
-          startLongitude != 0.0) {
-        getDirections();
-      }
+    }
+    if (endLatitude != 0.0 &&
+        endLongitude != 0.0 &&
+        startLatitude != 0.0 &&
+        startLongitude != 0.0) {
+      setState(() {
+        zoom = 11.0;
+        marker.add(Marker(
+          markerId: const MarkerId("2"),
+          position: LatLng(endLatitude, endLongitude),
+        ));
+        marker.add(Marker(
+          markerId: const MarkerId("1"),
+          position: LatLng(startLatitude, startLongitude),
+        ));
+      });
+      CameraPosition newCameraPosition =
+          CameraPosition(target: LatLng(endLatitude, endLongitude), zoom: zoom);
+      GoogleMapController controller = await _completer.future;
+      controller
+          .animateCamera(CameraUpdate.newCameraPosition(newCameraPosition));
+      getDirections();
     }
   }
 
@@ -247,7 +271,7 @@ class _UberScreenState extends State<UberScreen> {
     savedLocations();
     if (widget.locType == "start") {
       startLocation();
-    } else {
+    } else if (widget.locType == "end") {
       endLocation();
     }
   }
@@ -264,7 +288,7 @@ class _UberScreenState extends State<UberScreen> {
     if (result.points.isNotEmpty) {
       for (var pointLatLng in result.points) {
         polylineCoordinates
-          .add(LatLng(pointLatLng.latitude, pointLatLng.longitude));
+            .add(LatLng(pointLatLng.latitude, pointLatLng.longitude));
         points.add({'lat': pointLatLng.latitude, 'lng': pointLatLng.longitude});
       }
     }
@@ -275,12 +299,13 @@ class _UberScreenState extends State<UberScreen> {
     PolylineId id = const PolylineId('poly');
     Polyline polyline = Polyline(
         polylineId: id,
-        color: Colors.green,
+        color: Colors.blue,
         points: polylineCoordinates,
         width: 3);
     polylines[id] = polyline;
     setState(() {});
   }
+
 
   @override
   Widget build(BuildContext context) {

@@ -59,12 +59,12 @@ class _SplashScreenState extends State<SplashScreen> {
     });
     if (_auth.currentUser != null) {
       Timer(
-        Duration(seconds: 4),
+        const Duration(seconds: 4),
         () {
           Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
-                builder: (context) => DashboardScreen(),
+                builder: (context) => const DashboardScreen(),
               ),
               (route) => false);
         },

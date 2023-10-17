@@ -335,7 +335,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            SizedBox(height: 5),
+            const SizedBox(height: 5),
             Row(
               children: [
                 Column(
@@ -393,13 +393,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
                          Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
+                            const Text(
                               "Welcome",
                               style: TextStyle(fontSize: 16),
                             ),
                             Text(
                               _auth.currentUser!.displayName??_auth.currentUser!.phoneNumber.toString(),
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.bold),
                             ),
                           ],

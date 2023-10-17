@@ -106,28 +106,30 @@ Container(
       children: [
         Container(
           
-          child:   Row(
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),color: Colors.orange),
+          margin: const EdgeInsets.only(left: 20),
+          height: 35,width: 80,
+          
+          child:   const Row(
             children: [
               kWidth10,
               Icon(Icons.star_border),SizedBox(width: 3,),
               Text('Rate')
             ],
-          ),
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),color: Colors.orange),
-          margin: const EdgeInsets.only(left: 20),
-          height: 35,width: 80,),
+          ),),
                  Container(
           
-          child:  Row(
-            children: [
-              kWidth10,
-              const Icon(Icons.rotate_right),SizedBox(width: 3,),
-              const Text('Rebook')
-            ],
-          ),
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),color: Colors.orange),
           margin: const EdgeInsets.only(left: 20),
-          height: 35,width: 100,),
+          height: 35,width: 100,
+          
+          child:  const Row(
+            children: [
+              kWidth10,
+              Icon(Icons.rotate_right),SizedBox(width: 3,),
+              Text('Rebook')
+            ],
+          ),),
       ],
     ),
     ],
@@ -142,7 +144,7 @@ kHeight10,
         
             
                 return ListTile(
-                  title: Text('Connaught Place, New Delhi',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 14),),
+                  title: const Text('Connaught Place, New Delhi',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 14),),
                   leading: CircleAvatar(
                     radius: 23,
                     backgroundColor: Colors.transparent,
@@ -150,16 +152,17 @@ kHeight10,
                   ),
                   trailing:          Container(
           
-          child:  Row(
-            children: [
-              kWidth10,
-              const Icon(Icons.rotate_right),SizedBox(width: 3,),
-              const Text('Rebook')
-            ],
-          ),
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),color: Colors.orange),
           margin: const EdgeInsets.only(left: 20),
-          height: 35,width: 100,),
+          height: 35,width: 100,
+          
+          child:  const Row(
+            children: [
+              kWidth10,
+              Icon(Icons.rotate_right),SizedBox(width: 3,),
+              Text('Rebook')
+            ],
+          ),),
                   subtitle: const Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

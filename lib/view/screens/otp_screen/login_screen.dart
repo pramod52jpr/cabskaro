@@ -17,7 +17,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  var _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
   final _auth = FirebaseAuth.instance;
   final TextEditingController _phoneController = TextEditingController();
   var opacity = 0.0;
@@ -327,16 +327,16 @@ class _LoginScreenState extends State<LoginScreen> {
                                 if(value.additionalUserInfo!.isNewUser){
                                   _auth.currentUser!.updateDisplayName(value.user!.displayName);
                                 }
-                              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => DashboardScreen(),), (route) => false);
+                              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const DashboardScreen(),), (route) => false);
                               });
                         } catch (e) {
                           Services().toastmsg(e.toString(), false);
                         }
                       },
                       child: Container(
-                          margin: EdgeInsets.symmetric(
+                          margin: const EdgeInsets.symmetric(
                               horizontal: 30, vertical: 20),
-                          padding: EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(10),
                           decoration: BoxDecoration(
                               color: Colors.white,
                               border: Border.all(color: Colors.grey, width: 1),
@@ -348,8 +348,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 "https://static-00.iconduck.com/assets.00/google-icon-2048x2048-czn3g8x8.png",
                                 height: 30,
                               ),
-                              SizedBox(width: 20),
-                              Text(
+                              const SizedBox(width: 20),
+                              const Text(
                                 "Continue with Google",
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
