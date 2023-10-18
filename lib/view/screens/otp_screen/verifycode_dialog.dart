@@ -1,6 +1,8 @@
 import 'package:cabskaro/controller/services/services.dart';
+import 'package:cabskaro/model/user_profile_model.dart';
 import 'package:cabskaro/view/screens/homepage/components/round_button.dart';
 import 'package:cabskaro/view/screens/homepage/dashboard_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -20,6 +22,7 @@ class VerifyCode extends StatefulWidget {
 
 class _VerifyCodeState extends State<VerifyCode> {
   final _auth = FirebaseAuth.instance;
+  final firestore = FirebaseFirestore.instance.collection(UserProfile().collection);
   List verifyCodeController = <TextEditingController>[
     TextEditingController(),
     TextEditingController(),
@@ -257,7 +260,8 @@ class _VerifyCodeState extends State<VerifyCode> {
                     },
                     decoration: const InputDecoration(
                         contentPadding: EdgeInsets.symmetric(horizontal: 0),
-                        focusedBorder: OutlineInputBorder(borderSide: BorderSide(
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
                           color: Colors.grey,
                           width: 1,
                         )),
@@ -289,11 +293,12 @@ class _VerifyCodeState extends State<VerifyCode> {
                       generateCode();
                     },
                     decoration: const InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(horizontal: 0),focusedBorder: OutlineInputBorder(borderSide: BorderSide(
+                        contentPadding: EdgeInsets.symmetric(horizontal: 0),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
                           color: Colors.grey,
                           width: 1,
                         )),
-                        
                         border: OutlineInputBorder(
                             borderSide: BorderSide(
                           color: Colors.grey,
@@ -323,8 +328,8 @@ class _VerifyCodeState extends State<VerifyCode> {
                     },
                     decoration: const InputDecoration(
                         contentPadding: EdgeInsets.symmetric(horizontal: 0),
-                        
-                        focusedBorder: OutlineInputBorder(borderSide: BorderSide(
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
                           color: Colors.grey,
                           width: 1,
                         )),
@@ -357,8 +362,8 @@ class _VerifyCodeState extends State<VerifyCode> {
                     },
                     decoration: const InputDecoration(
                         contentPadding: EdgeInsets.symmetric(horizontal: 0),
-                        
-                        focusedBorder: OutlineInputBorder(borderSide: BorderSide(
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
                           color: Colors.grey,
                           width: 1,
                         )),
@@ -391,8 +396,8 @@ class _VerifyCodeState extends State<VerifyCode> {
                     },
                     decoration: const InputDecoration(
                         contentPadding: EdgeInsets.symmetric(horizontal: 0),
-                        
-                        focusedBorder: OutlineInputBorder(borderSide: BorderSide(
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
                           color: Colors.grey,
                           width: 1,
                         )),
@@ -422,10 +427,11 @@ class _VerifyCodeState extends State<VerifyCode> {
                   },
                   decoration: const InputDecoration(
                       contentPadding: EdgeInsets.symmetric(horizontal: 0),
-                        focusedBorder: OutlineInputBorder(borderSide: BorderSide(
-                          color: Colors.grey,
-                          width: 1,
-                        )),
+                      focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                        color: Colors.grey,
+                        width: 1,
+                      )),
                       border: OutlineInputBorder(
                           borderSide: BorderSide(
                         color: Colors.grey,
@@ -489,16 +495,27 @@ class _VerifyCodeState extends State<VerifyCode> {
               final credential = PhoneAuthProvider.credential(
                   verificationId: widget.verificationCode, smsCode: code);
               try {
-                await _auth.signInWithCredential(credential);
-                setState(() {
-                  loading = false;
+                await _auth.signInWithCredential(credential).then((value) {
+                  if(value.additionalUserInfo!.isNewUser){
+                    firestore.doc(_auth.currentUser!.uid.toString()).set({
+                      UserProfile().id:_auth.currentUser!.uid.toString(),
+                      UserProfile().name:"",
+                      UserProfile().email:"",
+                      UserProfile().phone:_auth.currentUser!.phoneNumber.toString(),
+                      UserProfile().photo:"",
+                    });
+
+                  }
+                      setState(() {
+                        loading = false;
+                      });
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const DashboardScreen(),
+                          ),
+                          (route) => false);
                 });
-                Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const DashboardScreen(),
-                    ),
-                    (route) => false);
               } catch (e) {
                 setState(() {
                   loading = false;
