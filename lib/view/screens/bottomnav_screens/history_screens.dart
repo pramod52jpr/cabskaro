@@ -105,8 +105,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
                       child: Row(
                         children: [
                           kWidth10,
-                          Icon(Icons.star_border),
-                          SizedBox(
+                           Icon(Icons.star_border),
+                           SizedBox(
                             width: 3,
                           ),
                           Text('Rate')

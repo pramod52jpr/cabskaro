@@ -16,6 +16,7 @@ import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class UberScreen extends StatefulWidget {
   final String locType;
@@ -485,15 +486,29 @@ class _UberScreenState extends State<UberScreen> {
             
             ),
             ),
-
-
             InkWell(
               onTap: () {
-                showModalBottomSheet(
-                  showDragHandle: true,
-                  context: context, builder: (context) {
-                  return const Scaffold(body: Text("data"));
-                },);
+                         Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>    FutureBuilder<void>(
+                    future: _launchURL('https://www.uber.com/in/en/ride/'),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return const Text('Successfully launched Uber website');
+                      } else if (snapshot.hasError) {
+                        return const Text('Could not launch Uber website');
+                      } else {
+                        return SizedBox();
+                      }
+                    },
+                  ),
+                          ));
+                // showModalBottomSheet(
+                //   showDragHandle: true,
+                //   context: context, builder: (context) {
+                //   return const Scaffold(body: Text("data"));
+                // },);
               },
               child: Container(
                 width: double.infinity,
@@ -561,5 +576,10 @@ class _UberScreenState extends State<UberScreen> {
         ),
       ),
     );
+  }
+   Future<void> _launchURL(String url) async {
+    if (!await launchUrl(Uri.parse(url))) {
+    throw Exception('Could not launch $url');
+    }
   }
 }

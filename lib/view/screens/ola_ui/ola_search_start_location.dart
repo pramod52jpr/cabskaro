@@ -54,82 +54,85 @@ class _OlaSearchStartLocationState extends State<OlaSearchStartLocation> {
     return Material(
       child: Padding(
         padding: const EdgeInsets.all(10),
-        child: Column(
-          children: [
-            const SizedBox(height: 25),
-            Hero(
-              tag:"start",
-              child: Material(
-                child: TextFormField(
-                  controller: _searchController,
-                  autofocus: true,
-                  cursorColor: Colors.grey,
-                  decoration: InputDecoration(
-                    prefixIcon: InkWell(
-                      highlightColor: Colors.transparent,
-                      onTap: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: const Icon(Icons.arrow_back, color: Colors.grey),
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Column(
+            children: [
+              const SizedBox(height: 45),
+              Hero(
+                tag:"start",
+                child: Material(
+                  child: TextFormField(
+                    controller: _searchController,
+                    autofocus: true,
+                    cursorColor: Colors.grey,
+                    decoration: InputDecoration(
+                      prefixIcon: InkWell(
+                        highlightColor: Colors.transparent,
+                        onTap: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Icon(Icons.arrow_back, color: Colors.grey),
+                      ),
+                      contentPadding: EdgeInsets.zero,
+                      hintText: "Search Here",
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(50),
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 1)),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(50),
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 1)),
                     ),
-                    contentPadding: EdgeInsets.zero,
-                    hintText: "Search Here",
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(50),
-                        borderSide:
-                            const BorderSide(color: Colors.grey, width: 1)),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(50),
-                        borderSide:
-                            const BorderSide(color: Colors.grey, width: 1)),
                   ),
                 ),
               ),
-            ),
-            Expanded(
-              child: data.isEmpty
-                  ?  ListTile(
-                          onTap: () {
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const OlaScreen(
-                                    location: "current",
-                                    locType: "start",
-                                  ),
-                                ));
-                          },
-                          contentPadding: EdgeInsets.zero,
-                          leading: const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 10),
-                            child: FaIcon(FontAwesomeIcons.locationCrosshairs),
-                          ),
-                          title: const Text("Current Location"),
-                        )
-                  : ListView.builder(
-                      itemCount: data.length,
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                          onTap: () {
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => OlaScreen(
-                                    location: data[index]['description'],
-                                    locType: "start",
-                                  ),
-                                ));
-                          },
-                          contentPadding: EdgeInsets.zero,
-                          title: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 30),
-                            child: Text(data[index]['description']),
-                          ),
-                        );
-                      },
-                    ),
-            )
-          ],
+              Expanded(
+                child: data.isEmpty
+                    ?  ListTile(
+                            onTap: () {
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const OlaScreen(
+                                      location: "current",
+                                      locType: "start",
+                                    ),
+                                  ));
+                            },
+                            contentPadding: EdgeInsets.zero,
+                            leading: const Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 10),
+                              child: FaIcon(FontAwesomeIcons.locationCrosshairs),
+                            ),
+                            title: const Text("Current Location"),
+                          )
+                    : ListView.builder(
+                        itemCount: data.length,
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            onTap: () {
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => OlaScreen(
+                                      location: data[index]['description'],
+                                      locType: "start",
+                                    ),
+                                  ));
+                            },
+                            contentPadding: EdgeInsets.zero,
+                            title: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 30),
+                              child: Text(data[index]['description']),
+                            ),
+                          );
+                        },
+                      ),
+              )
+            ],
+          ),
         ),
       ),
     );

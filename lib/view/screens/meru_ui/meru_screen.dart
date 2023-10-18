@@ -471,155 +471,63 @@ class _MeruScreenState extends State<MeruScreen> {
               ),
             ])),
             ConstrainedBox(
-              constraints: const BoxConstraints(maxHeight: 230),
-              child: Container(
-                decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(20),
-                        topRight: Radius.circular(20)),
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        blurRadius: 5,
-                        color: Colors.grey,
-                        spreadRadius: 0,
-                        offset: Offset(0, -5),
-                      )
-                    ]),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Column(
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                border:
-                                    Border.all(color: Colors.grey, width: 1)),
-                            child: ListTile(
-                              contentPadding: EdgeInsets.zero,
-                              title: const Text(
-                                "Comfy hatchbacks at pocket-friendly fares.",
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    color: Color.fromARGB(169, 0, 0, 0)),
-                              ),
-                              leading: Column(
-                                children: [
-                                  CircleAvatar(
-                                    backgroundColor: Colors.white,
-                                    child: Image.asset(
-                                        "assets/images/cabsicon/suv.png"),
-                                  ),
-                                  const Text("Lite"),
-                                ],
-                              ),
-                              trailing: const Text("Rs 185.52/-"),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Container(
-                            padding: const EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                border:
-                                    Border.all(color: Colors.grey, width: 1)),
-                            child: ListTile(
-                              contentPadding: EdgeInsets.zero,
-                              title: const Text(
-                                "Comfy hatchbacks at pocket-friendly fares.",
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    color: Color.fromARGB(169, 0, 0, 0)),
-                              ),
-                              leading: Column(
-                                children: [
-                                  CircleAvatar(
-                                    backgroundColor: Colors.white,
-                                    child: Image.asset(
-                                        "assets/images/cabsicon/suv.png"),
-                                  ),
-                                  const Text("Lite"),
-                                ],
-                              ),
-                              trailing: const Text("Rs 185.52/-"),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Container(
-                            padding: const EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                border:
-                                    Border.all(color: Colors.grey, width: 1)),
-                            child: ListTile(
-                              contentPadding: EdgeInsets.zero,
-                              title: const Text(
-                                "Comfy hatchbacks at pocket-friendly fares.",
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    color: Color.fromARGB(169, 0, 0, 0)),
-                              ),
-                              leading: Column(
-                                children: [
-                                  CircleAvatar(
-                                    backgroundColor: Colors.white,
-                                    child: Image.asset(
-                                        "assets/images/cabsicon/suv.png"),
-                                  ),
-                                  const Text("Lite"),
-                                ],
-                              ),
-                              trailing: const Text("Rs 185.52/-"),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Container(
-                            padding: const EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                border:
-                                    Border.all(color: Colors.grey, width: 1)),
-                            child: ListTile(
-                              contentPadding: EdgeInsets.zero,
-                              title: const Text(
-                                "Comfy hatchbacks at pocket-friendly fares.",
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    color: Color.fromARGB(169, 0, 0, 0)),
-                              ),
-                              leading: Column(
-                                children: [
-                                  CircleAvatar(
-                                    backgroundColor: Colors.white,
-                                    child: Image.asset(
-                                        "assets/images/cabsicon/suv.png"),
-                                  ),
-                                  const Text("Lite"),
-                                ],
-                              ),
-                              trailing: const Text("Rs 185.52/-"),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                        ],
-                      )
-                    ],
+  constraints: const BoxConstraints(maxHeight: 230),
+  child: Container(
+    decoration: const BoxDecoration(
+      borderRadius: BorderRadius.only(
+        topLeft: Radius.circular(20),
+        topRight: Radius.circular(20),
+      ),
+      color: Colors.white,
+      boxShadow: [
+        BoxShadow(
+          blurRadius: 5,
+          color: Colors.grey,
+          spreadRadius: 0,
+          offset: Offset(0, -5),
+        )
+      ],
+    ),
+    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+    child: ListView.builder(
+      itemCount: 5,
+      itemBuilder: (context, index) {
+        return Column(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: Colors.grey, width: 1),
+              ),
+              child: ListTile(
+                contentPadding: EdgeInsets.zero,
+                title: const Text(
+                  "Comfy hatchbacks at pocket-friendly fares.",
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Color.fromARGB(169, 0, 0, 0),
                   ),
                 ),
+                leading: Column(
+                  children: [
+                    CircleAvatar(
+                      backgroundColor: Colors.white,
+                      child: Image.asset("assets/images/cabsicon/suv.png"),
+                    ),
+                    const Text("Lite"),
+                  ],
+                ),
+                trailing: const Text("Rs 185.52/-"),
               ),
             ),
+            const SizedBox(height: 10),
+          ],
+        );
+      },
+    ),
+  ),
+),
             InkWell(
               onTap: () {
                 showModalBottomSheet(

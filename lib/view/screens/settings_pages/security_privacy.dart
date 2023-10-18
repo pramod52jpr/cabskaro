@@ -12,7 +12,7 @@ class SecurityAndPrivacy extends StatefulWidget {
 class _SecurityAndPrivacyState extends State<SecurityAndPrivacy> {
   @override
   Widget build(BuildContext context) {
-    return Material(
+    return const Material(
       child: SafeArea(
         child: Stack(
           children: [

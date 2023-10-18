@@ -22,6 +22,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DashboardScreen extends StatefulWidget {
   final String locType;
@@ -37,6 +38,9 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
+  final Uri _url = Uri.parse('https://flutter.dev');
+
+
   final _auth=FirebaseAuth.instance;
 
   final Completer<GoogleMapController> _completer = Completer();
@@ -389,15 +393,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                         Column(
+                         const Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
+                            Text(
                               "Welcome",
                               style: TextStyle(fontSize: 16),
                             ),
                             Text(
-                              _auth.currentUser!.displayName??_auth.currentUser!.phoneNumber.toString(),
+                              'CabsKaro',
                               style: TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.bold),
                             ),
@@ -526,7 +530,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   ),
                   CabCompanies(
                     onTapUber: () {
-                      Navigator.push(
+                 Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => const UberScreen(),
@@ -539,6 +543,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             builder: (context) => const OlaScreen(),
                           ));
                     },
+
                     onTapRapido: () {
                       Navigator.push(
                           context,

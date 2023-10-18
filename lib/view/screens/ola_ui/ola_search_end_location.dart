@@ -52,36 +52,38 @@ class _OlaSearchEndLocationState extends State<OlaSearchEndLocation> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      child: Padding(
-        padding: const EdgeInsets.all(10),
+      child: SafeArea(
         child: Column(
           children: [
             const SizedBox(height: 25),
             Hero(
               tag:"start",
-              child: Material(
-                child: TextFormField(
-                  controller: _searchController,
-                  autofocus: true,
-                  cursorColor: Colors.grey,
-                  decoration: InputDecoration(
-                    prefixIcon: InkWell(
-                      highlightColor: Colors.transparent,
-                      onTap: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: const Icon(Icons.arrow_back, color: Colors.grey),
+              child: Padding(
+                padding: const EdgeInsets.all(17.0),
+                child: Material(
+                  child: TextFormField(
+                    controller: _searchController,
+                    autofocus: true,
+                    cursorColor: Colors.grey,
+                    decoration: InputDecoration(
+                      prefixIcon: InkWell(
+                        highlightColor: Colors.transparent,
+                        onTap: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Icon(Icons.arrow_back, color: Colors.grey),
+                      ),
+                      contentPadding: EdgeInsets.zero,
+                      hintText: "Search Here",
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(50),
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 1)),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(50),
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 1)),
                     ),
-                    contentPadding: EdgeInsets.zero,
-                    hintText: "Search Here",
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(50),
-                        borderSide:
-                            const BorderSide(color: Colors.grey, width: 1)),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(50),
-                        borderSide:
-                            const BorderSide(color: Colors.grey, width: 1)),
                   ),
                 ),
               ),

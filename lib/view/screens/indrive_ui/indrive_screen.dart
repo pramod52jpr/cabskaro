@@ -1,16 +1,9 @@
 import 'dart:async';
-
-import 'package:cabskaro/view/screens/blabla_ui/blabla_screen.dart';
-import 'package:cabskaro/view/screens/blusmart_ui/blusmart_screen.dart';
 import 'package:cabskaro/view/screens/homepage/components/bottom_navigator.dart';
 import 'package:cabskaro/view/screens/indrive_ui/indrive_search_end_location.dart';
 import 'package:cabskaro/view/screens/indrive_ui/indrive_search_start_location.dart';
-import 'package:cabskaro/view/screens/meru_ui/meru_screen.dart';
-import 'package:cabskaro/view/screens/ola_ui/ola_screen.dart';
-import 'package:cabskaro/view/screens/rapido_ui/rapido_screen.dart';
-import 'package:cabskaro/view/screens/uber_ui/uber_screen.dart';
-import 'package:cabskaro/view/widgets/cab_companies.dart';
 import 'package:cabskaro/controller/services/services.dart';
+import 'package:cabskaro/view/widgets/cab_companies_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geocoding/geocoding.dart';
@@ -25,11 +18,9 @@ class IndriveScreen extends StatefulWidget {
     this.locType = "",
     this.location = "current",
   });
-
   @override
   State<IndriveScreen> createState() => _IndriveScreenState();
 }
-
 class _IndriveScreenState extends State<IndriveScreen> {
   final Completer<GoogleMapController> _completer = Completer();
   static const String STARTLOC = "start";
@@ -449,141 +440,29 @@ class _IndriveScreenState extends State<IndriveScreen> {
               decoration: BoxDecoration(
                   border: Border.all(color: Colors.grey, width: 0.5)),
             ),
-            Container(
-              height: 300,
-              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    ListTile(
-                      title: const Text("Mini"),
-                      leading: CircleAvatar(
-                        radius: 20,
-                        backgroundColor: Colors.transparent,
-                        child: Image.asset(
-                          "assets/images/cabsicon/mini.png",
-                        ),
-                      ),
-                      trailing: const Text("Rs. 185.52/-"),
-                      subtitle: const Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Comfy hatchbacks at pocket-friendly fares."),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text("4 min away")
-                        ],
-                      ),
-                    ),
-                    ListTile(
-                      title: const Text("Prime SUV"),
-                      leading: CircleAvatar(
-                        radius: 20,
-                        backgroundColor: Colors.transparent,
-                        child: Image.asset(
-                          "assets/images/cabsicon/suv.png",
-                        ),
-                      ),
-                      trailing: const Text("Rs. 185.52/-"),
-                      subtitle: const Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Comfy hatchbacks at pocket-friendly fares."),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text("4 min away")
-                        ],
-                      ),
-                    ),
-                    ListTile(
-                      title: const Text("Bike"),
-                      leading: CircleAvatar(
-                        radius: 20,
-                        backgroundColor: Colors.transparent,
-                        child: Image.asset(
-                          "assets/images/cabsicon/bike.png",
-                        ),
-                      ),
-                      trailing: const Text("Rs. 185.52/-"),
-                      subtitle: const Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Comfy hatchbacks at pocket-friendly fares."),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text("4 min away")
-                        ],
-                      ),
-                    ),
-                    ListTile(
-                      title: const Text("Prime Sedan"),
-                      leading: CircleAvatar(
-                        radius: 20,
-                        backgroundColor: Colors.transparent,
-                        child: Image.asset(
-                          "assets/images/cabsicon/sedan.png",
-                        ),
-                      ),
-                      trailing: const Text("Rs. 185.52/-"),
-                      subtitle: const Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Comfy hatchbacks at pocket-friendly fares."),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text("4 min away")
-                        ],
-                      ),
-                    ),
-                    ListTile(
-                      title: const Text("Prime Sedan"),
-                      leading: CircleAvatar(
-                        radius: 20,
-                        backgroundColor: Colors.transparent,
-                        child: Image.asset(
-                          "assets/images/cabsicon/sedan.png",
-                        ),
-                      ),
-                      trailing: const Text("Rs. 185.52/-"),
-                      subtitle: const Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Comfy hatchbacks at pocket-friendly fares."),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text("4 min away")
-                        ],
-                      ),
-                    ),
-                    ListTile(
-                      title: const Text("Prime Sedan"),
-                      leading: CircleAvatar(
-                        radius: 20,
-                        backgroundColor: Colors.transparent,
-                        child: Image.asset(
-                          "assets/images/cabsicon/sedan.png",
-                        ),
-                      ),
-                      trailing: const Text("Rs. 185.52/-"),
-                      subtitle: const Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Comfy hatchbacks at pocket-friendly fares."),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text("4 min away")
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+                 Expanded(
+              child: ListView.builder(
+              itemCount: 6, 
+              itemBuilder: (BuildContext context, int index) {
+                return ListTile(
+                  title: const Text('Mini'),
+                  leading: CircleAvatar(
+                    radius: 20,
+                    backgroundColor: Colors.transparent,
+                    child: Image.asset('assets/images/cabsicon/mini.png'),
+                  ),
+                  trailing: const Text("Rs. 185.52/-"),
+                  subtitle: const Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Comfy hatchbacks at pocket-friendly fares."),
+                      SizedBox(height: 5),
+                      Text("4 min away"),
+                    ],
+                  ),
+                );
+              },
+            ),
             ),
             Container(
               width: double.infinity,
@@ -600,51 +479,7 @@ class _IndriveScreenState extends State<IndriveScreen> {
                     fontSize: 15),
               ),
             ),
-            CabCompanies(
-              onTapUber: () {
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const UberScreen(),
-                    ));},
-              onTapOla: () {
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const OlaScreen(),
-                    ));
-              },
-              onTapRapido: () {
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const RapidoScreen(),
-                    ));},
-              onTapMeru: () {
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const MeruScreen(),
-                    ));},
-              onTapBlueSmart: () {
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const BlusmartScreen(),
-                    ));},
-              onTapIndrive: () {
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const IndriveScreen(),
-                    ));},
-              onTapBlaBla: () {
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const BlaBlaScreen(),
-                    ));},
-            ),
+            const CabCompaniessWidget(),
             const BottomNavigator()
           ],
         ),
