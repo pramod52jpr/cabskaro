@@ -1,9 +1,11 @@
 import 'dart:async';
 
 import 'package:cabskaro/controller/services/services.dart';
+import 'package:cabskaro/model/user_profile_model.dart';
 import 'package:cabskaro/view/screens/homepage/components/round_button.dart';
 import 'package:cabskaro/view/screens/homepage/dashboard_screen.dart';
 import 'package:cabskaro/view/screens/otp_screen/verifycode_dialog.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -19,6 +21,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final _auth = FirebaseAuth.instance;
+  final firestore=FirebaseFirestore.instance.collection(UserProfile().collection);
   final TextEditingController _phoneController = TextEditingController();
   var opacity = 0.0;
   bool loading = false;
@@ -323,9 +326,15 @@ class _LoginScreenState extends State<LoginScreen> {
                           final credential = GoogleAuthProvider.credential(
                               accessToken: accountAuth.accessToken,
                               idToken: accountAuth.idToken);
-                              await _auth.signInWithCredential(credential).then((value){
+                              await _auth.signInWithCredential(credential).then((value) async {
                                 if(value.additionalUserInfo!.isNewUser){
-                                  _auth.currentUser!.updateDisplayName(value.user!.displayName);
+                                  await firestore.doc(_auth.currentUser!.uid.toString()).set({
+                                    UserProfile().id:_auth.currentUser!.uid.toString(),
+                                    UserProfile().name:_auth.currentUser!.displayName.toString(),
+                                    UserProfile().email:_auth.currentUser!.email.toString(),
+                                    UserProfile().phone:"",
+                                    UserProfile().photo:"",
+                                  });
                                 }
                               Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const DashboardScreen(),), (route) => false);
                               });
