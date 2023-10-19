@@ -51,6 +51,8 @@ dependencies:
   uuid: any
   url_launcher: ^6.1.14
   flutter_launcher_icons: ^0.13.1
+  readmore: ^2.2.0
+  getwidget: ^4.0.0
 
 dev_dependencies:
   flutter_test:
