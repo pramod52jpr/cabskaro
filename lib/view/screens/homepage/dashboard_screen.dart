@@ -1,22 +1,14 @@
 import 'dart:async';
 
 import 'package:cabskaro/controller/uber_api/uber_login.dart';
-import 'package:cabskaro/view/screens/blabla_ui/blabla_screen.dart';
-import 'package:cabskaro/view/screens/blusmart_ui/blusmart_screen.dart';
 import 'package:cabskaro/view/screens/homepage/components/bottom_navigator.dart';
-import 'package:cabskaro/view/screens/indrive_ui/indrive_screen.dart';
-import 'package:cabskaro/view/screens/meru_ui/meru_screen.dart';
-import 'package:cabskaro/view/screens/rapido_ui/rapido_screen.dart';
 import 'package:cabskaro/view/widgets/cab_companies.dart';
 import 'package:cabskaro/view/screens/homepage/components/cab_types.dart';
 import 'package:cabskaro/view/screens/homepage/components/location_points.dart';
 import 'package:cabskaro/controller/services/services.dart';
 import 'package:cabskaro/view/screens/homepage/cabs_availability_screen/cabs_availability_screen.dart';
-import 'package:cabskaro/view/screens/ola_ui/ola_screen.dart';
 import 'package:cabskaro/view/screens/homepage/searching_locations/search_end_location.dart';
 import 'package:cabskaro/view/screens/homepage/searching_locations/search_start_location.dart';
-import 'package:cabskaro/view/screens/uber_ui/uber_screen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -38,10 +30,6 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  final Uri _url = Uri.parse('https://flutter.dev');
-
-  final _auth = FirebaseAuth.instance;
-
   final Completer<GoogleMapController> _completer = Completer();
   static const String STARTLOC = "start";
   static const String STARTLAT = "startLat";
@@ -392,15 +380,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Column(
+                          Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Welcome",
+                              "Hello",
                               style: TextStyle(fontSize: 16),
                             ),
                             Text(
-                              'CabsKaro',
+                              greeting(),
                               style: TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.bold),
                             ),
@@ -596,5 +584,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
         ),
       ),
     );
+  }
+   String greeting() {
+    var hour = DateTime.now().hour;
+    if (hour < 12) {
+      return 'Good Morning';
+    }
+    if (hour < 17) {
+      return 'Good Afternoon';
+    }
+    return 'Good Evening';
   }
 }

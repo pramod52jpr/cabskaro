@@ -1,7 +1,5 @@
 import 'package:cabskaro/model/user_profile_model.dart';
 import 'package:cabskaro/view/const/sizedbox.dart';
-import 'package:cabskaro/view/screens/bottomnav_screens/history_screens.dart';
-import 'package:cabskaro/view/screens/homepage/dashboard_screen.dart';
 import 'package:cabskaro/view/screens/otp_screen/login_screen.dart';
 import 'package:cabskaro/view/screens/settings_pages/about_us.dart';
 import 'package:cabskaro/view/screens/settings_pages/customer_support.dart';
@@ -12,6 +10,7 @@ import 'package:cabskaro/view/screens/settings_pages/send_feedback.dart';
 import 'package:cabskaro/view/screens/settings_pages/setting.dart';
 import 'package:cabskaro/view/screens/settings_pages/term_of_use.dart';
 import 'package:cabskaro/view/widgets/back_button_widget.dart';
+import 'package:cabskaro/view/widgets/bottomnav_widget.dart';
 import 'package:cabskaro/view/widgets/profile_widgets_listtile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -26,6 +25,8 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+     final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       body: SafeArea(
           child: StreamBuilder(
@@ -69,13 +70,13 @@ class ProfileScreen extends StatelessWidget {
                 Row(
                   children: [
                     Container(
-                      margin: const EdgeInsets.only(left: 20),
+                      margin:  EdgeInsets.only(left: screenWidth*0.050),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           color: Colors.white,
                           border: Border.all(color: const Color(0xFFE3842A))),
-                      height: 130,
-                      width: 260,
+                      height: screenHeight*0.15,
+                      width: screenWidth*0.660,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Column(
@@ -94,7 +95,7 @@ class ProfileScreen extends StatelessWidget {
                               ],
                             ),
                             Padding(
-                              padding: const EdgeInsets.all(4.0),
+                              padding: const EdgeInsets.all(8.0),
                               child: Row(
                                 children: [
                                   Image.asset(
@@ -125,70 +126,73 @@ class ProfileScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Container(
-                        margin: const EdgeInsets.only(left: 50),
-                        child: Column(
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                Navigator.push(context,
-                                    MaterialPageRoute(builder: (context) {
-                                  return const SettingScreen();
-                                }));
-                              },
-                              child: Column(
-                                children: [
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      border: Border.all(
-                                          color: const Color(0xFFE3842A),
-                                          width: 1),
+                    Expanded(
+                      child: Container(
+
+                          margin: const EdgeInsets.only(right: 5),
+                          child: Column(
+                            children: [
+                              InkWell(
+                                onTap: () {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) {
+                                    return const SettingScreen();
+                                  }));
+                                },
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                            color: const Color(0xFFE3842A),
+                                            width: 1),
+                                      ),
+                                      child: CircleAvatar(
+                                        radius: screenWidth*0.05,
+                                        backgroundColor: Colors.white,
+                                        child: Image.asset(
+                                            'assets/images/icons/setting.PNG',
+                                            height: 30),
+                                      ),
                                     ),
-                                    child: CircleAvatar(
-                                      radius: 20,
-                                      backgroundColor: Colors.white,
-                                      child: Image.asset(
-                                          'assets/images/icons/setting.PNG',
-                                          height: 30),
-                                    ),
-                                  ),
-                                  const Text('Setting',
-                                      style: TextStyle(fontSize: 15)),
-                                ],
+                                    const Text('Setting',
+                                        style: TextStyle(fontSize: 15)),
+                                  ],
+                                ),
                               ),
-                            ),
-                            const SizedBox(height: 25),
-                            InkWell(
-                              onTap: () {
-                                Navigator.push(context,
-                                    MaterialPageRoute(builder: (context) {
-                                  return  CustomerSupportScreen();
-                                }));
-                              },
-                              child: Column(
-                                children: [
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      border: Border.all(
-                                          color: const Color(0xFFE3842A),
-                                          width: 1),
+                              const SizedBox(height: 25),
+                              InkWell(
+                                onTap: () {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) {
+                                    return  CustomerSupportScreen();
+                                  }));
+                                },
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                            color: const Color(0xFFE3842A),
+                                            width: 1),
+                                      ),
+                                      child: CircleAvatar(
+                                        radius: screenWidth*0.05,
+                                        backgroundColor: Colors.white,
+                                        child: Image.asset(
+                                            'assets/images/icons/support.png',
+                                            height: 25),
+                                      ),
                                     ),
-                                    child: CircleAvatar(
-                                      radius: 20,
-                                      backgroundColor: Colors.white,
-                                      child: Image.asset(
-                                          'assets/images/icons/support.png',
-                                          height: 25),
-                                    ),
-                                  ),
-                                  const Text('Support')
-                                ],
-                              ),
-                            )
-                          ],
-                        ))
+                                    const Text('Support')
+                                  ],
+                                ),
+                              )
+                            ],
+                          )),
+                    )
                   ],
                 ),
                 Expanded(
@@ -200,7 +204,7 @@ class ProfileScreen extends StatelessWidget {
                           color: Colors.white,
                           border: Border.all(color: Colors.grey)),
                       margin: const EdgeInsets.only(left: 10),
-                      width: 360,
+                      width: screenWidth*0.860,
                       child: ListView(children: [
                         ProfileWidgetListTile(
                           text: 'FAQs',
@@ -298,54 +302,7 @@ class ProfileScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                Container(
-                  margin:
-                      const EdgeInsets.only(left: 30, right: 30, bottom: 10),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(50),
-                      boxShadow: const [
-                        BoxShadow(color: Colors.grey, blurRadius: 5)
-                      ]),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      InkWell(
-                          onTap: () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                              return const DashboardScreen();
-                            }));
-                          },
-                          child: Image.asset(
-                            "assets/images/icons/bottom-btn-first.png",
-                            height: 40,
-                          )),
-                      InkWell(
-                          onTap: () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                              return const HistoryScreen();
-                            }));
-                          },
-                          child: Image.asset(
-                            "assets/images/icons/bottom-btn-car.png",
-                            height: 40,
-                          )),
-                      InkWell(
-                          onTap: () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                              return ProfileScreen();
-                            }));
-                          },
-                          child: Image.asset(
-                            "assets/images/icons/bottom-btn-user.png",
-                            height: 40,
-                          ))
-                    ],
-                  ),
-                )
+                BottomNavWidget(screenWidth: screenWidth, screenHeight: screenHeight)
               ],
             );
           }
@@ -362,3 +319,5 @@ class ProfileScreen extends StatelessWidget {
         (route) => false);
   }
 }
+
+
