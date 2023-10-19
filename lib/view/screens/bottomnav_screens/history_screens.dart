@@ -220,7 +220,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                     onTap: () {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) {
-                        return const ProfileScreen();
+                        return ProfileScreen();
                       }));
                     },
                     child: Image.asset(
