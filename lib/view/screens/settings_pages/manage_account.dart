@@ -1,11 +1,15 @@
+import 'dart:io';
+
 import 'package:cabskaro/controller/services/services.dart';
 import 'package:cabskaro/model/user_profile_model.dart';
 import 'package:cabskaro/view/const/sizedbox.dart';
 import 'package:cabskaro/view/widgets/back_button_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/ui/firebase_animated_list.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ManageAccount extends StatefulWidget {
   const ManageAccount({super.key});
@@ -19,7 +23,9 @@ class _ManageAccountState extends State<ManageAccount> {
   final firestoreData = FirebaseFirestore.instance
       .collection(UserProfile().collection)
       .snapshots();
-  final updateuserData=FirebaseFirestore.instance.collection(UserProfile().collection);
+  final updateuserData =
+      FirebaseFirestore.instance.collection(UserProfile().collection);
+  bool loading = false;
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -27,14 +33,15 @@ class _ManageAccountState extends State<ManageAccount> {
         child: Stack(children: [
           StreamBuilder<QuerySnapshot>(
             stream: firestoreData,
-            builder: (context,AsyncSnapshot<QuerySnapshot> snapshot) {
+            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (!snapshot.hasData) {
-                return Text("No data");
+                return Container();
               } else {
-                List data =
-                    snapshot.data!.docs;
-                    data.retainWhere((element) => element[UserProfile().id]==_auth.currentUser!.uid);
-                    Map<String,dynamic> userData=data[0].data() as Map<String,dynamic>;
+                List data = snapshot.data!.docs;
+                data.retainWhere((element) =>
+                    element[UserProfile().id] == _auth.currentUser!.uid);
+                Map<String, dynamic> userData =
+                    data[0].data() as Map<String, dynamic>;
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -46,19 +53,76 @@ class _ManageAccountState extends State<ManageAccount> {
                           kHeight20,
                           Container(
                             height: 100,
+                            width: 100,
                             decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey, width: 1),
-                              shape: BoxShape.circle,
-                              color: Colors.transparent,
-                            ),
-                            child: Expanded(
-                                child: Image.asset(
-                                    "assets/images/icons/bottom-btn-user.png")),
+                                border:
+                                    Border.all(color: Colors.grey, width: 1),
+                                shape: BoxShape.circle,
+                                color: Colors.transparent,
+                                image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: userData[UserProfile().photo].isEmpty
+                                        ? AssetImage(
+                                            "assets/images/icons/bottom-btn-user.png")
+                                        : NetworkImage(
+                                                userData[UserProfile().photo])
+                                            as ImageProvider)),
+                            child: loading
+                                ? CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                  )
+                                : Container(),
                           ),
                           kHeight5,
-                          const Text(
-                            "Edit profile",
-                            style: TextStyle(fontSize: 17),
+                          InkWell(
+                            onTap: () async {
+                              await ImagePicker()
+                                  .pickImage(source: ImageSource.gallery)
+                                  .then((value) async {
+                                if (value != null) {
+                                  setState(() {
+                                    loading = true;
+                                  });
+                                  try {
+                                    File imagePath = File(value.path);
+                                    final ref = FirebaseStorage.instance.ref(
+                                        "/usersImages/" +
+                                            DateTime.now()
+                                                .millisecondsSinceEpoch
+                                                .toString());
+                                    UploadTask uploadTask =
+                                        ref.putFile(imagePath.absolute);
+                                    await Future.value(uploadTask)
+                                        .then((value) {
+                                      ref.getDownloadURL().then((value) {
+                                        setState(() {
+                                          loading = false;
+                                        });
+                                        updateuserData
+                                            .doc(userData[UserProfile().id])
+                                            .update({
+                                          UserProfile().photo: value
+                                        }).then((value) {
+                                          Services().toastmsg(
+                                              "Image Updated Successfully",
+                                              true);
+                                        });
+                                      });
+                                    });
+                                  } catch (e) {
+                                    setState(() {
+                                      loading = false;
+                                    });
+                                    Services().toastmsg("Upload Failed", false);
+                                  }
+                                }
+                              });
+                            },
+                            child: Text(
+                              "Edit profile",
+                              style:
+                                  TextStyle(fontSize: 17, color: Colors.blue),
+                            ),
                           ),
                         ],
                       ),
@@ -102,12 +166,17 @@ class _ManageAccountState extends State<ManageAccount> {
                                           onPressed: () {
                                             if (_formKey.currentState!
                                                 .validate()) {
-                                                  updateuserData.doc(userData[UserProfile().id]).update({
-                                                    UserProfile().name:_nameController.text.toString()
-                                                  }).then((value){
-                                                    Navigator.of(context).pop();
-                                                  });
-                                                }
+                                              updateuserData
+                                                  .doc(userData[
+                                                      UserProfile().id])
+                                                  .update({
+                                                UserProfile().name:
+                                                    _nameController.text
+                                                        .toString()
+                                              }).then((value) {
+                                                Navigator.of(context).pop();
+                                              });
+                                            }
                                           },
                                           child: Text("Save")),
                                       OutlinedButton(
@@ -122,7 +191,7 @@ class _ManageAccountState extends State<ManageAccount> {
                             },
                             contentPadding: EdgeInsets.zero,
                             title: Text("Name"),
-                            subtitle: Text(userData[UserProfile().name]),
+                            subtitle: Text(userData[UserProfile().name].isEmpty?"Enter Name":userData[UserProfile().name]),
                             trailing: Icon(Icons.arrow_forward_ios),
                           ),
                           ListTile(
@@ -134,7 +203,7 @@ class _ManageAccountState extends State<ManageAccount> {
                                   TextEditingController _phoneController =
                                       TextEditingController();
                                   _phoneController.text =
-                                      userData[UserProfile().phone];
+                                      userData[UserProfile().phone].toString().substring(3);
                                   return AlertDialog(
                                     title: Text("Mobile No."),
                                     content: Form(
@@ -142,9 +211,12 @@ class _ManageAccountState extends State<ManageAccount> {
                                       child: TextFormField(
                                         controller: _phoneController,
                                         keyboardType: TextInputType.phone,
+                                        inputFormatters: [LengthLimitingTextInputFormatter(10)],
                                         validator: (value) {
                                           if (value!.isEmpty) {
                                             return "Please Enter Any Phone No.";
+                                          }else if(value.length!=10){
+                                            return "Enter Valid Phone No";
                                           }
                                           return null;
                                         },
@@ -152,15 +224,20 @@ class _ManageAccountState extends State<ManageAccount> {
                                     ),
                                     actions: [
                                       OutlinedButton(
-                                          onPressed: ()  {
+                                          onPressed: () {
                                             if (_formKey.currentState!
                                                 .validate()) {
-                                                  updateuserData.doc(userData[UserProfile().id]).update({
-                                                    UserProfile().phone:_phoneController.text.toString()
-                                                  }).then((value){
-                                                    Navigator.of(context).pop();
-                                                  });
-                                                }
+                                              updateuserData
+                                                  .doc(userData[
+                                                      UserProfile().id])
+                                                  .update({
+                                                UserProfile().phone:
+                                                    "+91${_phoneController.text
+                                                        .toString()}"
+                                              }).then((value) {
+                                                Navigator.of(context).pop();
+                                              });
+                                            }
                                           },
                                           child: Text("Save")),
                                       OutlinedButton(
@@ -175,7 +252,7 @@ class _ManageAccountState extends State<ManageAccount> {
                             },
                             contentPadding: EdgeInsets.zero,
                             title: Text("Phone number"),
-                            subtitle: Text(userData[UserProfile().phone]),
+                            subtitle: Text(userData[UserProfile().phone].isEmpty?"Enter Phone":userData[UserProfile().phone]),
                             trailing: Icon(Icons.arrow_forward_ios),
                           ),
                           ListTile(
@@ -204,15 +281,20 @@ class _ManageAccountState extends State<ManageAccount> {
                                     ),
                                     actions: [
                                       OutlinedButton(
-                                          onPressed: ()  {
+                                          onPressed: () {
                                             if (_formKey.currentState!
                                                 .validate()) {
-                                                  updateuserData.doc(userData[UserProfile().id]).update({
-                                                    UserProfile().email:_emailController.text.toString()
-                                                  }).then((value){
-                                                    Navigator.of(context).pop();
-                                                  });
-                                                }
+                                              updateuserData
+                                                  .doc(userData[
+                                                      UserProfile().id])
+                                                  .update({
+                                                UserProfile().email:
+                                                    _emailController.text
+                                                        .toString()
+                                              }).then((value) {
+                                                Navigator.of(context).pop();
+                                              });
+                                            }
                                           },
                                           child: Text("Save")),
                                       OutlinedButton(
@@ -227,7 +309,7 @@ class _ManageAccountState extends State<ManageAccount> {
                             },
                             contentPadding: EdgeInsets.zero,
                             title: Text("Email"),
-                            subtitle: Text(userData[UserProfile().email]),
+                            subtitle: Text(userData[UserProfile().email].isEmpty?"Enter Email":userData[UserProfile().email]),
                             trailing: Icon(Icons.arrow_forward_ios),
                           ),
                         ],
