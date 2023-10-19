@@ -503,6 +503,8 @@ class _VerifyCodeState extends State<VerifyCode> {
                       UserProfile().email:"",
                       UserProfile().phone:_auth.currentUser!.phoneNumber.toString(),
                       UserProfile().photo:"",
+                      UserProfile().home:"",
+                      UserProfile().work:"",
                     });
 
                   }

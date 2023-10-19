@@ -40,8 +40,7 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State<DashboardScreen> {
   final Uri _url = Uri.parse('https://flutter.dev');
 
-
-  final _auth=FirebaseAuth.instance;
+  final _auth = FirebaseAuth.instance;
 
   final Completer<GoogleMapController> _completer = Completer();
   static const String STARTLOC = "start";
@@ -393,7 +392,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                         const Column(
+                        const Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
@@ -530,51 +529,61 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   ),
                   CabCompanies(
                     onTapUber: () {
-                 Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const UberScreen(),
-                          ));
+                      launchUrl(Uri.parse("https://m.uber.com/go/pickup"));
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //       builder: (context) => const UberScreen(),
+                      //     ));
                     },
                     onTapOla: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const OlaScreen(),
-                          ));
+                      launchUrl(Uri.parse("https://www.olacabs.com/"));
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //       builder: (context) => const OlaScreen(),
+                      //     ));
                     },
-
                     onTapRapido: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const RapidoScreen(),
-                          ));
+                      launchUrl(Uri.parse("https://www.rapido.bike/"));
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //       builder: (context) => const RapidoScreen(),
+                      //     ));
                     },
                     onTapMeru: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const MeruScreen(),
-                          ));},
+                      launchUrl(Uri.parse("https://www.meru.in/"));
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //       builder: (context) => const MeruScreen(),
+                      //     ));
+                    },
                     onTapBlueSmart: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const BlusmartScreen(),
-                          ));},
+                      launchUrl(Uri.parse("https://blu-smart.com/"));
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //       builder: (context) => const BlusmartScreen(),
+                      //     ));
+                    },
                     onTapIndrive: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const IndriveScreen(),
-                          ));},
+                      launchUrl(Uri.parse("https://intercity.indrive.com/en?utm_source=google&utm_medium=cpc&utm_campaign=ic_client_ua_ga_search_launch_india_ppc_191222_main&adposition=&utm_term=indriver%20intercity&gclid=CjwKCAjwp8OpBhAFEiwAG7NaEudwDo_g8ntI0CjtCAhpATMY3szvMj5--Khn_-CVkUvsntJDSzoeqRoCLX8QAvD_BwE"));
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //       builder: (context) => const IndriveScreen(),
+                      //     ));
+                    },
                     onTapBlaBla: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const BlaBlaScreen(),
-                          ));},
+                      launchUrl(Uri.parse("https://www.blablacar.in/"));
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //       builder: (context) => const BlaBlaScreen(),
+                      //     ));
+                    },
                   ),
                   const SizedBox(
                     height: 10,

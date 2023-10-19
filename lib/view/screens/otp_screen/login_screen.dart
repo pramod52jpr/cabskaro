@@ -334,6 +334,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                     UserProfile().email:_auth.currentUser!.email.toString(),
                                     UserProfile().phone:"",
                                     UserProfile().photo:"",
+                                    UserProfile().home:"",
+                                    UserProfile().work:"",
                                   });
                                 }
                               Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const DashboardScreen(),), (route) => false);
