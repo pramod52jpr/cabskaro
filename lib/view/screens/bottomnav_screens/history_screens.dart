@@ -17,12 +17,6 @@ class HistoryScreen extends StatefulWidget {
 
 class _HistoryScreenState extends State<HistoryScreen> {
   final Completer<GoogleMapController> _completer = Completer();
-  static const String STARTLOC = "start";
-  static const String STARTLAT = "startLat";
-  static const String STARTLON = "startLon";
-  static const String ENDLOC = "end";
-  static const String ENDLAT = "endLat";
-  static const String ENDLON = "endLon";
   String startLocationName = "Current Location";
   double startLatitude = 0.0;
   double startLongitude = 0.0;
