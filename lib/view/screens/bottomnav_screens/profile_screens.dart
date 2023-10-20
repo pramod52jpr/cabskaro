@@ -5,7 +5,6 @@ import 'package:cabskaro/view/screens/settings_pages/about_us.dart';
 import 'package:cabskaro/view/screens/settings_pages/customer_support.dart';
 import 'package:cabskaro/view/screens/settings_pages/faq.dart';
 import 'package:cabskaro/view/screens/settings_pages/manage_account.dart';
-import 'package:cabskaro/view/screens/settings_pages/security_privacy.dart';
 import 'package:cabskaro/view/screens/settings_pages/send_feedback.dart';
 import 'package:cabskaro/view/screens/settings_pages/setting.dart';
 import 'package:cabskaro/view/screens/settings_pages/term_of_use.dart';
@@ -98,9 +97,12 @@ class ProfileScreen extends StatelessWidget {
                                       child: Padding(
                                         padding: EdgeInsets.all(8.0),
                                         child: Text(
-                                            userData[UserProfile().name].isEmpty
-                                                ? "Your Name"
-                                                : userData[UserProfile().name],style: TextStyle(overflow: TextOverflow.ellipsis),),
+                                          userData[UserProfile().name].isEmpty
+                                              ? "Your Name"
+                                              : userData[UserProfile().name],
+                                          style: TextStyle(
+                                              overflow: TextOverflow.ellipsis),
+                                        ),
                                       ),
                                     )
                                   ],
@@ -116,11 +118,15 @@ class ProfileScreen extends StatelessWidget {
                                       Expanded(
                                         child: Padding(
                                           padding: EdgeInsets.all(8.0),
-                                          child: Text(userData[
-                                                      UserProfile().email]
-                                                  .isEmpty
-                                              ? "Your Email"
-                                              : userData[UserProfile().email],style: TextStyle(overflow: TextOverflow.ellipsis),),
+                                          child: Text(
+                                            userData[UserProfile().email]
+                                                    .isEmpty
+                                                ? "Your Email"
+                                                : userData[UserProfile().email],
+                                            style: TextStyle(
+                                                overflow:
+                                                    TextOverflow.ellipsis),
+                                          ),
                                         ),
                                       )
                                     ],
@@ -137,9 +143,12 @@ class ProfileScreen extends StatelessWidget {
                                       child: Padding(
                                         padding: EdgeInsets.all(8.0),
                                         child: Text(
-                                            userData[UserProfile().phone].isEmpty
-                                                ? "Your Mobile No."
-                                                : userData[UserProfile().phone],style: TextStyle(overflow: TextOverflow.ellipsis),),
+                                          userData[UserProfile().phone].isEmpty
+                                              ? "Your Mobile No."
+                                              : userData[UserProfile().phone],
+                                          style: TextStyle(
+                                              overflow: TextOverflow.ellipsis),
+                                        ),
                                       ),
                                     )
                                   ],
@@ -226,100 +235,122 @@ class ProfileScreen extends StatelessWidget {
                           border: Border.all(color: Colors.grey)),
                       margin: const EdgeInsets.only(left: 10),
                       width: screenWidth * 0.860,
-                      child: ListView(children: [
-                        ProfileWidgetListTile(
-                          text: 'FAQs',
-                          icon: const Icon(Icons.abc),
-                          ontap: () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                              return FaqScreen();
-                            }));
-                          },
-                        ),
-                        ProfileWidgetListTile(
-                          text: 'Security & Privacy',
-                          icon: const Icon(Icons.abc),
-                          ontap: () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                              return const SecurityAndPrivacy();
-                            }));
-                          },
-                        ),
-                        ProfileWidgetListTile(
-                          text: 'Manage account',
-                          icon: const Icon(Icons.abc),
-                          ontap: () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                              return const ManageAccount();
-                            }));
-                          },
-                        ),
-                        ProfileWidgetListTile(
-                          text: 'About us',
-                          icon: const Icon(Icons.abc),
-                          ontap: () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                              return const AboutUsPage();
-                            }));
-                          },
-                        ),
-                        ProfileWidgetListTile(
-                          text: 'Term of use',
-                          icon: const Icon(Icons.abc),
-                          ontap: () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                              return const TermsOfUsePage();
-                            }));
-                          },
-                        ),
-                        ProfileWidgetListTile(
-                          text: 'Send Feedback',
-                          icon: const Icon(Icons.abc),
-                          ontap: () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                              return SendFeedbackPage();
-                            }));
-                          },
-                        ),
-                        ListTile(
-                          onTap: () => showDialog<String>(
-                            context: context,
-                            builder: (BuildContext context) => AlertDialog(
-                              title: const Text(
-                                'Confirmation!',
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            ProfileWidgetListTile(
+                              text: 'Manage account',
+                              icon: Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: Image.asset(
+                                    "assets/images/icons/skills.png",
+                                    height: 20),
                               ),
-                              content: const Text(
-                                'Do you wish to logout',
-                              ),
-                              actions: <Widget>[
-                                TextButton(
-                                  onPressed: () =>
-                                      Navigator.pop(context, 'Cancel'),
-                                  child: const Text(
-                                    'Cancel',
-                                  ),
-                                ),
-                                TextButton(
-                                  onPressed: () => logout(context),
-                                  child: const Text(
-                                    'OK',
-                                  ),
-                                ),
-                              ],
+                              ontap: () {
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) {
+                                  return const ManageAccount();
+                                }));
+                              },
                             ),
-                          ),
-                          leading: const Icon(Icons.abc),
-                          title: const Text(
-                            'Logout',
-                          ),
-                        ),
-                      ]),
+                            ProfileWidgetListTile(
+                              text: 'FAQs',
+                              icon: Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: Image.asset(
+                                    "assets/images/icons/faq.png",
+                                    height: 20),
+                              ),
+                              ontap: () {
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) {
+                                  return FaqScreen();
+                                }));
+                              },
+                            ),
+                            ProfileWidgetListTile(
+                              text: 'About us',
+                              icon: Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: Image.asset(
+                                    "assets/images/icons/group.png",
+                                    height: 20),
+                              ),
+                              ontap: () {
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) {
+                                  return const AboutUsPage();
+                                }));
+                              },
+                            ),
+                            ProfileWidgetListTile(
+                              text: 'Term of use',
+                              icon: Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: Image.asset(
+                                    "assets/images/icons/contract.png",
+                                    height: 20),
+                              ),
+                              ontap: () {
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) {
+                                  return const TermsOfUsePage();
+                                }));
+                              },
+                            ),
+                            ProfileWidgetListTile(
+                              text: 'Send Feedback',
+                              icon: Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: Image.asset(
+                                    "assets/images/icons/five.png",
+                                    height: 20),
+                              ),
+                              ontap: () {
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) {
+                                  return SendFeedbackPage();
+                                }));
+                              },
+                            ),
+                            ListTile(
+                              onTap: () => showDialog<String>(
+                                context: context,
+                                builder: (BuildContext context) => AlertDialog(
+                                  title: const Text(
+                                    'Confirmation!',
+                                  ),
+                                  content: const Text(
+                                    'Do you wish to logout',
+                                  ),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () =>
+                                          Navigator.pop(context, 'Cancel'),
+                                      child: const Text(
+                                        'Cancel',
+                                      ),
+                                    ),
+                                    TextButton(
+                                      onPressed: () => logout(context),
+                                      child: const Text(
+                                        'OK',
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              leading: Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: Image.asset(
+                                    "assets/images/icons/logout.png",
+                                    height: 20),
+                              ),
+                              title: const Text(
+                                'Logout',
+                              ),
+                            ),
+                          ]),
                     ),
                   ),
                 ),

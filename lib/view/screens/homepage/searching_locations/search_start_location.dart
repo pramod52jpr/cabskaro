@@ -21,7 +21,6 @@ class _SearchStartLocationState extends State<SearchStartLocation> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _searchController.addListener(() {
       onChange(_searchController.text.toString());

@@ -26,13 +26,13 @@ class _SettingScreenState extends State<SettingScreen> {
           child: StreamBuilder(
         stream: firestore,
         builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return Container();
+          } else {
           List users = snapshot.data!.docs;
           users.retainWhere((element) =>
               element[UserProfile().id] == _auth.currentUser!.uid.toString());
           Map<String, dynamic> userData = users[0].data();
-          if (!snapshot.hasData) {
-            return Container();
-          } else {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -57,7 +57,7 @@ class _SettingScreenState extends State<SettingScreen> {
                               TextEditingController _homeController =
                                   TextEditingController();
                               _homeController.text =
-                                  userData[UserProfile().home];
+                                  userData[UserProfile().home].toString();
                               return AlertDialog(
                                 title: Text("Home"),
                                 content: Form(
@@ -98,13 +98,13 @@ class _SettingScreenState extends State<SettingScreen> {
                           );
                         },
                         contentPadding: EdgeInsets.zero,
-                        title: Text(userData[UserProfile().home].isEmpty
+                        title: Text(userData[UserProfile().home].toString().isEmpty
                             ? "Add Home"
                             : "Home"),
-                        subtitle: Text(userData[UserProfile().home].isEmpty
+                        subtitle: Text(userData[UserProfile().home].toString().isEmpty
                             ? ""
                             : userData[UserProfile().home]),
-                        leading: Icon(Icons.home),
+                        leading: Icon(Icons.home,color: Color.fromRGBO(227, 132, 41, 0.7)),
                         trailing: Icon(Icons.arrow_forward_ios),
                       ),
                       ListTile(
@@ -116,7 +116,7 @@ class _SettingScreenState extends State<SettingScreen> {
                               TextEditingController _workController =
                                   TextEditingController();
                               _workController.text =
-                                  userData[UserProfile().work];
+                                  userData[UserProfile().work].toString();
                               return AlertDialog(
                                 title: Text("Work"),
                                 content: Form(
@@ -157,13 +157,13 @@ class _SettingScreenState extends State<SettingScreen> {
                           );
                         },
                         contentPadding: EdgeInsets.zero,
-                        title: Text(userData[UserProfile().work].isEmpty
+                        title: Text(userData[UserProfile().work].toString().isEmpty
                             ? "Add Work"
                             : "Work"),
-                        subtitle: Text(userData[UserProfile().work].isEmpty
+                        subtitle: Text(userData[UserProfile().work].toString().isEmpty
                             ? ""
                             : userData[UserProfile().work]),
-                        leading: Icon(Icons.local_post_office),
+                        leading: Icon(Icons.work,color: Color.fromRGBO(227, 132, 41, 0.7)),
                         trailing: Icon(Icons.arrow_forward_ios),
                       ),
                     ],

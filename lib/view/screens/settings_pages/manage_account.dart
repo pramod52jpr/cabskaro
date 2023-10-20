@@ -26,6 +26,41 @@ class _ManageAccountState extends State<ManageAccount> {
   final updateuserData =
       FirebaseFirestore.instance.collection(UserProfile().collection);
   bool loading = false;
+
+  void imagepickerFunc(ImageSource source, userId) async {
+    Navigator.of(context).pop();
+    await ImagePicker().pickImage(source: source).then((value) async {
+      if (value != null) {
+        setState(() {
+          loading = true;
+        });
+        try {
+          File imagePath = File(value.path);
+          final ref = FirebaseStorage.instance.ref("/usersImages/" +
+              DateTime.now().millisecondsSinceEpoch.toString());
+          UploadTask uploadTask = ref.putFile(imagePath.absolute);
+          await Future.value(uploadTask).then((value) {
+            ref.getDownloadURL().then((value) {
+              setState(() {
+                loading = false;
+              });
+              updateuserData
+                  .doc(userId)
+                  .update({UserProfile().photo: value}).then((value) {
+                Services().toastmsg("Image Updated Successfully", true);
+              });
+            });
+          });
+        } catch (e) {
+          setState(() {
+            loading = false;
+          });
+          Services().toastmsg("Upload Failed", false);
+        }
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -75,48 +110,55 @@ class _ManageAccountState extends State<ManageAccount> {
                           ),
                           kHeight5,
                           InkWell(
-                            onTap: () async {
-                              await ImagePicker()
-                                  .pickImage(source: ImageSource.gallery)
-                                  .then((value) async {
-                                if (value != null) {
-                                  setState(() {
-                                    loading = true;
-                                  });
-                                  try {
-                                    File imagePath = File(value.path);
-                                    final ref = FirebaseStorage.instance.ref(
-                                        "/usersImages/" +
-                                            DateTime.now()
-                                                .millisecondsSinceEpoch
-                                                .toString());
-                                    UploadTask uploadTask =
-                                        ref.putFile(imagePath.absolute);
-                                    await Future.value(uploadTask)
-                                        .then((value) {
-                                      ref.getDownloadURL().then((value) {
-                                        setState(() {
-                                          loading = false;
-                                        });
-                                        updateuserData
-                                            .doc(userData[UserProfile().id])
-                                            .update({
-                                          UserProfile().photo: value
-                                        }).then((value) {
-                                          Services().toastmsg(
-                                              "Image Updated Successfully",
-                                              true);
-                                        });
-                                      });
-                                    });
-                                  } catch (e) {
-                                    setState(() {
-                                      loading = false;
-                                    });
-                                    Services().toastmsg("Upload Failed", false);
-                                  }
-                                }
-                              });
+                            onTap: () {
+                              showModalBottomSheet(
+                                isDismissible: true,
+                                showDragHandle: true,
+                                context: context,
+                                builder: (context) {
+                                  return Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      ListTile(
+                                        onTap: () {
+                                          imagepickerFunc(ImageSource.camera,
+                                              userData[UserProfile().id]);
+                                        },
+                                        title: Text(
+                                          "Camera",
+                                          style: TextStyle(
+                                              fontSize: 17,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                        leading: Icon(
+                                          Icons.camera_alt,
+                                          color:
+                                              Color.fromRGBO(227, 132, 42, 0.7),
+                                        ),
+                                      ),
+                                      ListTile(
+                                        onTap: () {
+                                          imagepickerFunc(ImageSource.gallery,
+                                              userData[UserProfile().id]);
+                                        },
+                                        title: Text(
+                                          "Gallery",
+                                          style: TextStyle(
+                                              fontSize: 17,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                        leading: Icon(
+                                          Icons.browse_gallery,
+                                          color:
+                                              Color.fromRGBO(227, 132, 42, 0.7),
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
                             },
                             child: Text(
                               "Edit profile",
@@ -191,7 +233,9 @@ class _ManageAccountState extends State<ManageAccount> {
                             },
                             contentPadding: EdgeInsets.zero,
                             title: Text("Name"),
-                            subtitle: Text(userData[UserProfile().name].isEmpty?"Enter Name":userData[UserProfile().name]),
+                            subtitle: Text(userData[UserProfile().name].isEmpty
+                                ? "Enter Name"
+                                : userData[UserProfile().name]),
                             trailing: Icon(Icons.arrow_forward_ios),
                           ),
                           ListTile(
@@ -203,7 +247,13 @@ class _ManageAccountState extends State<ManageAccount> {
                                   TextEditingController _phoneController =
                                       TextEditingController();
                                   _phoneController.text =
-                                      userData[UserProfile().phone].toString().substring(3);
+                                      userData[UserProfile().phone]
+                                              .toString()
+                                              .isEmpty
+                                          ? ""
+                                          : userData[UserProfile().phone]
+                                              .toString()
+                                              .substring(3);
                                   return AlertDialog(
                                     title: Text("Mobile No."),
                                     content: Form(
@@ -211,11 +261,13 @@ class _ManageAccountState extends State<ManageAccount> {
                                       child: TextFormField(
                                         controller: _phoneController,
                                         keyboardType: TextInputType.phone,
-                                        inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                                        inputFormatters: [
+                                          LengthLimitingTextInputFormatter(10)
+                                        ],
                                         validator: (value) {
                                           if (value!.isEmpty) {
                                             return "Please Enter Any Phone No.";
-                                          }else if(value.length!=10){
+                                          } else if (value.length != 10) {
                                             return "Enter Valid Phone No";
                                           }
                                           return null;
@@ -232,8 +284,7 @@ class _ManageAccountState extends State<ManageAccount> {
                                                       UserProfile().id])
                                                   .update({
                                                 UserProfile().phone:
-                                                    "+91${_phoneController.text
-                                                        .toString()}"
+                                                    "+91${_phoneController.text.toString()}"
                                               }).then((value) {
                                                 Navigator.of(context).pop();
                                               });
@@ -252,7 +303,9 @@ class _ManageAccountState extends State<ManageAccount> {
                             },
                             contentPadding: EdgeInsets.zero,
                             title: Text("Phone number"),
-                            subtitle: Text(userData[UserProfile().phone].isEmpty?"Enter Phone":userData[UserProfile().phone]),
+                            subtitle: Text(userData[UserProfile().phone].isEmpty
+                                ? "Enter Phone"
+                                : userData[UserProfile().phone]),
                             trailing: Icon(Icons.arrow_forward_ios),
                           ),
                           ListTile(
@@ -309,7 +362,9 @@ class _ManageAccountState extends State<ManageAccount> {
                             },
                             contentPadding: EdgeInsets.zero,
                             title: Text("Email"),
-                            subtitle: Text(userData[UserProfile().email].isEmpty?"Enter Email":userData[UserProfile().email]),
+                            subtitle: Text(userData[UserProfile().email].isEmpty
+                                ? "Enter Email"
+                                : userData[UserProfile().email]),
                             trailing: Icon(Icons.arrow_forward_ios),
                           ),
                         ],
