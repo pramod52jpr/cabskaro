@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cabskaro/controller/services/services.dart';
 import 'package:cabskaro/view/const/sizedbox.dart';
 import 'package:cabskaro/view/widgets/back_button_widget.dart';
