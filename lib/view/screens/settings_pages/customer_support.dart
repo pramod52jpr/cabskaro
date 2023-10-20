@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:cabskaro/controller/services/services.dart';
 import 'package:cabskaro/view/const/sizedbox.dart';
 import 'package:cabskaro/view/widgets/back_button_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -11,6 +14,7 @@ class CustomerSupportScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     return Material(
       child: SafeArea(
           child: Stack(
@@ -80,8 +84,7 @@ class CustomerSupportScreen extends StatelessWidget {
                                 'id':FirebaseAuth.instance.currentUser?.uid,
                               });
                               customerSupportController.clear();
-                              final snackbar=SnackBar(content:Text('Thankyou, we will check and contact you shortly'),duration: Duration(seconds: 3), );
-                              ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                              Services().toastmsg('Thankyou we will check and inform',true );
                             }
                           },
                           child: Text("Send"))

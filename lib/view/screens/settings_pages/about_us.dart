@@ -7,13 +7,16 @@ class AboutUsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  const Scaffold(
+
+    final screenHeight = MediaQuery.of(context).size.height;
+
+    return   Scaffold(
       body: SafeArea(child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
            BackButtonWidget(text: 'About Us'),
-           SizedBox(height: 20,),
+           SizedBox(height: screenHeight*0.020,),
            Padding(
              padding: EdgeInsets.all(20.0),
              child: Column(

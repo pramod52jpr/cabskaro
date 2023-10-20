@@ -63,6 +63,10 @@ class _ManageAccountState extends State<ManageAccount> {
 
   @override
   Widget build(BuildContext context) {
+    
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Material(
       child: SafeArea(
         child: Stack(children: [
@@ -70,7 +74,7 @@ class _ManageAccountState extends State<ManageAccount> {
             stream: firestoreData,
             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (!snapshot.hasData) {
-                return Container();
+                return SizedBox();
               } else {
                 List data = snapshot.data!.docs;
                 data.retainWhere((element) =>
@@ -80,6 +84,7 @@ class _ManageAccountState extends State<ManageAccount> {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    SizedBox(height: 40,),
                     SizedBox(
                       width: double.infinity,
                       child: Column(

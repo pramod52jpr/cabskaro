@@ -15,6 +15,7 @@ String query = '';
 
 @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
     List<Map<String, String>> filteredItems = query.isEmpty
         ? faqItems
         : faqItems
@@ -27,18 +28,18 @@ String query = '';
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 30),
+          SizedBox(height: screenHeight*0.030),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("FAQ", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                Text("s", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color.fromRGBO(227, 132, 42, 0.7)),
+                Text("FAQ", style: TextStyle(fontSize: screenHeight*0.025, fontWeight: FontWeight.bold)),
+                Text("s", style: TextStyle(fontSize: screenHeight*0.025, fontWeight: FontWeight.bold, color: Color.fromRGBO(227, 132, 42, 0.7)),
                 ),
               ],
             ),
-            const SizedBox(height: 10),
+            SizedBox(height: screenHeight*0.010),
             Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding:  EdgeInsets.all(screenHeight*0.025),
               child: TextFormField(
                     onChanged: (value) {
                     setState(() {
@@ -51,12 +52,12 @@ String query = '';
                      prefixIcon: Icon(Icons.search),              
 
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(50),
+                    borderRadius: BorderRadius.circular(screenHeight*0.050),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(50),
+                    borderRadius: BorderRadius.circular(screenHeight*0.050),
                   ),
-                  contentPadding: EdgeInsets.symmetric(horizontal: 30),
+                  contentPadding: EdgeInsets.symmetric(horizontal: screenHeight*0.030),
               
               
                 ),

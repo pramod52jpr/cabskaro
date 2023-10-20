@@ -46,8 +46,8 @@ class ProfileScreen extends StatelessWidget {
                 ),
                 Center(
                   child: Container(
-                    width: 120,
-                    height: 120,
+                    width: screenWidth*0.290,
+                    height: screenHeight*0.150,
                     decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         border: Border.all(color: Colors.grey, width: 1),
@@ -67,8 +67,8 @@ class ProfileScreen extends StatelessWidget {
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
-                const SizedBox(
-                  height: 20,
+                 SizedBox(
+                  height: screenHeight*0.020,
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -91,7 +91,7 @@ class ProfileScreen extends StatelessWidget {
                                   children: [
                                     Image.asset(
                                       'assets/images/icons/bottom-btn-user.png',
-                                      height: 30,
+                                      height: screenHeight*0.032,
                                     ),
                                     Expanded(
                                       child: Padding(
@@ -108,16 +108,16 @@ class ProfileScreen extends StatelessWidget {
                                   ],
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.all(8.0),
+                                  padding: const EdgeInsets.all(5.0),
                                   child: Row(
                                     children: [
                                       Image.asset(
                                         'assets/images/icons/Screenshot 2023-10-16 3.29.48 PM.png',
-                                        height: 20,
+                                        height: screenHeight*0.024,
                                       ),
                                       Expanded(
                                         child: Padding(
-                                          padding: EdgeInsets.all(8.0),
+                                          padding: EdgeInsets.all(9.0),
                                           child: Text(
                                             userData[UserProfile().email]
                                                     .isEmpty
@@ -137,11 +137,11 @@ class ProfileScreen extends StatelessWidget {
                                   children: [
                                     Image.asset(
                                       'assets/images/icons/Screenshot_2023-10-16_3.23.06_PM-removebg-preview.png',
-                                      height: 30,
+                                      height: screenHeight*0.035,
                                     ),
                                     Expanded(
                                       child: Padding(
-                                        padding: EdgeInsets.all(8.0),
+                                        padding: EdgeInsets.all(7.0),
                                         child: Text(
                                           userData[UserProfile().phone].isEmpty
                                               ? "Your Mobile No."
@@ -159,7 +159,7 @@ class ProfileScreen extends StatelessWidget {
                         ),
                       ),
                       Container(
-                          margin: EdgeInsets.symmetric(horizontal: 20),
+                          margin: EdgeInsets.symmetric(horizontal: screenHeight*0.018),
                           child: Column(
                             children: [
                               InkWell(
@@ -191,7 +191,8 @@ class ProfileScreen extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                              const SizedBox(height: 25),
+                              SizedBox(height: screenHeight*0.025),
+
                               InkWell(
                                 onTap: () {
                                   Navigator.push(context,
@@ -244,7 +245,7 @@ class ProfileScreen extends StatelessWidget {
                                 padding: const EdgeInsets.all(5.0),
                                 child: Image.asset(
                                     "assets/images/icons/skills.png",
-                                    height: 20),
+                                    height: screenHeight*0.025),
                               ),
                               ontap: () {
                                 Navigator.push(context,
@@ -259,7 +260,7 @@ class ProfileScreen extends StatelessWidget {
                                 padding: const EdgeInsets.all(5.0),
                                 child: Image.asset(
                                     "assets/images/icons/faq.png",
-                                    height: 20),
+                                    height: screenHeight*0.025),
                               ),
                               ontap: () {
                                 Navigator.push(context,
@@ -274,7 +275,7 @@ class ProfileScreen extends StatelessWidget {
                                 padding: const EdgeInsets.all(5.0),
                                 child: Image.asset(
                                     "assets/images/icons/group.png",
-                                    height: 20),
+                                    height: screenHeight*0.025),
                               ),
                               ontap: () {
                                 Navigator.push(context,
@@ -289,7 +290,7 @@ class ProfileScreen extends StatelessWidget {
                                 padding: const EdgeInsets.all(5.0),
                                 child: Image.asset(
                                     "assets/images/icons/contract.png",
-                                    height: 20),
+                                    height: screenHeight*0.025),
                               ),
                               ontap: () {
                                 Navigator.push(context,
@@ -304,7 +305,7 @@ class ProfileScreen extends StatelessWidget {
                                 padding: const EdgeInsets.all(5.0),
                                 child: Image.asset(
                                     "assets/images/icons/five.png",
-                                    height: 20),
+                                    height: screenHeight*0.025),
                               ),
                               ontap: () {
                                 Navigator.push(context,
@@ -344,7 +345,7 @@ class ProfileScreen extends StatelessWidget {
                                 padding: const EdgeInsets.all(5.0),
                                 child: Image.asset(
                                     "assets/images/icons/logout.png",
-                                    height: 20),
+                                    height: screenHeight*0.025),
                               ),
                               title: const Text(
                                 'Logout',
@@ -367,8 +368,8 @@ class ProfileScreen extends StatelessWidget {
   void logout(BuildContext context) {
     FirebaseAuth.instance.signOut();
     Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => const LoginScreen()),
-        (route) => false);
+    context,
+    MaterialPageRoute(builder: (context) => const LoginScreen()),
+    (route) => false);
   }
 }
