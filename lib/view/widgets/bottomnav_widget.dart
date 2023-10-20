@@ -16,50 +16,44 @@ class BottomNavWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin:
-          const EdgeInsets.only(left: 30, right: 30, bottom: 10),
+      margin: const EdgeInsets.only(left: 30, right: 30, bottom: 10),
       decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(screenWidth*0.050),
-          boxShadow: const [
-            BoxShadow(color: Colors.grey, blurRadius: 5)
-          ]),
+          borderRadius: BorderRadius.circular(screenWidth * 0.050),
+          boxShadow: const [BoxShadow(color: Colors.grey, blurRadius: 5)]),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           InkWell(
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
                   return const DashboardScreen();
                 }));
               },
               child: Image.asset(
                 "assets/images/icons/bottom-btn-first.png",
-height: screenHeight*0.045,
+                height: screenHeight * 0.045,
                 //height: 40,
               )),
           InkWell(
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
                   return  HistoryScreen();
                 }));
               },
               child: Image.asset(
                 "assets/images/icons/bottom-btn-car.png",
-height: screenHeight*0.045,
+                height: screenHeight * 0.045,
               )),
           InkWell(
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
                   return ProfileScreen();
                 }));
               },
               child: Image.asset(
                 "assets/images/icons/bottom-btn-user.png",
-height: screenHeight*0.045,
+                height: screenHeight * 0.045,
               ))
         ],
       ),

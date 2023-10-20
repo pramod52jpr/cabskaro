@@ -20,7 +20,6 @@ class _UberSearchEndLocationState extends State<UberSearchEndLocation> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _searchController.addListener(() {
       onChange(_searchController.text.toString());

@@ -21,7 +21,6 @@ class _BlusmartSearchEndLocationState extends State<BlusmartSearchEndLocation> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _searchController.addListener(() {
       onChange(_searchController.text.toString());

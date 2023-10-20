@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class ProfileWidgetListTile extends StatelessWidget {
   final String text;
-  final Icon icon;
+  final icon;
 final VoidCallback ontap;
   const ProfileWidgetListTile({super.key, 
     required this.text,

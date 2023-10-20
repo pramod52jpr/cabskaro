@@ -20,7 +20,6 @@ class _RapidoSearchEndLocationState extends State<RapidoSearchEndLocation> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _searchController.addListener(() {
       onChange(_searchController.text.toString());

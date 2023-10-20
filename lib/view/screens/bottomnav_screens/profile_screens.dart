@@ -5,7 +5,6 @@ import 'package:cabskaro/view/screens/settings_pages/about_us.dart';
 import 'package:cabskaro/view/screens/settings_pages/customer_support.dart';
 import 'package:cabskaro/view/screens/settings_pages/faq.dart';
 import 'package:cabskaro/view/screens/settings_pages/manage_account.dart';
-import 'package:cabskaro/view/screens/settings_pages/security_privacy.dart';
 import 'package:cabskaro/view/screens/settings_pages/send_feedback.dart';
 import 'package:cabskaro/view/screens/settings_pages/setting.dart';
 import 'package:cabskaro/view/screens/settings_pages/term_of_use.dart';
@@ -18,7 +17,7 @@ import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatelessWidget {
   ProfileScreen({super.key});
-  final _auth=FirebaseAuth.instance;
+  final _auth = FirebaseAuth.instance;
   final firestore = FirebaseFirestore.instance
       .collection(UserProfile().collection)
       .snapshots();
@@ -35,9 +34,10 @@ class ProfileScreen extends StatelessWidget {
           if (!snapshot.hasData) {
             return Container();
           } else {
-            List users=snapshot.data!.docs;
-            users.retainWhere((element) => element[UserProfile().id]==_auth.currentUser!.uid.toString());
-            Map<String,dynamic> userData=users[0].data();
+            List users = snapshot.data!.docs;
+            users.retainWhere((element) =>
+                element[UserProfile().id] == _auth.currentUser!.uid.toString());
+            Map<String, dynamic> userData = users[0].data();
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -46,89 +46,120 @@ class ProfileScreen extends StatelessWidget {
                 ),
                 Center(
                   child: Container(
-                    width: screenWidth*0.320,
-                    height: screenHeight*0.130,
+                    width: 120,
+                    height: 120,
                     decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(color: Colors.grey, width: 1),
-                      image:DecorationImage(
-                        fit: BoxFit.cover,
-                        image:  userData[UserProfile().photo].isEmpty?AssetImage("assets/images/icons/bottom-btn-user.png"):NetworkImage(userData[UserProfile().photo]) as ImageProvider)
-                    ),
+                        shape: BoxShape.circle,
+                        border: Border.all(color: Colors.grey, width: 1),
+                        image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: userData[UserProfile().photo].isEmpty
+                                ? AssetImage(
+                                    "assets/images/icons/bottom-btn-user.png")
+                                : NetworkImage(userData[UserProfile().photo])
+                                    as ImageProvider)),
                   ),
                 ),
                 kHeight10,
-                 Center(
+                Center(
                   child: Text(
-                    "Hi ${userData[UserProfile().name].isEmpty?'User':userData[UserProfile().name]}",
+                    "Hi ${userData[UserProfile().name].isEmpty ? 'User' : userData[UserProfile().name]}",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
                 const SizedBox(
                   height: 20,
                 ),
-                Row(
-                  children: [
-                    Container(
-                      margin:  EdgeInsets.only(left: screenWidth*0.050),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.white,
-                          border: Border.all(color: const Color(0xFFE3842A))),
-                      height: screenHeight*0.15,
-                      width: screenWidth*0.660,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: [
-                            Row(
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.white,
+                              border:
+                                  Border.all(color: const Color(0xFFE3842A))),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Image.asset(
-                                  'assets/images/icons/bottom-btn-user.png',
-                                  height: 30,
-                                ),
-                                 Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: Text(userData[UserProfile().name].isEmpty?"Your Name":userData[UserProfile().name]),
-                                )
-                              ],
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                children: [
-                                  Image.asset(
-                                    'assets/images/icons/Screenshot 2023-10-16 3.29.48 PM.png',
-                                    height: 20,
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Text(userData[UserProfile().email].isEmpty?"Your Email":userData[UserProfile().email]),
-                                  )
-                                ],
-                              ),
-                            ),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Image.asset(
-                                  'assets/images/icons/Screenshot_2023-10-16_3.23.06_PM-removebg-preview.png',
-                                  height: 30,
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Image.asset(
+                                      'assets/images/icons/bottom-btn-user.png',
+                                      height: 30,
+                                    ),
+                                    Expanded(
+                                      child: Padding(
+                                        padding: EdgeInsets.all(8.0),
+                                        child: Text(
+                                          userData[UserProfile().name].isEmpty
+                                              ? "Your Name"
+                                              : userData[UserProfile().name],
+                                          style: TextStyle(
+                                              overflow: TextOverflow.ellipsis),
+                                        ),
+                                      ),
+                                    )
+                                  ],
                                 ),
                                 Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: Text(userData[UserProfile().phone].isEmpty?"Your Mobile No.":userData[UserProfile().phone]),
-                                )
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    children: [
+                                      Image.asset(
+                                        'assets/images/icons/Screenshot 2023-10-16 3.29.48 PM.png',
+                                        height: 20,
+                                      ),
+                                      Expanded(
+                                        child: Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Text(
+                                            userData[UserProfile().email]
+                                                    .isEmpty
+                                                ? "Your Email"
+                                                : userData[UserProfile().email],
+                                            style: TextStyle(
+                                                overflow:
+                                                    TextOverflow.ellipsis),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Image.asset(
+                                      'assets/images/icons/Screenshot_2023-10-16_3.23.06_PM-removebg-preview.png',
+                                      height: 30,
+                                    ),
+                                    Expanded(
+                                      child: Padding(
+                                        padding: EdgeInsets.all(8.0),
+                                        child: Text(
+                                          userData[UserProfile().phone].isEmpty
+                                              ? "Your Mobile No."
+                                              : userData[UserProfile().phone],
+                                          style: TextStyle(
+                                              overflow: TextOverflow.ellipsis),
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ],
                             ),
-                          ],
+                          ),
                         ),
                       ),
-                    ),
-                    Expanded(
-                      child: Container(
-                          margin: const EdgeInsets.only(right: 5),
+                      Container(
+                          margin: EdgeInsets.symmetric(horizontal: 20),
                           child: Column(
                             children: [
                               InkWell(
@@ -148,7 +179,7 @@ class ProfileScreen extends StatelessWidget {
                                             width: 1),
                                       ),
                                       child: CircleAvatar(
-                                        radius: screenWidth*0.05,
+                                        radius: screenWidth * 0.05,
                                         backgroundColor: Colors.white,
                                         child: Image.asset(
                                             'assets/images/icons/setting.PNG',
@@ -165,7 +196,7 @@ class ProfileScreen extends StatelessWidget {
                                 onTap: () {
                                   Navigator.push(context,
                                       MaterialPageRoute(builder: (context) {
-                                    return  CustomerSupportScreen();
+                                    return CustomerSupportScreen();
                                   }));
                                 },
                                 child: Column(
@@ -178,7 +209,7 @@ class ProfileScreen extends StatelessWidget {
                                             width: 1),
                                       ),
                                       child: CircleAvatar(
-                                        radius: screenWidth*0.05,
+                                        radius: screenWidth * 0.05,
                                         backgroundColor: Colors.white,
                                         child: Image.asset(
                                             'assets/images/icons/support.png',
@@ -190,9 +221,9 @@ class ProfileScreen extends StatelessWidget {
                                 ),
                               )
                             ],
-                          )),
-                    )
-                  ],
+                          ))
+                    ],
+                  ),
                 ),
                 Expanded(
                   child: Padding(
@@ -203,105 +234,128 @@ class ProfileScreen extends StatelessWidget {
                           color: Colors.white,
                           border: Border.all(color: Colors.grey)),
                       margin: const EdgeInsets.only(left: 10),
-                      width: screenWidth*0.860,
-                      child: ListView(children: [
-                        ProfileWidgetListTile(
-                          text: 'FAQs',
-                          icon: const Icon(Icons.abc),
-                          ontap: () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                              return  FaqScreen();
-                            }));
-                          },
-                        ),
-                        ProfileWidgetListTile(
-                          text: 'Security & Privacy',
-                          icon: const Icon(Icons.abc),
-                          ontap: () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                              return const SecurityAndPrivacy();
-                            }));
-                          },
-                        ),
-                        ProfileWidgetListTile(
-                          text: 'Manage account',
-                          icon: const Icon(Icons.abc),
-                          ontap: () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                              return const ManageAccount();
-                            }));
-                          },
-                        ),
-                        ProfileWidgetListTile(
-                          text: 'About us',
-                          icon: const Icon(Icons.abc),
-                          ontap: () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                              return const AboutUsPage();
-                            }));
-                          },
-                        ),
-                        ProfileWidgetListTile(
-                          text: 'Term of use',
-                          icon: const Icon(Icons.abc),
-                          ontap: () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                              return const TermsOfUsePage();
-                            }));
-                          },
-                        ),
-                        ProfileWidgetListTile(
-                          text: 'Send Feedback',
-                          icon: const Icon(Icons.abc),
-                          ontap: () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                              return SendFeedbackPage();
-                            }));
-                          },
-                        ),
-                        ListTile(
-                          onTap: () => showDialog<String>(
-                            context: context,
-                            builder: (BuildContext context) => AlertDialog(
-                              title: const Text(
-                                'Confirmation!',
+                      width: screenWidth * 0.860,
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            ProfileWidgetListTile(
+                              text: 'Manage account',
+                              icon: Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: Image.asset(
+                                    "assets/images/icons/skills.png",
+                                    height: 20),
                               ),
-                              content: const Text(
-                                'Do you wish to logout',
-                              ),
-                              actions: <Widget>[
-                                TextButton(
-                                  onPressed: () =>
-                                      Navigator.pop(context, 'Cancel'),
-                                  child: const Text(
-                                    'Cancel',
-                                  ),
-                                ),
-                                TextButton(
-                                  onPressed: () => logout(context),
-                                  child: const Text(
-                                    'OK',
-                                  ),
-                                ),
-                              ],
+                              ontap: () {
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) {
+                                  return const ManageAccount();
+                                }));
+                              },
                             ),
-                          ),
-                          leading: const Icon(Icons.abc),
-                          title: const Text(
-                            'Logout',
-                          ),
-                        ),
-                      ]),
+                            ProfileWidgetListTile(
+                              text: 'FAQs',
+                              icon: Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: Image.asset(
+                                    "assets/images/icons/faq.png",
+                                    height: 20),
+                              ),
+                              ontap: () {
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) {
+                                  return FaqScreen();
+                                }));
+                              },
+                            ),
+                            ProfileWidgetListTile(
+                              text: 'About us',
+                              icon: Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: Image.asset(
+                                    "assets/images/icons/group.png",
+                                    height: 20),
+                              ),
+                              ontap: () {
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) {
+                                  return const AboutUsPage();
+                                }));
+                              },
+                            ),
+                            ProfileWidgetListTile(
+                              text: 'Term of use',
+                              icon: Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: Image.asset(
+                                    "assets/images/icons/contract.png",
+                                    height: 20),
+                              ),
+                              ontap: () {
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) {
+                                  return const TermsOfUsePage();
+                                }));
+                              },
+                            ),
+                            ProfileWidgetListTile(
+                              text: 'Send Feedback',
+                              icon: Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: Image.asset(
+                                    "assets/images/icons/five.png",
+                                    height: 20),
+                              ),
+                              ontap: () {
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) {
+                                  return SendFeedbackPage();
+                                }));
+                              },
+                            ),
+                            ListTile(
+                              onTap: () => showDialog<String>(
+                                context: context,
+                                builder: (BuildContext context) => AlertDialog(
+                                  title: const Text(
+                                    'Confirmation!',
+                                  ),
+                                  content: const Text(
+                                    'Do you wish to logout',
+                                  ),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () =>
+                                          Navigator.pop(context, 'Cancel'),
+                                      child: const Text(
+                                        'Cancel',
+                                      ),
+                                    ),
+                                    TextButton(
+                                      onPressed: () => logout(context),
+                                      child: const Text(
+                                        'OK',
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              leading: Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: Image.asset(
+                                    "assets/images/icons/logout.png",
+                                    height: 20),
+                              ),
+                              title: const Text(
+                                'Logout',
+                              ),
+                            ),
+                          ]),
                     ),
                   ),
                 ),
-                BottomNavWidget(screenWidth: screenWidth, screenHeight: screenHeight)
+                BottomNavWidget(
+                    screenWidth: screenWidth, screenHeight: screenHeight)
               ],
             );
           }
@@ -318,5 +372,3 @@ class ProfileScreen extends StatelessWidget {
         (route) => false);
   }
 }
-
-
