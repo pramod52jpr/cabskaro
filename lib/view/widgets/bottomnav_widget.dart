@@ -43,7 +43,7 @@ height: screenHeight*0.045,
               onTap: () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) {
-                  return const HistoryScreen();
+                  return  HistoryScreen();
                 }));
               },
               child: Image.asset(

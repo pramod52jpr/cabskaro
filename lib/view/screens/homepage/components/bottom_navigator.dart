@@ -7,11 +7,13 @@ class BottomNavigator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+     final screenWidth = MediaQuery.of(context).size.width;
+     final screenHeight = MediaQuery.of(context).size.height;
     return Container(
-      margin: const EdgeInsets.only(left: 30, right: 30, bottom: 10),
+      margin:  EdgeInsets.only(left: screenWidth*0.074, right: screenWidth*0.074, bottom: screenHeight*0.010,),
       decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(50),
+          borderRadius: BorderRadius.circular(screenWidth*0.050),
           boxShadow: const [BoxShadow(color: Colors.grey, blurRadius: 5)]),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -20,18 +22,17 @@ class BottomNavigator extends StatelessWidget {
               onTap: () {},
               child: Image.asset(
                 "assets/images/icons/bottom-btn-first.png",
-                height: 40,
+                height: screenHeight*0.044,
               )),
           InkWell(
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return const HistoryScreen();
+                  return  HistoryScreen();
                 }));
               },
               child: Image.asset(
                 "assets/images/icons/bottom-btn-car.png",
-                height: 40,
-              )),
+height: screenHeight*0.044,              )),
           InkWell(
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -40,8 +41,7 @@ class BottomNavigator extends StatelessWidget {
               },
               child: Image.asset(
                 "assets/images/icons/bottom-btn-user.png",
-                height: 40,
-              ))
+height: screenHeight*0.044,              ))
         ],
       ),
     );

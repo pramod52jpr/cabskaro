@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class RoundButton extends StatelessWidget {
+  
   final String title;
   final bool loading;
   final VoidCallback onPressed;
@@ -13,6 +14,10 @@ class RoundButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return SizedBox(
       width: 200,
       height: 55,

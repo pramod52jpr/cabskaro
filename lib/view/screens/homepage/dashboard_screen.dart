@@ -30,6 +30,7 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
+  
   final Completer<GoogleMapController> _completer = Completer();
   static const String STARTLOC = "start";
   static const String STARTLAT = "startLat";
@@ -322,6 +323,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
+    
+     final screenWidth = MediaQuery.of(context).size.width;
+     final screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -332,8 +337,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 Column(
                   children: [
                     Container(
-                      height: 10,
-                      width: 30,
+                      height: screenHeight*0.010,
+                      width: screenWidth*0.074,
                       decoration:
                           const BoxDecoration(color: Colors.white, boxShadow: [
                         BoxShadow(
@@ -347,8 +352,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       height: 20,
                     ),
                     Container(
-                      height: 10,
-                      width: 30,
+                      height: screenHeight*0.010,
+                      width: screenWidth*0.074,
                       decoration:
                           const BoxDecoration(color: Colors.white, boxShadow: [
                         BoxShadow(
@@ -362,7 +367,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ),
                 Expanded(
                   child: Container(
-                    padding: const EdgeInsets.all(20),
+                    padding:  EdgeInsets.all(screenWidth*0.050),
                     decoration: BoxDecoration(
                         boxShadow: const [
                           BoxShadow(
@@ -385,7 +390,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           children: [
                             Text(
                               "Hello",
-                              style: TextStyle(fontSize: 16),
+                              style: TextStyle(fontSize: screenHeight*0.018),
                             ),
                             Text(
                               greeting(),
@@ -396,7 +401,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         ),
                         Image.asset(
                           "assets/images/icons/notification.png",
-                          height: 25,
+                          height: screenWidth*0.060,
                         )
                       ],
                     ),
@@ -405,8 +410,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 Column(
                   children: [
                     Container(
-                      height: 10,
-                      width: 30,
+                      height: screenHeight*0.010,
+                      width: screenWidth*0.074,
                       decoration:
                           const BoxDecoration(color: Colors.white, boxShadow: [
                         BoxShadow(
@@ -420,8 +425,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       height: 20,
                     ),
                     Container(
-                      height: 10,
-                      width: 30,
+                      height: screenHeight*0.010,
+                      width: screenWidth*0.074,
                       decoration:
                           const BoxDecoration(color: Colors.white, boxShadow: [
                         BoxShadow(
@@ -499,8 +504,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   ),
                   Expanded(
                     child: Container(
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 30, vertical: 5),
+                      margin:  EdgeInsets.symmetric(
+                          horizontal:screenWidth*0.074, vertical: 5),
                       child: GoogleMap(
                         mapType: MapType.terrain,
                         initialCameraPosition: CameraPosition(

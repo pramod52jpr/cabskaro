@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
-class LocationPoints extends StatefulWidget {
+// ignore: must_be_immutable
+class LocationPoints extends StatelessWidget {
   final VoidCallback onTapStart;
   final VoidCallback onTapEnd;
   final VoidCallback onTapInterchange;
   final String startLocation;
   final String endLocation;
-  const LocationPoints({
+   LocationPoints({
     super.key,
     required this.onTapStart,
     required this.onTapEnd,
@@ -15,18 +16,16 @@ class LocationPoints extends StatefulWidget {
     required this.endLocation,
   });
 
-  @override
-  State<LocationPoints> createState() => _LocationPointsState();
-}
-
-class _LocationPointsState extends State<LocationPoints> {
   String a="";
+
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+     final screenHeight = MediaQuery.of(context).size.height;
   MediaQueryData mediaQuery=MediaQuery.of(context);
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-      padding: const EdgeInsets.all(10),
+      margin:  EdgeInsets.symmetric(horizontal: screenWidth*0.074, vertical: screenHeight*0.015),
+      padding:  EdgeInsets.all(screenHeight*0.010),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
@@ -45,34 +44,34 @@ class _LocationPointsState extends State<LocationPoints> {
             children: [
               Image.asset(
                 "assets/images/icons/car.png",
-                height: 25,
+                height: screenHeight*0.029,
               ),
               Image.asset(
                 "assets/images/icons/more.png",
-                height: 25,
+                height: screenHeight*0.029,
               ),
               Image.asset(
                 "assets/images/icons/placeholder.png",
-                height: 25,
+                height: screenHeight*0.029,
               ),
             ],
           ),
           Column(
             children: [
               InkWell(
-                onTap: widget.onTapStart,
+                onTap: onTapStart,
                 child: Hero(
                   tag: "start",
                   child: Material(
                     child: Container(
                       width: mediaQuery.size.width*0.6,
-                      height: 30,
+                      height: screenWidth*0.074,
                       padding:
                           const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50),
+                          borderRadius: BorderRadius.circular(screenHeight*0.050),
                           border: Border.all(color: Colors.grey, width: 1)),
-                      child: Text(widget.startLocation,style: const TextStyle(
+                      child: Text(startLocation,style: const TextStyle(
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
@@ -84,20 +83,20 @@ class _LocationPointsState extends State<LocationPoints> {
                 height: 10,
               ),
               InkWell(
-                onTap: widget.onTapEnd,
+                onTap: onTapEnd,
                 child: Hero(
                   tag: "end",
                   child: Material(
                     child: Container(
                       width: mediaQuery.size.width*0.6,
-                      height: 30,
+                      height: screenWidth*0.074,
                       padding:
                           const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50),
+                          borderRadius: BorderRadius.circular(screenHeight*0.050),
                           border: Border.all(color: Colors.grey, width: 1)),
                       child: Text(
-                        widget.endLocation,
+                        endLocation,
                         style: const TextStyle(overflow: TextOverflow.ellipsis),
                       ),
                     ),
@@ -107,10 +106,10 @@ class _LocationPointsState extends State<LocationPoints> {
             ],
           ),
           InkWell(
-            onTap: widget.onTapInterchange,
+            onTap: onTapInterchange,
             child: Image.asset(
               "assets/images/icons/double-arrow.png",
-              height: 20,
+              height: screenHeight*0.020,
             ),
           )
         ],

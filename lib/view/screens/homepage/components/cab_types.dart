@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class CabTypes extends StatefulWidget {
+class CabTypes extends StatelessWidget {
   final VoidCallback onTapFourSeater;
   final VoidCallback onTapFourPlusSeater;
   final VoidCallback onTapAuto;
@@ -14,23 +14,20 @@ class CabTypes extends StatefulWidget {
   });
 
   @override
-  State<CabTypes> createState() => _CabTypesState();
-}
-
-class _CabTypesState extends State<CabTypes> {
-  @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+     final screenHeight = MediaQuery.of(context).size.height;
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+      padding:  EdgeInsets.symmetric(horizontal: screenWidth*0.074, vertical: 5),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Column(
             children: [
               InkWell(
-                onTap: widget.onTapFourSeater,
+                onTap: onTapFourSeater,
                 child: Container(
-                  padding: const EdgeInsets.all(10),
+                  padding:  EdgeInsets.all(screenHeight*0.010),
                   decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       color: Colors.white,
@@ -40,7 +37,7 @@ class _CabTypesState extends State<CabTypes> {
                       ]),
                   child: Image.asset(
                     "assets/images/icons/four-seater.png",
-                    height: 43,
+                    height: screenHeight*0.050,
                   ),
                 ),
               ),
@@ -53,7 +50,7 @@ class _CabTypesState extends State<CabTypes> {
           Column(
             children: [
               InkWell(
-                onTap: widget.onTapFourPlusSeater,
+                onTap: onTapFourPlusSeater,
                 child: Container(
                   padding: const EdgeInsets.all(10),
                   decoration: const BoxDecoration(
@@ -66,29 +63,29 @@ class _CabTypesState extends State<CabTypes> {
                   child: Stack(children: [
                     Image.asset(
                       "assets/images/icons/four-plus-seater.png",
-                      height: 43,
+                      height: screenHeight*0.049,
                     ),
                     Image.asset(
                       "assets/images/icons/four-plus-seater.png",
-                      height: 43,
+                      height: screenHeight*0.049,
                     ),
                     Image.asset(
                       "assets/images/icons/four-plus-seater.png",
-                      height: 43,
+                      height: screenHeight*0.049,
                     ),
                     Image.asset(
                       "assets/images/icons/four-plus-seater.png",
-                      height: 43,
+                      height: screenHeight*0.049,
                     ),
                     Image.asset(
                       "assets/images/icons/four-plus-seater.png",
-                      height: 43,
+                      height: screenHeight*0.049,
                     ),
                   ]),
                 ),
               ),
-              const SizedBox(
-                height: 10,
+               SizedBox(
+                height: screenHeight*0.010,
               ),
               const Text("4+ Seater"),
             ],
@@ -96,7 +93,7 @@ class _CabTypesState extends State<CabTypes> {
           Column(
             children: [
               InkWell(
-                onTap: widget.onTapAuto,
+                onTap: onTapAuto,
                 child: Container(
                   padding: const EdgeInsets.all(10),
                   decoration: const BoxDecoration(
@@ -108,7 +105,7 @@ class _CabTypesState extends State<CabTypes> {
                       ]),
                   child: Image.asset(
                     "assets/images/icons/tuk-tuk.png",
-                    height: 43,
+                    height: screenHeight*0.049,
                   ),
                 ),
               ),
@@ -121,7 +118,7 @@ class _CabTypesState extends State<CabTypes> {
           Column(
             children: [
               InkWell(
-                onTap: widget.onTapBike,
+                onTap: onTapBike,
                 child: Container(
                   padding: const EdgeInsets.all(10),
                   decoration: const BoxDecoration(
@@ -133,7 +130,7 @@ class _CabTypesState extends State<CabTypes> {
                       ]),
                   child: Image.asset(
                     "assets/images/icons/bike.png",
-                    height: 43,
+                    height: screenHeight*0.049,
                   ),
                 ),
               ),

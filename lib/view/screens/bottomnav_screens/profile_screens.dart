@@ -18,7 +18,7 @@ import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatelessWidget {
   ProfileScreen({super.key});
-  final _auth = FirebaseAuth.instance;
+  final _auth=FirebaseAuth.instance;
   final firestore = FirebaseFirestore.instance
       .collection(UserProfile().collection)
       .snapshots();
@@ -35,10 +35,9 @@ class ProfileScreen extends StatelessWidget {
           if (!snapshot.hasData) {
             return Container();
           } else {
-            List users = snapshot.data!.docs;
-            users.retainWhere((element) =>
-                element[UserProfile().id] == _auth.currentUser!.uid.toString());
-            Map<String, dynamic> userData = users[0].data();
+            List users=snapshot.data!.docs;
+            users.retainWhere((element) => element[UserProfile().id]==_auth.currentUser!.uid.toString());
+            Map<String,dynamic> userData=users[0].data();
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -47,110 +46,89 @@ class ProfileScreen extends StatelessWidget {
                 ),
                 Center(
                   child: Container(
-                    width: 120,
-                    height: 120,
+                    width: screenWidth*0.320,
+                    height: screenHeight*0.130,
                     decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(color: Colors.grey, width: 1),
-                        image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: userData[UserProfile().photo].isEmpty
-                                ? AssetImage(
-                                    "assets/images/icons/bottom-btn-user.png")
-                                : NetworkImage(userData[UserProfile().photo])
-                                    as ImageProvider)),
+                      shape: BoxShape.circle,
+                      border: Border.all(color: Colors.grey, width: 1),
+                      image:DecorationImage(
+                        fit: BoxFit.cover,
+                        image:  userData[UserProfile().photo].isEmpty?AssetImage("assets/images/icons/bottom-btn-user.png"):NetworkImage(userData[UserProfile().photo]) as ImageProvider)
+                    ),
                   ),
                 ),
                 kHeight10,
-                Center(
+                 Center(
                   child: Text(
-                    "Hi ${userData[UserProfile().name].isEmpty ? 'User' : userData[UserProfile().name]}",
+                    "Hi ${userData[UserProfile().name].isEmpty?'User':userData[UserProfile().name]}",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
                 const SizedBox(
                   height: 20,
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Colors.white,
-                              border:
-                                  Border.all(color: const Color(0xFFE3842A))),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
+                Row(
+                  children: [
+                    Container(
+                      margin:  EdgeInsets.only(left: screenWidth*0.050),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.white,
+                          border: Border.all(color: const Color(0xFFE3842A))),
+                      height: screenHeight*0.15,
+                      width: screenWidth*0.660,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Image.asset(
-                                      'assets/images/icons/bottom-btn-user.png',
-                                      height: 30,
-                                    ),
-                                    Expanded(
-                                      child: Padding(
-                                        padding: EdgeInsets.all(8.0),
-                                        child: Text(
-                                            userData[UserProfile().name].isEmpty
-                                                ? "Your Name"
-                                                : userData[UserProfile().name],style: TextStyle(overflow: TextOverflow.ellipsis),),
-                                      ),
-                                    )
-                                  ],
+                                Image.asset(
+                                  'assets/images/icons/bottom-btn-user.png',
+                                  height: 30,
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Row(
-                                    children: [
-                                      Image.asset(
-                                        'assets/images/icons/Screenshot 2023-10-16 3.29.48 PM.png',
-                                        height: 20,
-                                      ),
-                                      Expanded(
-                                        child: Padding(
-                                          padding: EdgeInsets.all(8.0),
-                                          child: Text(userData[
-                                                      UserProfile().email]
-                                                  .isEmpty
-                                              ? "Your Email"
-                                              : userData[UserProfile().email],style: TextStyle(overflow: TextOverflow.ellipsis),),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Image.asset(
-                                      'assets/images/icons/Screenshot_2023-10-16_3.23.06_PM-removebg-preview.png',
-                                      height: 30,
-                                    ),
-                                    Expanded(
-                                      child: Padding(
-                                        padding: EdgeInsets.all(8.0),
-                                        child: Text(
-                                            userData[UserProfile().phone].isEmpty
-                                                ? "Your Mobile No."
-                                                : userData[UserProfile().phone],style: TextStyle(overflow: TextOverflow.ellipsis),),
-                                      ),
-                                    )
-                                  ],
-                                ),
+                                 Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Text(userData[UserProfile().name].isEmpty?"Your Name":userData[UserProfile().name]),
+                                )
                               ],
                             ),
-                          ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                children: [
+                                  Image.asset(
+                                    'assets/images/icons/Screenshot 2023-10-16 3.29.48 PM.png',
+                                    height: 20,
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Text(userData[UserProfile().email].isEmpty?"Your Email":userData[UserProfile().email]),
+                                  )
+                                ],
+                              ),
+                            ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Image.asset(
+                                  'assets/images/icons/Screenshot_2023-10-16_3.23.06_PM-removebg-preview.png',
+                                  height: 30,
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Text(userData[UserProfile().phone].isEmpty?"Your Mobile No.":userData[UserProfile().phone]),
+                                )
+                              ],
+                            ),
+                          ],
                         ),
                       ),
-                      Container(
-                          margin: EdgeInsets.symmetric(horizontal: 20),
+                    ),
+                    Expanded(
+                      child: Container(
+                          margin: const EdgeInsets.only(right: 5),
                           child: Column(
                             children: [
                               InkWell(
@@ -170,7 +148,7 @@ class ProfileScreen extends StatelessWidget {
                                             width: 1),
                                       ),
                                       child: CircleAvatar(
-                                        radius: screenWidth * 0.05,
+                                        radius: screenWidth*0.05,
                                         backgroundColor: Colors.white,
                                         child: Image.asset(
                                             'assets/images/icons/setting.PNG',
@@ -187,7 +165,7 @@ class ProfileScreen extends StatelessWidget {
                                 onTap: () {
                                   Navigator.push(context,
                                       MaterialPageRoute(builder: (context) {
-                                    return CustomerSupportScreen();
+                                    return  CustomerSupportScreen();
                                   }));
                                 },
                                 child: Column(
@@ -200,7 +178,7 @@ class ProfileScreen extends StatelessWidget {
                                             width: 1),
                                       ),
                                       child: CircleAvatar(
-                                        radius: screenWidth * 0.05,
+                                        radius: screenWidth*0.05,
                                         backgroundColor: Colors.white,
                                         child: Image.asset(
                                             'assets/images/icons/support.png',
@@ -212,9 +190,9 @@ class ProfileScreen extends StatelessWidget {
                                 ),
                               )
                             ],
-                          ))
-                    ],
-                  ),
+                          )),
+                    )
+                  ],
                 ),
                 Expanded(
                   child: Padding(
@@ -225,7 +203,7 @@ class ProfileScreen extends StatelessWidget {
                           color: Colors.white,
                           border: Border.all(color: Colors.grey)),
                       margin: const EdgeInsets.only(left: 10),
-                      width: screenWidth * 0.860,
+                      width: screenWidth*0.860,
                       child: ListView(children: [
                         ProfileWidgetListTile(
                           text: 'FAQs',
@@ -233,7 +211,7 @@ class ProfileScreen extends StatelessWidget {
                           ontap: () {
                             Navigator.push(context,
                                 MaterialPageRoute(builder: (context) {
-                              return FaqScreen();
+                              return  FaqScreen();
                             }));
                           },
                         ),
@@ -323,8 +301,7 @@ class ProfileScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                BottomNavWidget(
-                    screenWidth: screenWidth, screenHeight: screenHeight)
+                BottomNavWidget(screenWidth: screenWidth, screenHeight: screenHeight)
               ],
             );
           }
@@ -341,3 +318,5 @@ class ProfileScreen extends StatelessWidget {
         (route) => false);
   }
 }
+
+

@@ -8,27 +8,35 @@ import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class HistoryScreen extends StatefulWidget {
-  const HistoryScreen({super.key});
+class HistoryScreen extends StatelessWidget {
+   HistoryScreen({super.key});
 
-  @override
-  State<HistoryScreen> createState() => _HistoryScreenState();
-}
-
-class _HistoryScreenState extends State<HistoryScreen> {
   final Completer<GoogleMapController> _completer = Completer();
+
   String startLocationName = "Current Location";
+
   double startLatitude = 0.0;
+
   double startLongitude = 0.0;
+
   String endLocationName = "Select Destination";
+
   double endLatitude = 0.0;
+
   double endLongitude = 0.0;
+
   double zoom = 1.0;
+
   List<Marker> marker = [];
+
   PolylinePoints polylinePoints = PolylinePoints();
+
   Map<PolylineId, Polyline> polylines = {};
+
   @override
   Widget build(BuildContext context) {
+      final screenWidth = MediaQuery.of(context).size.width;
+      final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       body: SafeArea(
           child: Column(
@@ -38,7 +46,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
           ),
           kHeight20,
           Container(
-            height: 250,
+            height: screenHeight/3.6,
             width: 370,
             decoration: BoxDecoration(
               color: Colors.white,
@@ -49,8 +57,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
               children: [
                 kHeight10,
                 Container(
-                  height: 100,
-                  width: 340,
+                  height: screenHeight/8.2,
+                  width: screenWidth*0.850,
                   decoration: BoxDecoration(
                     color: const Color.fromARGB(255, 24, 24, 20),
                     borderRadius: BorderRadius.circular(10),
@@ -110,8 +118,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
                           borderRadius: BorderRadius.circular(20),
                           color: Colors.orange),
                       margin: const EdgeInsets.only(left: 20),
-                      height: 35,
-                      width: 80,
+                      height: screenHeight*0.040,
+                      width: screenWidth*0.20,
                     ),
                     Container(
                       child: Row(
@@ -128,8 +136,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
                           borderRadius: BorderRadius.circular(20),
                           color: Colors.orange),
                       margin: const EdgeInsets.only(left: 20),
-                      height: 35,
-                      width: 100,
+                      height: screenHeight*0.040,
+                      width: screenWidth*0.25,
                     ),
                   ],
                 ),
@@ -167,8 +175,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
                         borderRadius: BorderRadius.circular(20),
                         color: Colors.orange),
                     margin: const EdgeInsets.only(left: 20),
-                    height: 35,
-                    width: 100,
+                    height: screenHeight*0.040,
+                      width: screenWidth*0.24,
                   ),
                   subtitle: const Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -183,10 +191,10 @@ class _HistoryScreenState extends State<HistoryScreen> {
             ),
           ),
           Container(
-            margin: const EdgeInsets.only(left: 30, right: 30, bottom: 10),
+            margin:  EdgeInsets.only(left: screenWidth*0.074, right: screenWidth*0.074, bottom: screenHeight*0.010),
             decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(50),
+                borderRadius: BorderRadius.circular(screenHeight*0.050),
                 boxShadow: const [
                   BoxShadow(color: Colors.grey, blurRadius: 5)
                 ]),
@@ -202,13 +210,13 @@ class _HistoryScreenState extends State<HistoryScreen> {
                     },
                     child: Image.asset(
                       "assets/images/icons/bottom-btn-first.png",
-                      height: 40,
+                      height: screenHeight*0.044, 
                     )),
                 InkWell(
                     onTap: () {},
                     child: Image.asset(
                       "assets/images/icons/bottom-btn-car.png",
-                      height: 40,
+                     height: screenHeight*0.044, 
                     )),
                 InkWell(
                     onTap: () {
@@ -219,7 +227,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                     },
                     child: Image.asset(
                       "assets/images/icons/bottom-btn-user.png",
-                      height: 40,
+                    height: screenHeight*0.044, 
                     ))
               ],
             ),
