@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:cabskaro/view/screens/homepage/dashboard_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:uuid/uuid.dart';
 import 'package:http/http.dart' as http;
 
@@ -30,7 +31,7 @@ class _SearchEndLocationState extends State<SearchEndLocation> {
     setState(() {
       _sessionToken = uuid.v4();
     });
-    String googleApiKey = "AIzaSyA0r0oRC03tITR0FNYVfKT-SlXEvf_FDp0";
+    String? googleApiKey = dotenv.env['APIurl'];
     String baseUrl =
         "https://maps.googleapis.com/maps/api/place/autocomplete/json";
     String request =

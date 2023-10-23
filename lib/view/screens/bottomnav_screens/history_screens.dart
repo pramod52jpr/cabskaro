@@ -1,18 +1,24 @@
-// ignore_for_file: must_be_immutable
-
 import 'dart:async';
-
+import 'package:cabskaro/controller/services/services.dart';
 import 'package:cabskaro/view/const/sizedbox.dart';
 import 'package:cabskaro/view/screens/bottomnav_screens/profile_screens.dart';
 import 'package:cabskaro/view/screens/homepage/dashboard_screen.dart';
 import 'package:cabskaro/view/widgets/back_button_widget.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class HistoryScreen extends StatelessWidget {
+class HistoryScreen extends StatefulWidget {
    HistoryScreen({super.key});
 
+  @override
+  State<HistoryScreen> createState() => _HistoryScreenState();
+}
+
+class _HistoryScreenState extends State<HistoryScreen> {
   final Completer<GoogleMapController> _completer = Completer();
 
   String startLocationName = "Current Location";
@@ -39,6 +45,27 @@ class HistoryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
       final screenWidth = MediaQuery.of(context).size.width;
       final screenHeight = MediaQuery.of(context).size.height;
+double userRating = 0; 
+
+RatingBar _ratingBar = RatingBar.builder(
+  initialRating: 0, 
+  minRating: 1,
+  direction: Axis.horizontal,
+  allowHalfRating: true, 
+  itemCount: 5, 
+  itemSize: 24.0, 
+  itemBuilder: (context, _) => Icon(
+    Icons.star,
+    color: Colors.amber,
+  ),
+  onRatingUpdate: (rating) {
+    setState(() {
+      userRating = rating;
+    });
+  },
+);
+
+
     return Scaffold(
       body: SafeArea(
           child: Column(
@@ -48,8 +75,8 @@ class HistoryScreen extends StatelessWidget {
           ),
           kHeight20,
           Container(
-            height: screenHeight/3.6,
-            width: 370,
+            height: screenHeight/3.4,
+            width: screenWidth*39,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(10),
@@ -82,7 +109,7 @@ class HistoryScreen extends StatelessWidget {
                   height: 10,
                 ),
                 Container(
-                    margin: const EdgeInsets.only(right: 70),
+                    margin:  EdgeInsets.only(right: screenWidth*0.170),
                     child: const Text(
                       'Connaught Place,New Delhi,Delhi',
                       style:
@@ -90,14 +117,14 @@ class HistoryScreen extends StatelessWidget {
                     )),
                 kHeight5,
                 Container(
-                    margin: const EdgeInsets.only(right: 210),
+                    margin:  EdgeInsets.only(right: screenWidth*0.540),
                     child: const Text(
                       '30 Sep, 12.16 pm',
                       style: TextStyle(),
                     )),
                 kHeight5,
                 Container(
-                    margin: const EdgeInsets.only(right: 270),
+                    margin:  EdgeInsets.only(right: screenWidth*0.700),
                     child: const Text(
                       '₹ 47.00',
                       style: TextStyle(),
@@ -105,24 +132,71 @@ class HistoryScreen extends StatelessWidget {
                 kHeight10,
                 Row(
                   children: [
-                    Container(
-                      child: Row(
-                        children: [
-                          kWidth10,
-                           Icon(Icons.star_border),
-                           SizedBox(
-                            width: 3,
-                          ),
-                          Text('Rate')
-                        ],
-                      ),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Colors.orange),
-                      margin: const EdgeInsets.only(left: 20),
-                      height: screenHeight*0.040,
-                      width: screenWidth*0.20,
-                    ),
+                   InkWell(
+   onTap: () {
+    showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+                content: Container(
+          height: screenHeight*0.085,
+          child: Column(
+            children: <Widget>[
+              kHeight10,
+              Text('Please rate our App:'),kHeight10,
+              _ratingBar,
+            ],
+          ),
+        ),
+actions: <Widget>[
+TextButton(
+  onPressed: () async {
+    final ratingData = {
+      'rating': userRating, 
+    };
+    final db = FirebaseFirestore.instance;
+    try {
+      await db.collection('ratings').add(ratingData);
+      Services().toastmsg("Rating Submitted Successfully", true);
+    } catch (e) {
+      print('Error submitting rating: $e');
+      Services().toastmsg("Error submitting rating", false);
+    }
+    Navigator.pop(context);
+  },
+  child: const Text('Submit'),
+),
+
+       TextButton(
+            onPressed: () => Navigator.pop(context, 'Cancel'),
+            child: const Text('Cancel'),
+          ),
+],
+
+      
+      
+      ),
+    );
+  },
+  child: Container(
+    child: Row(
+      children: [
+        kWidth10,
+        Icon(Icons.star_border),
+        SizedBox(
+          width: 3,
+        ),
+        Text('Rate')
+      ],
+    ),
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(20),
+      color: Colors.orange,
+    ),
+    margin: EdgeInsets.only(left: screenHeight * 0.037),
+    height: screenHeight * 0.040,
+    width: screenWidth * 0.20,
+  ),
+),
                     Container(
                       child: Row(
                         children: [
@@ -158,7 +232,7 @@ class HistoryScreen extends StatelessWidget {
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                   ),
                   leading: CircleAvatar(
-                    radius: 23,
+                    radius: screenHeight*0.029,
                     backgroundColor: Colors.transparent,
                     child: Image.asset('assets/images/cabsicon/motobike.png'),
                   ),

@@ -21,6 +21,7 @@ class CabCompanies extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+      final screenHeight = MediaQuery.of(context).size.height;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 30),
       child: SingleChildScrollView(
@@ -34,7 +35,7 @@ class CabCompanies extends StatelessWidget {
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                 child: Image.asset(
                   "assets/images/icons/uber-logo.png",
-                  height: 40,
+                  height: screenHeight*0.050,
                 ),
               ),
             ),
@@ -45,7 +46,7 @@ class CabCompanies extends StatelessWidget {
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                 child: Image.asset(
                   "assets/images/icons/ola-logo.png",
-                  height: 50,
+                  height:  screenHeight*0.060,
                 ),
               ),
             ),
@@ -56,7 +57,7 @@ class CabCompanies extends StatelessWidget {
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                 child: Image.asset(
                   "assets/images/icons/rapido-logo.png",
-                  height: 40,
+                  height: screenHeight*0.050,
                 ),
               ),
             ),
@@ -67,7 +68,7 @@ class CabCompanies extends StatelessWidget {
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                 child: Image.asset(
                   "assets/images/icons/meru-logo.png",
-                  height: 40,
+                  height: screenHeight*0.050,
                 ),
               ),
             ),
@@ -78,7 +79,7 @@ class CabCompanies extends StatelessWidget {
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                 child: Image.asset(
                   "assets/images/icons/blu-smart-logo.png",
-                  height: 40,
+                  height: screenHeight*0.050,
                 ),
               ),
             ),
@@ -89,7 +90,7 @@ class CabCompanies extends StatelessWidget {
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                 child: Image.asset(
                   "assets/images/icons/indrive-logo.png",
-                  height: 40,
+                  height: screenHeight*0.050,
                 ),
               ),
             ),
@@ -100,7 +101,7 @@ class CabCompanies extends StatelessWidget {
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                 child: Image.asset(
                   "assets/images/icons/bla-bla-logo.png",
-                  height: 40,
+                  height: screenHeight*0.055,
                 ),
               ),
             ),
