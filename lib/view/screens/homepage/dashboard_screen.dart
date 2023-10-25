@@ -30,7 +30,6 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  
   final Completer<GoogleMapController> _completer = Completer();
   static const String STARTLOC = "start";
   static const String STARTLAT = "startLat";
@@ -48,6 +47,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
   List<Marker> marker = [];
   PolylinePoints polylinePoints = PolylinePoints();
   Map<PolylineId, Polyline> polylines = {};
+
+
+  BitmapDescriptor icon = BitmapDescriptor.defaultMarker;
+  Future customIcon() async {
+    BitmapDescriptor.fromAssetImage(
+            ImageConfiguration(), "assets/images/icons/markerman.png")
+        .then((value) {
+      setState(() {
+        icon = value;
+      });
+    });
+  }
+// start location
 
   void animateStartLocation(double latitude, double longitude) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -94,12 +106,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
     });
   }
 
-  void setStartValue(double latitude, double longitude) {
+  Future setStartValue(double latitude, double longitude) async {
+    await customIcon();
     setState(() {
       zoom = 14.0;
       marker.add(Marker(
         markerId: const MarkerId("1"),
         position: LatLng(latitude, longitude),
+        icon: icon,
       ));
 
       if (endLatitude != 0.0 && endLongitude != 0.0) {
@@ -124,7 +138,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     prefs.setDouble(STARTLAT, location[0].latitude);
     prefs.setDouble(STARTLON, location[0].longitude);
 
-    setStartValue(location[0].latitude, location[0].longitude);
+    await setStartValue(location[0].latitude, location[0].longitude);
     setState(() {
       startLocationName = prefs.getString(STARTLOC)!;
       startLatitude = prefs.getDouble(STARTLAT)!;
@@ -162,18 +176,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
       getStartLocation();
     }
   }
-  BitmapDescriptor icon=BitmapDescriptor.defaultMarker;
-  Future customIcon()async{
-    BitmapDescriptor.fromAssetImage(ImageConfiguration(), "assets/images/icons/markerman.png").then((value){
-      setState(() {
-        icon=value;
-      });
-    });
-  }
 // start location end
 // end location start
 
-  void setEndValue(double latitude, double longitude) {
+  Future setEndValue(double latitude, double longitude) async {
+    await customIcon();
     setState(() {
       zoom = 14.0;
       marker.add(Marker(
@@ -186,6 +193,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         marker.add(Marker(
           markerId: const MarkerId("1"),
           position: LatLng(startLatitude, startLongitude),
+          icon: icon,
         ));
       }
     });
@@ -219,7 +227,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     prefs.setDouble(ENDLAT, location[0].latitude);
     prefs.setDouble(ENDLON, location[0].longitude);
 
-    setEndValue(location[0].latitude, location[0].longitude);
+    await setEndValue(location[0].latitude, location[0].longitude);
     setState(() {
       endLocationName = prefs.getString(ENDLOC)!;
       endLatitude = prefs.getDouble(ENDLAT)!;
@@ -231,6 +239,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 // end location end
 
   void savedLocations() async {
+    await customIcon();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (prefs.getString(STARTLOC) != null) {
       setState(() {
@@ -252,17 +261,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
         endLongitude != 0.0 &&
         startLatitude != 0.0 &&
         startLongitude != 0.0) {
-      setState(() {
-        zoom = 11.0;
-        marker.add(Marker(
-          markerId: const MarkerId("2"),
-          position: LatLng(endLatitude, endLongitude),
-        ));
-        marker.add(Marker(
-          markerId: const MarkerId("1"),
-          position: LatLng(startLatitude, startLongitude),
-        ));
-      });
+      zoom = 11.0;
+      marker.clear();
+      marker.add(Marker(
+        markerId: const MarkerId("1"),
+        position: LatLng(startLatitude, startLongitude),
+        icon: icon,
+      ));
+      marker.add(Marker(
+        markerId: const MarkerId("2"),
+        position: LatLng(endLatitude, endLongitude),
+      ));
+      setState(() {});
       CameraPosition newCameraPosition =
           CameraPosition(target: LatLng(endLatitude, endLongitude), zoom: zoom);
       GoogleMapController controller = await _completer.future;
@@ -330,9 +340,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    
-     final screenWidth = MediaQuery.of(context).size.width;
-     final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       body: SafeArea(
@@ -344,8 +353,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 Column(
                   children: [
                     Container(
-                      height: screenHeight*0.010,
-                      width: screenWidth*0.074,
+                      height: screenHeight * 0.010,
+                      width: screenWidth * 0.074,
                       decoration:
                           const BoxDecoration(color: Colors.white, boxShadow: [
                         BoxShadow(
@@ -359,8 +368,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       height: 20,
                     ),
                     Container(
-                      height: screenHeight*0.010,
-                      width: screenWidth*0.074,
+                      height: screenHeight * 0.010,
+                      width: screenWidth * 0.074,
                       decoration:
                           const BoxDecoration(color: Colors.white, boxShadow: [
                         BoxShadow(
@@ -374,7 +383,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ),
                 Expanded(
                   child: Container(
-                    padding:  EdgeInsets.all(screenWidth*0.050),
+                    padding: EdgeInsets.all(screenWidth * 0.050),
                     decoration: BoxDecoration(
                         boxShadow: const [
                           BoxShadow(
@@ -392,12 +401,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                          Column(
+                        Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               "Hello",
-                              style: TextStyle(fontSize: screenHeight*0.018),
+                              style: TextStyle(fontSize: screenHeight * 0.018),
                             ),
                             Text(
                               greeting(),
@@ -408,7 +417,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         ),
                         Image.asset(
                           "assets/images/icons/notification.png",
-                          height: screenWidth*0.060,
+                          height: screenWidth * 0.060,
                         )
                       ],
                     ),
@@ -417,8 +426,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 Column(
                   children: [
                     Container(
-                      height: screenHeight*0.010,
-                      width: screenWidth*0.074,
+                      height: screenHeight * 0.010,
+                      width: screenWidth * 0.074,
                       decoration:
                           const BoxDecoration(color: Colors.white, boxShadow: [
                         BoxShadow(
@@ -432,8 +441,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       height: 20,
                     ),
                     Container(
-                      height: screenHeight*0.010,
-                      width: screenWidth*0.074,
+                      height: screenHeight * 0.010,
+                      width: screenWidth * 0.074,
                       decoration:
                           const BoxDecoration(color: Colors.white, boxShadow: [
                         BoxShadow(
@@ -511,8 +520,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   ),
                   Expanded(
                     child: Container(
-                      margin:  EdgeInsets.symmetric(
-                          horizontal:screenWidth*0.074, vertical: 5),
+                      margin: EdgeInsets.symmetric(
+                          horizontal: screenWidth * 0.074, vertical: 5),
                       child: GoogleMap(
                         mapType: MapType.terrain,
                         initialCameraPosition: CameraPosition(
@@ -569,7 +578,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       //     ));
                     },
                     onTapIndrive: () {
-                      launchUrl(Uri.parse("https://intercity.indrive.com/en?utm_source=google&utm_medium=cpc&utm_campaign=ic_client_ua_ga_search_launch_india_ppc_191222_main&adposition=&utm_term=indriver%20intercity&gclid=CjwKCAjwp8OpBhAFEiwAG7NaEudwDo_g8ntI0CjtCAhpATMY3szvMj5--Khn_-CVkUvsntJDSzoeqRoCLX8QAvD_BwE"));
+                      launchUrl(Uri.parse(
+                          "https://intercity.indrive.com/en?utm_source=google&utm_medium=cpc&utm_campaign=ic_client_ua_ga_search_launch_india_ppc_191222_main&adposition=&utm_term=indriver%20intercity&gclid=CjwKCAjwp8OpBhAFEiwAG7NaEudwDo_g8ntI0CjtCAhpATMY3szvMj5--Khn_-CVkUvsntJDSzoeqRoCLX8QAvD_BwE"));
                       // Navigator.push(
                       //     context,
                       //     MaterialPageRoute(
@@ -597,7 +607,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
     );
   }
-   String greeting() {
+
+  String greeting() {
     var hour = DateTime.now().hour;
     if (hour < 12) {
       return 'Good Morning';
