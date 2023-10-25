@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:pinput/pinput.dart';
 
 class VerifyCode extends StatefulWidget {
   final String phoneNumber;
@@ -22,28 +23,10 @@ class VerifyCode extends StatefulWidget {
 
 class _VerifyCodeState extends State<VerifyCode> {
   final _auth = FirebaseAuth.instance;
-  final firestore = FirebaseFirestore.instance.collection(UserProfile().collection);
-  List verifyCodeController = <TextEditingController>[
-    TextEditingController(),
-    TextEditingController(),
-    TextEditingController(),
-    TextEditingController(),
-    TextEditingController(),
-    TextEditingController(),
-  ];
-  var code;
+  final firestore =
+      FirebaseFirestore.instance.collection(UserProfile().collection);
+  TextEditingController pinputController = TextEditingController();
   bool loading = false;
-
-  void generateCode() {
-    List verifyCode = [];
-    for (TextEditingController element in verifyCodeController) {
-      verifyCode.add(element.text.toString());
-    }
-    setState(() {
-      code = verifyCode.join("");
-      print(code);
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -236,212 +219,23 @@ class _VerifyCodeState extends State<VerifyCode> {
           height: 20,
         ),
         Material(
-          color: Colors.transparent,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                  height: 35,
-                  width: 35,
-                  child: TextFormField(
-                    controller: verifyCodeController[0],
-                    textAlign: TextAlign.center,
-                    autofocus: true,
-                    keyboardType: TextInputType.number,
-                    inputFormatters: [
-                      LengthLimitingTextInputFormatter(1),
-                      FilteringTextInputFormatter.digitsOnly
-                    ],
-                    onChanged: (value) {
-                      if (value.length == 1) {
-                        FocusScope.of(context).nextFocus();
-                      }
-                      generateCode();
-                    },
-                    decoration: const InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(horizontal: 0),
-                        focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                          color: Colors.grey,
-                          width: 1,
-                        )),
-                        border: OutlineInputBorder(
-                            borderSide: BorderSide(
-                          color: Colors.grey,
-                          width: 1,
-                        ))),
-                  )),
-              const SizedBox(
-                width: 5,
+            color: Colors.transparent,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30),
+              child: Pinput(
+                controller: pinputController,
+                length: 6,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return "Please fill the input";
+                  } else if (value.length != 6) {
+                    return "Please write code correctly";
+                  }
+                  return null;
+                },
               ),
-              SizedBox(
-                  height: 35,
-                  width: 35,
-                  child: TextFormField(
-                    controller: verifyCodeController[1],
-                    textAlign: TextAlign.center,
-                    autofocus: true,
-                    keyboardType: TextInputType.number,
-                    inputFormatters: [
-                      LengthLimitingTextInputFormatter(1),
-                      FilteringTextInputFormatter.digitsOnly
-                    ],
-                    onChanged: (value) {
-                      if (value.length == 1) {
-                        FocusScope.of(context).nextFocus();
-                      }
-                      generateCode();
-                    },
-                    decoration: const InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(horizontal: 0),
-                        focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                          color: Colors.grey,
-                          width: 1,
-                        )),
-                        border: OutlineInputBorder(
-                            borderSide: BorderSide(
-                          color: Colors.grey,
-                          width: 1,
-                        ))),
-                  )),
-              const SizedBox(
-                width: 5,
-              ),
-              SizedBox(
-                  height: 35,
-                  width: 35,
-                  child: TextFormField(
-                    controller: verifyCodeController[2],
-                    textAlign: TextAlign.center,
-                    autofocus: true,
-                    keyboardType: TextInputType.number,
-                    inputFormatters: [
-                      LengthLimitingTextInputFormatter(1),
-                      FilteringTextInputFormatter.digitsOnly
-                    ],
-                    onChanged: (value) {
-                      if (value.length == 1) {
-                        FocusScope.of(context).nextFocus();
-                      }
-                      generateCode();
-                    },
-                    decoration: const InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(horizontal: 0),
-                        focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                          color: Colors.grey,
-                          width: 1,
-                        )),
-                        border: OutlineInputBorder(
-                            borderSide: BorderSide(
-                          color: Colors.grey,
-                          width: 1,
-                        ))),
-                  )),
-              const SizedBox(
-                width: 5,
-              ),
-              SizedBox(
-                  height: 35,
-                  width: 35,
-                  child: TextFormField(
-                    controller: verifyCodeController[3],
-                    textAlign: TextAlign.center,
-                    autofocus: true,
-                    keyboardType: TextInputType.number,
-                    inputFormatters: [
-                      LengthLimitingTextInputFormatter(1),
-                      FilteringTextInputFormatter.digitsOnly
-                    ],
-                    onChanged: (value) {
-                      if (value.length == 1) {
-                        FocusScope.of(context).nextFocus();
-                      }
-                      generateCode();
-                    },
-                    decoration: const InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(horizontal: 0),
-                        focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                          color: Colors.grey,
-                          width: 1,
-                        )),
-                        border: OutlineInputBorder(
-                            borderSide: BorderSide(
-                          color: Colors.grey,
-                          width: 1,
-                        ))),
-                  )),
-              const SizedBox(
-                width: 5,
-              ),
-              SizedBox(
-                  height: 35,
-                  width: 35,
-                  child: TextFormField(
-                    controller: verifyCodeController[4],
-                    textAlign: TextAlign.center,
-                    autofocus: true,
-                    keyboardType: TextInputType.number,
-                    inputFormatters: [
-                      LengthLimitingTextInputFormatter(1),
-                      FilteringTextInputFormatter.digitsOnly
-                    ],
-                    onChanged: (value) {
-                      if (value.length == 1) {
-                        FocusScope.of(context).nextFocus();
-                      }
-                      generateCode();
-                    },
-                    decoration: const InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(horizontal: 0),
-                        focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                          color: Colors.grey,
-                          width: 1,
-                        )),
-                        border: OutlineInputBorder(
-                            borderSide: BorderSide(
-                          color: Colors.grey,
-                          width: 1,
-                        ))),
-                  )),
-              const SizedBox(
-                width: 5,
-              ),
-              SizedBox(
-                height: 35,
-                width: 35,
-                child: TextFormField(
-                  controller: verifyCodeController[5],
-                  textAlign: TextAlign.center,
-                  autofocus: true,
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [
-                    LengthLimitingTextInputFormatter(1),
-                    FilteringTextInputFormatter.digitsOnly
-                  ],
-                  onChanged: (value) {
-                    generateCode();
-                  },
-                  decoration: const InputDecoration(
-                      contentPadding: EdgeInsets.symmetric(horizontal: 0),
-                      focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                        color: Colors.grey,
-                        width: 1,
-                      )),
-                      border: OutlineInputBorder(
-                          borderSide: BorderSide(
-                        color: Colors.grey,
-                        width: 1,
-                      ))),
-                ),
-              ),
-            ],
-          ),
-        ),
+            )),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -491,41 +285,41 @@ class _VerifyCodeState extends State<VerifyCode> {
             setState(() {
               loading = true;
             });
-            if (code.toString().length == 6) {
+            if (pinputController.text.toString().length == 6) {
               final credential = PhoneAuthProvider.credential(
-                  verificationId: widget.verificationCode, smsCode: code);
+                  verificationId: widget.verificationCode,
+                  smsCode: pinputController.text.toString());
               try {
                 await _auth.signInWithCredential(credential).then((value) {
-                  if(value.additionalUserInfo!.isNewUser){
+                  if (value.additionalUserInfo!.isNewUser) {
                     firestore.doc(_auth.currentUser!.uid.toString()).set({
-                      UserProfile().id:_auth.currentUser!.uid.toString(),
-                      UserProfile().name:"",
-                      UserProfile().email:"",
-                      UserProfile().phone:_auth.currentUser!.phoneNumber.toString(),
-                      UserProfile().photo:"",
-                      UserProfile().home:"",
-                      UserProfile().work:"",
+                      UserProfile().id: _auth.currentUser!.uid.toString(),
+                      UserProfile().name: "",
+                      UserProfile().email: "",
+                      UserProfile().phone:
+                          _auth.currentUser!.phoneNumber.toString(),
+                      UserProfile().photo: "",
+                      UserProfile().home: "",
+                      UserProfile().work: "",
                     });
-
                   }
-                      setState(() {
-                        loading = false;
-                      });
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const DashboardScreen(),
-                          ),
-                          (route) => false);
+                  setState(() {
+                    loading = false;
+                  });
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const DashboardScreen(),
+                      ),
+                      (route) => false);
                 });
-              
+
                 // Navigator.pushAndRemoveUntil(
                 //     context,
                 //     MaterialPageRoute(
                 //       builder: (context) => const DashboardScreen(),
                 //     ),
                 //     (route) => false);
-
               } catch (e) {
                 setState(() {
                   loading = false;

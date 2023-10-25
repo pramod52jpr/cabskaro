@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class UberServices {
   final String _clientSecret = 'kpicidASvf99LPk6rtstexuVeJr1OPcvxNfWqvZy';
   final String _clientId = 'YkiXzvN5QgErzXPZkpciZ4e-R_d0PaXl';
-  // final String _scope = 'profile trips';
+  final String _scope = 'profile trips';
   String? _accessToken; 
 
   Future<void> generateAndStoreAccessToken() async {
@@ -14,7 +14,7 @@ class UberServices {
       'client_secret': _clientSecret,
       'client_id': _clientId,
       'grant_type': 'client_credentials',
-      // 'scope': _scope,
+      'scope': _scope,
   };
 
     final response = await http.post(uri, body: body);

@@ -136,6 +136,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   void startLocation() async {
+    await customIcon();
     if (widget.location == "current") {
       Services().getUserLocation().then((value) {
         if (value != null) {
@@ -144,6 +145,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             marker.add(Marker(
               markerId: const MarkerId("1"),
               position: LatLng(value.latitude, value.longitude),
+              icon: icon,
             ));
             if (endLatitude != 0.0 && endLongitude != 0.0) {
               zoom = 11.0;
@@ -162,7 +164,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
       getStartLocation();
     }
   }
-
+  BitmapDescriptor icon=BitmapDescriptor.defaultMarker;
+  Future customIcon()async{
+    BitmapDescriptor.fromAssetImage(ImageConfiguration(), "assets/images/icons/markerman.png").then((value){
+      setState(() {
+        icon=value;
+      });
+    });
+  }
 // start location end
 // end location start
 

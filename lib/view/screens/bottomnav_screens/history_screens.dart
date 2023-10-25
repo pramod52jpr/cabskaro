@@ -138,10 +138,11 @@ RatingBar _ratingBar = RatingBar.builder(
       context: context,
       builder: (BuildContext context) => AlertDialog(
                 content: Container(
-          height: screenHeight*0.085,
+                  
+           height: screenHeight*0.070,
           child: Column(
             children: <Widget>[
-              kHeight10,
+             
               Text('Please rate our App:'),kHeight10,
               _ratingBar,
             ],
@@ -171,9 +172,6 @@ TextButton(
             child: const Text('Cancel'),
           ),
 ],
-
-      
-      
       ),
     );
   },

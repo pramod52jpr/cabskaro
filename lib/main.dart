@@ -14,7 +14,11 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
 );
-  runApp(const MyApp());
+  runApp(
+    // MultiProvider(providers: [
+    //   ChangeNotifierProvider(create: (context)=>SplashScreenProvider()) ],
+   MyApp());
+    
 }
 
 class MyApp extends StatelessWidget {
