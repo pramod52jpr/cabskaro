@@ -49,8 +49,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
   PolylinePoints polylinePoints = PolylinePoints();
   Map<PolylineId, Polyline> polylines = {};
 
-// start location
-
   void animateStartLocation(double latitude, double longitude) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString(STARTLOC, "Current Location");

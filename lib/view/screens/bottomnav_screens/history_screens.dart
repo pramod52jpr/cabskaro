@@ -1,52 +1,32 @@
 import 'dart:async';
+import 'package:cabskaro/controller/provider/history_screen.dart';
 import 'package:cabskaro/controller/services/services.dart';
 import 'package:cabskaro/view/const/sizedbox.dart';
 import 'package:cabskaro/view/screens/bottomnav_screens/profile_screens.dart';
 import 'package:cabskaro/view/screens/homepage/dashboard_screen.dart';
 import 'package:cabskaro/view/widgets/back_button_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:provider/provider.dart';
 
-class HistoryScreen extends StatefulWidget {
+class HistoryScreen extends StatelessWidget {
    HistoryScreen({super.key});
 
   @override
-  State<HistoryScreen> createState() => _HistoryScreenState();
-}
-
-class _HistoryScreenState extends State<HistoryScreen> {
+  Widget build(BuildContext context) {
   final Completer<GoogleMapController> _completer = Completer();
-
-  String startLocationName = "Current Location";
-
   double startLatitude = 0.0;
-
   double startLongitude = 0.0;
-
-  String endLocationName = "Select Destination";
-
-  double endLatitude = 0.0;
-
-  double endLongitude = 0.0;
-
   double zoom = 1.0;
 
   List<Marker> marker = [];
 
-  PolylinePoints polylinePoints = PolylinePoints();
-
   Map<PolylineId, Polyline> polylines = {};
-
-  @override
-  Widget build(BuildContext context) {
       final screenWidth = MediaQuery.of(context).size.width;
       final screenHeight = MediaQuery.of(context).size.height;
-double userRating = 0; 
-
+final userRatingProvider=Provider.of<HistoryScreenProvider>(context);
 RatingBar _ratingBar = RatingBar.builder(
   initialRating: 0, 
   minRating: 1,
@@ -59,12 +39,9 @@ RatingBar _ratingBar = RatingBar.builder(
     color: Colors.amber,
   ),
   onRatingUpdate: (rating) {
-    setState(() {
-      userRating = rating;
-    });
+ userRatingProvider.updateUserRating(rating);
   },
 );
-
 
     return Scaffold(
       body: SafeArea(
@@ -152,7 +129,7 @@ actions: <Widget>[
 TextButton(
   onPressed: () async {
     final ratingData = {
-      'rating': userRating, 
+      'rating': userRatingProvider.userRating
     };
     final db = FirebaseFirestore.instance;
     try {

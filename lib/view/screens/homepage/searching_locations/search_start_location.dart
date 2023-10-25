@@ -1,56 +1,15 @@
-import 'dart:convert';
-
+import 'package:cabskaro/controller/provider/search_location_provider.dart';
 import 'package:cabskaro/view/screens/homepage/dashboard_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:uuid/uuid.dart';
-import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
-class SearchStartLocation extends StatefulWidget {
+
+class SearchStartLocation extends StatelessWidget {
   const SearchStartLocation({super.key});
-
-  @override
-  State<SearchStartLocation> createState() => _SearchStartLocationState();
-}
-
-class _SearchStartLocationState extends State<SearchStartLocation> {
-  final TextEditingController _searchController = TextEditingController();
-  var uuid = const Uuid();
-  String _sessionToken = "";
-  List<dynamic> data = [];
-
-  @override
-  void initState() {
-    super.initState();
-    _searchController.addListener(() {
-      onChange(_searchController.text.toString());
-    });
-  }
-
-  void onChange(String input) async {
-    setState(() {
-      _sessionToken = uuid.v4();
-    });
-    String googleApiKey = "AIzaSyA0r0oRC03tITR0FNYVfKT-SlXEvf_FDp0";
-    String baseUrl =
-        "https://maps.googleapis.com/maps/api/place/autocomplete/json";
-    String request =
-        "$baseUrl?input=$input&key=$googleApiKey&sessiontoken=$_sessionToken";
-    http.Response response;
-    response = await http.get(Uri.parse(request));
-    if (response.statusCode == 200) {
-      setState(() {
-        data = jsonDecode(response.body)["predictions"];
-      });
-    } else {
-      throw Exception("there is an error");
-    }
-  }
-
-  void getSuggestion(String input) async {}
-
   @override
   Widget build(BuildContext context) {
+  final provider = Provider.of<SearchStartLocationProvider>(context);
     return Material(
       child: SafeArea(
         child: Padding(
@@ -63,7 +22,7 @@ class _SearchStartLocationState extends State<SearchStartLocation> {
                   tag:"start",
                   child: Material(
                     child: TextFormField(
-                      controller: _searchController,
+                      controller:provider.searchController,
                       autofocus: true,
                       cursorColor: Colors.grey,
                       decoration: InputDecoration(
@@ -89,7 +48,7 @@ class _SearchStartLocationState extends State<SearchStartLocation> {
                   ),
                 ),
                 Expanded(
-                  child: data.isEmpty
+                  child:provider. data.isEmpty
                       ?  ListTile(
                               onTap: () {
                                 Navigator.pushReplacement(
@@ -109,7 +68,7 @@ class _SearchStartLocationState extends State<SearchStartLocation> {
                               title: const Text("Current Location"),
                             )
                       : ListView.builder(
-                          itemCount: data.length,
+                          itemCount:provider. data.length,
                           itemBuilder: (context, index) {
                             return ListTile(
                               onTap: () {
@@ -117,7 +76,7 @@ class _SearchStartLocationState extends State<SearchStartLocation> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => DashboardScreen(
-                                        location: data[index]['description'],
+                                        location:provider.data[index]['description'],
                                         locType: "start",
                                       ),
                                     ));
@@ -125,7 +84,7 @@ class _SearchStartLocationState extends State<SearchStartLocation> {
                               contentPadding: EdgeInsets.zero,
                               title: Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 30),
-                                child: Text(data[index]['description']),
+                                child: Text(provider.data[index]['description']),
                               ),
                             );
                           },

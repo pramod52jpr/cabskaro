@@ -1,9 +1,12 @@
+import 'package:cabskaro/controller/provider/history_screen.dart';
+import 'package:cabskaro/controller/provider/search_location_provider.dart';
 import 'package:cabskaro/view/screens/firstpage/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'firebase_options.dart';
+import 'package:provider/provider.dart'; 
 
 void main() async {
   await dotenv.load();
@@ -15,21 +18,28 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
 );
   runApp(
-    // MultiProvider(providers: [
-    //   ChangeNotifierProvider(create: (context)=>SplashScreenProvider()) ],
    MyApp());
-    
+  
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: const SplashScreen(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => HistoryScreenProvider(),
+        ),
+        ChangeNotifierProvider(create: (context)=>SearchStartLocationProvider())
+              ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'CabsKaro',
+        theme: ThemeData(
+          primarySwatch: Colors.green,
+        ),
+        home: SplashScreen(),
+      ),
     );
   }
 }
