@@ -48,7 +48,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
   PolylinePoints polylinePoints = PolylinePoints();
   Map<PolylineId, Polyline> polylines = {};
 
-
   BitmapDescriptor icon = BitmapDescriptor.defaultMarker;
   Future customIcon() async {
     BitmapDescriptor.fromAssetImage(
@@ -261,7 +260,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         endLongitude != 0.0 &&
         startLatitude != 0.0 &&
         startLongitude != 0.0) {
-      zoom = 11.0;
+      zoom = 11.5;
       marker.clear();
       marker.add(Marker(
         markerId: const MarkerId("1"),
@@ -276,9 +275,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
       CameraPosition newCameraPosition =
           CameraPosition(target: LatLng(endLatitude, endLongitude), zoom: zoom);
       GoogleMapController controller = await _completer.future;
-      controller
-          .animateCamera(CameraUpdate.newCameraPosition(newCameraPosition));
-      getDirections();
+      await getDirections().then((value) {
+        controller
+            .animateCamera(CameraUpdate.newCameraPosition(newCameraPosition));
+        controller.animateCamera(CameraUpdate.newLatLngBounds(
+            LatLngBounds(
+                southwest: LatLng(startLatitude, startLongitude),
+                northeast: LatLng(endLatitude, endLongitude)),
+            5));
+      });
     }
   }
 
@@ -293,7 +298,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     }
   }
 
-  void getDirections() async {
+  Future getDirections() async {
     List<LatLng> polylineCoordinates = [];
     List<dynamic> points = [];
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
