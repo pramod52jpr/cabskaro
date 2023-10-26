@@ -1,10 +1,9 @@
-import 'dart:convert';
-
+import 'package:cabskaro/controller/provider/search_location_provider.dart';
+import 'package:cabskaro/controller/services/search_location.dart';
 import 'package:cabskaro/view/screens/homepage/dashboard_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
-import 'package:http/http.dart' as http;
 
 class SearchEndLocation extends StatefulWidget {
   const SearchEndLocation({super.key});
@@ -14,43 +13,21 @@ class SearchEndLocation extends StatefulWidget {
 }
 
 class _SearchEndLocationState extends State<SearchEndLocation> {
-  final TextEditingController _searchController = TextEditingController();
+final TextEditingController _searchController = TextEditingController();
   var uuid = const Uuid();
-  String _sessionToken = "";
-  List<dynamic> data = [];
 
-  @override
+@override
   void initState() {
-    super.initState();
     _searchController.addListener(() {
-      onChange(_searchController.text.toString());
+     SearchStartLocationFuntion().onChange(_searchController.text.toString(), context.read<SearchStartLocationModel>());
     });
+    super.initState();
   }
-
-  void onChange(String input) async {
-    setState(() {
-      _sessionToken = uuid.v4();
-    });
-    String? googleApiKey = dotenv.env['APIurl'];
-    String baseUrl =
-        "https://maps.googleapis.com/maps/api/place/autocomplete/json";
-    String request =
-        "$baseUrl?input=$input&key=$googleApiKey&sessiontoken=$_sessionToken";
-    http.Response response;
-    response = await http.get(Uri.parse(request));
-    if (response.statusCode == 200) {
-      setState(() {
-        data = jsonDecode(response.body)["predictions"];
-      });
-    } else {
-      throw Exception("there is an error");
-    }
-  }
-
-  void getSuggestion(String input) async {}
 
   @override
   Widget build(BuildContext context) {
+  final model=Provider.of<SearchStartLocationModel>(context,listen: true);
+
     return Material(
       child: SafeArea(
         child: Column(
@@ -87,7 +64,7 @@ class _SearchEndLocationState extends State<SearchEndLocation> {
             ),
             Expanded(
               child:  ListView.builder(
-                      itemCount: data.length,
+                      itemCount:model. data.length,
                       itemBuilder: (context, index) {
                         return ListTile(
                           onTap: () {
@@ -95,7 +72,7 @@ class _SearchEndLocationState extends State<SearchEndLocation> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => DashboardScreen(
-                                    location: data[index]['description'],
+                                    location:model. data[index]['description'],
                                     locType: "end",
                                   ),
                                 ));
@@ -103,7 +80,7 @@ class _SearchEndLocationState extends State<SearchEndLocation> {
                           contentPadding: EdgeInsets.zero,
                           title: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 30),
-                            child: Text(data[index]['description']),
+                            child: Text(model. data[index]['description']),
                           ),
                         );
                       },

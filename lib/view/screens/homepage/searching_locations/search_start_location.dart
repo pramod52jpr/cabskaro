@@ -1,15 +1,33 @@
 import 'package:cabskaro/controller/provider/search_location_provider.dart';
+import 'package:cabskaro/controller/services/search_location.dart';
 import 'package:cabskaro/view/screens/homepage/dashboard_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
 
-class SearchStartLocation extends StatelessWidget {
+class SearchStartLocation extends StatefulWidget {
   const SearchStartLocation({super.key});
+
   @override
-  Widget build(BuildContext context) {
-  final provider = Provider.of<SearchStartLocationProvider>(context);
+  State<SearchStartLocation> createState() => _SearchStartLocationState();
+}
+
+class _SearchStartLocationState extends State<SearchStartLocation> {
+
+  final TextEditingController _searchController = TextEditingController();
+  var uuid = const Uuid();
+
+@override
+  void initState() {
+    _searchController.addListener(() {
+     SearchStartLocationFuntion().onChange(_searchController.text.toString(), context.read<SearchStartLocationModel>());
+    });
+    super.initState();
+  }
+  Widget build(BuildContext context) {  
+    final model=Provider.of<SearchStartLocationModel>(context,listen: true);
     return Material(
       child: SafeArea(
         child: Padding(
@@ -22,7 +40,7 @@ class SearchStartLocation extends StatelessWidget {
                   tag:"start",
                   child: Material(
                     child: TextFormField(
-                      controller:provider.searchController,
+                      controller:_searchController,
                       autofocus: true,
                       cursorColor: Colors.grey,
                       decoration: InputDecoration(
@@ -48,7 +66,7 @@ class SearchStartLocation extends StatelessWidget {
                   ),
                 ),
                 Expanded(
-                  child:provider. data.isEmpty
+                  child:model. data.isEmpty
                       ?  ListTile(
                               onTap: () {
                                 Navigator.pushReplacement(
@@ -68,7 +86,7 @@ class SearchStartLocation extends StatelessWidget {
                               title: const Text("Current Location"),
                             )
                       : ListView.builder(
-                          itemCount:provider. data.length,
+                          itemCount:model.data.length,
                           itemBuilder: (context, index) {
                             return ListTile(
                               onTap: () {
@@ -76,7 +94,7 @@ class SearchStartLocation extends StatelessWidget {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => DashboardScreen(
-                                        location:provider.data[index]['description'],
+                                        location:model. data[index]['description'],
                                         locType: "start",
                                       ),
                                     ));
@@ -84,7 +102,7 @@ class SearchStartLocation extends StatelessWidget {
                               contentPadding: EdgeInsets.zero,
                               title: Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 30),
-                                child: Text(provider.data[index]['description']),
+                                child: Text(model.data[index]['description']),
                               ),
                             );
                           },

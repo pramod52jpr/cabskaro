@@ -5,20 +5,18 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class SettingScreen extends StatefulWidget {
-  const SettingScreen({super.key});
+class SettingScreen extends StatelessWidget {
+   SettingScreen({super.key});
 
-  @override
-  State<SettingScreen> createState() => _SettingScreenState();
-}
-
-class _SettingScreenState extends State<SettingScreen> {
   final _auth = FirebaseAuth.instance;
+
   final firestore = FirebaseFirestore.instance
       .collection(UserProfile().collection)
       .snapshots();
+
   final updateUserData =
       FirebaseFirestore.instance.collection(UserProfile().collection);
+
   @override
   Widget build(BuildContext context) {
     return Material(

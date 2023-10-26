@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:cabskaro/controller/provider/history_screen.dart';
+import 'package:cabskaro/controller/provider/history_screen_provider.dart';
 import 'package:cabskaro/controller/services/services.dart';
 import 'package:cabskaro/view/const/sizedbox.dart';
 import 'package:cabskaro/view/screens/bottomnav_screens/profile_screens.dart';
