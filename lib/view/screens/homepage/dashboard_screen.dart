@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:cabskaro/controller/uber_api/uber_login.dart';
 import 'package:cabskaro/view/screens/homepage/components/bottom_navigator.dart';
 import 'package:cabskaro/view/widgets/cab_companies.dart';
@@ -463,7 +462,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const SearchStartLocation(),
+                      builder: (context) =>  SearchStartLocation(),
                     ));
               },
               onTapEnd: () {
@@ -506,11 +505,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     },
                     onTapBike: () {
                       UberServices().generateAndStoreAccessToken();
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //       builder: (context) => TestClassApi(),
-                      //     ));
                       Navigator.push(
                           context,
                           MaterialPageRoute(

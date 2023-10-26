@@ -1,4 +1,6 @@
-import 'package:cabskaro/controller/provider/history_screen.dart';
+import 'package:cabskaro/controller/provider/faq_screen_provider.dart';
+import 'package:cabskaro/controller/provider/history_screen_provider.dart';
+import 'package:cabskaro/controller/provider/loading_provider.dart';
 import 'package:cabskaro/controller/provider/search_location_provider.dart';
 import 'package:cabskaro/view/screens/firstpage/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -16,10 +18,8 @@ void main() async {
   ]);
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
-);
-  runApp(
-   MyApp());
-  
+  );
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -27,12 +27,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(
-          create: (context) => HistoryScreenProvider(),
-        ),
-        ChangeNotifierProvider(create: (context)=>SearchStartLocationProvider())
-              ],
-      child: MaterialApp(
+         ChangeNotifierProvider( create: (context) => HistoryScreenProvider()),
+         ChangeNotifierProvider(create: (context)=>SearchStartLocationModel()),
+         ChangeNotifierProvider(create: (context)=>LoadingProvider()),
+         ChangeNotifierProvider(create: (context)=>FaqScreenProvider())
+        ],
+        child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'CabsKaro',
         theme: ThemeData(

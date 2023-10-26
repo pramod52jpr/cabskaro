@@ -1,14 +1,17 @@
 import 'dart:async';
+import 'package:cabskaro/controller/provider/loading_provider.dart';
+import 'package:cabskaro/controller/services/auth_service.dart';
 import 'package:cabskaro/controller/services/services.dart';
 import 'package:cabskaro/model/user_profile_model.dart';
 import 'package:cabskaro/view/screens/homepage/components/round_button.dart';
 import 'package:cabskaro/view/screens/homepage/dashboard_screen.dart';
 import 'package:cabskaro/view/screens/otp_screen/verifycode_dialog.dart';
+import 'package:cabskaro/view/screens/otp_screen/widgets/signwithgoogle_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -18,12 +21,13 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+
   final _formKey = GlobalKey<FormState>();
   final _auth = FirebaseAuth.instance;
   final firestore=FirebaseFirestore.instance.collection(UserProfile().collection);
   final TextEditingController _phoneController = TextEditingController();
   var opacity = 0.0;
-  bool loading = false;
+ // bool loading = false;
 
   @override
   void initState() {
@@ -40,6 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: Stack(children: [
         Container(
@@ -216,7 +221,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       height: 10,
                     ),
                     const Text(
-                      "We will send you an one time Opt in this number",
+                      "We will send you an one time OTP in this number",
                       style: TextStyle(fontSize: 13),
                     ),
                     const SizedBox(
@@ -267,108 +272,67 @@ class _LoginScreenState extends State<LoginScreen> {
                     const SizedBox(
                       height: 10,
                     ),
-                    RoundButton(
-                      title: "GET OTP",
-                      loading: loading,
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          setState(() {
-                            loading = true;
-                          });
-                          _auth.verifyPhoneNumber(
-                            phoneNumber: "+91${_phoneController.text}",
-                            verificationCompleted: (phoneAuthCredential) {
-                              setState(() {
-                                loading = false;
-                              });
-                            },
-                            verificationFailed: (error) {
-                              setState(() {
-                                loading = false;
-                              });
-                              Services().toastmsg(
-                                  error.toString().split("]")[1], false);
-                            },
-                            codeSent: (verificationId, forceResendingToken) {
-                              setState(() {
-                                loading = false;
-                              });
-                              showGeneralDialog(
-                                context: context,
-                                pageBuilder:
-                                    (context, animation, secondaryAnimation) {
-                                  return VerifyCode(
-                                      phoneNumber:
-                                          "+91${_phoneController.text}",
-                                      verificationCode: verificationId);
-                                },
-                              );
-                            },
-                            codeAutoRetrievalTimeout: (verificationId) {
-                              setState(() {
-                                loading = false;
-                              });
-                              Services().toastmsg(
-                                  verificationId.split("]")[1], false);
-                            },
-                          );
-                        }
-                      },
+                      Consumer<LoadingProvider>(
+                      builder: (context, loadingProvider, _) => 
+                      RoundButton(
+                        title: "GET OTP",
+                        loading:loadingProvider.loading,
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                              loadingProvider.setLoading(true);
+                            _auth.verifyPhoneNumber(
+                              phoneNumber: "+91${_phoneController.text}",
+                              verificationCompleted: (phoneAuthCredential) {
+                               loadingProvider.setLoading(false);
+                              },
+
+                              verificationFailed: (error) {
+                              loadingProvider.setLoading(false);
+                                Services().toastmsg(
+                                    error.toString().split("]")[1], false);
+                              },
+                              
+                              codeSent: (verificationId, forceResendingToken) {
+                               loadingProvider.setLoading(false);
+                                showGeneralDialog(
+                                  context: context,
+                                  pageBuilder:
+                                      (context, animation, secondaryAnimation) {
+                                    return VerifyCode(
+
+                                        phoneNumber:
+                                            "+91${_phoneController.text}",
+                                        verificationCode: verificationId);
+                                  },
+                                );
+                              },
+                              codeAutoRetrievalTimeout: (verificationId) {
+                               loadingProvider.setLoading(false);
+                                Services().toastmsg(
+                                    verificationId.split("]")[1], false);
+                              },
+                            );
+                          }
+                        },
+                      ),
                     ),
                     InkWell(
-                      onTap: () async {
-                        try {
-                          final GoogleSignInAccount? processGoogle =
-                              await GoogleSignIn().signIn();
-                          final GoogleSignInAuthentication accountAuth =
-                              await processGoogle!.authentication;
-                          final credential = GoogleAuthProvider.credential(
-                              accessToken: accountAuth.accessToken,
-                              idToken: accountAuth.idToken);
-                              await _auth.signInWithCredential(credential).then((value) async {
-                                if(value.additionalUserInfo!.isNewUser){
-                                  await firestore.doc(_auth.currentUser!.uid.toString()).set({
-                                    UserProfile().id:_auth.currentUser!.uid.toString(),
-                                    UserProfile().name:_auth.currentUser!.displayName.toString(),
-                                    UserProfile().email:_auth.currentUser!.email.toString(),
-                                    UserProfile().phone:"",
-                                    UserProfile().photo:"",
-                                    UserProfile().home:"",
-                                    UserProfile().work:"",
-                                  });
-                                }
-                              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const DashboardScreen(),), (route) => false);
-                              });
-                        } catch (e) {
-                          Services().toastmsg(e.toString(), false);
-                        }
-                      },
-                      child: Container(
-                          margin: const EdgeInsets.symmetric(
-                              horizontal: 30, vertical: 20),
-                          padding: const EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(color: Colors.grey, width: 1),
-                              borderRadius: BorderRadius.circular(5)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.network(
-                                "https://static-00.iconduck.com/assets.00/google-icon-2048x2048-czn3g8x8.png",
-                                height: 30,
-                              ),
-                              const SizedBox(width: 20),
-                              const Text(
-                                "Continue with Google",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.grey,
-                                    fontSize: 18),
-                              ),
-                            ],
-                          )),
-                    ),
+      onTap: () async {
+      try {
+      final user = await GoogleSignInService().signInWithGoogle();
+      if (user != null) {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const DashboardScreen()),
+          (route) => false,
+        );
+      }
+    } catch (e) {
+      Services().toastmsg(e.toString(), false);
+    }
+  },
+  child: SignInWithGoogle(),
+)
                   ],
                 ),
               )
@@ -379,3 +343,5 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
+
+

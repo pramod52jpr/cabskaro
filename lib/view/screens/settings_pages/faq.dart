@@ -1,26 +1,20 @@
-
+import 'package:cabskaro/controller/provider/faq_screen_provider.dart';
 import 'package:cabskaro/view/screens/settings_pages/faqs_questions_answers.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/components/accordion/gf_accordion.dart';
+import 'package:provider/provider.dart';
 
 
-class FaqScreen extends StatefulWidget {
-  @override
-  _FaqScreenState createState() => _FaqScreenState();
-}
-
-class _FaqScreenState extends State<FaqScreen> {
-
-String query = '';
-
+class FaqScreen extends StatelessWidget {
 @override
   Widget build(BuildContext context) {
+    final queryProvider=Provider.of<FaqScreenProvider>(context,listen: true);
     final screenHeight = MediaQuery.of(context).size.height;
-    List<Map<String, String>> filteredItems = query.isEmpty
+    List<Map<String, String>> filteredItems =queryProvider.query.isEmpty
         ? faqItems
         : faqItems
             .where((item) =>
-                item['title']!.toLowerCase().contains(query.toLowerCase()))
+                item['title']!.toLowerCase().contains(queryProvider.query.toLowerCase()))
             .toList();
 
     return Scaffold(
@@ -42,15 +36,12 @@ String query = '';
               padding:  EdgeInsets.all(screenHeight*0.025),
               child: TextFormField(
                     onChanged: (value) {
-                    setState(() {
-                      query = value;
-                    });
+                     queryProvider.updateQuery(value);
                   },
                 cursorColor: Colors.grey,
                 decoration: InputDecoration(
                   hintText: "Search for topics or questions",
                      prefixIcon: Icon(Icons.search),              
-
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(screenHeight*0.050),
                   ),

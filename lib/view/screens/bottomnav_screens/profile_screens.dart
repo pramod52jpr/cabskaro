@@ -166,7 +166,7 @@ class ProfileScreen extends StatelessWidget {
                                 onTap: () {
                                   Navigator.push(context,
                                       MaterialPageRoute(builder: (context) {
-                                    return const SettingScreen();
+                                    return  SettingScreen();
                                   }));
                                 },
                                 child: Column(
@@ -250,7 +250,7 @@ class ProfileScreen extends StatelessWidget {
                               ontap: () {
                                 Navigator.push(context,
                                     MaterialPageRoute(builder: (context) {
-                                  return const ManageAccount();
+                                  return  ManageAccount();
                                 }));
                               },
                             ),
