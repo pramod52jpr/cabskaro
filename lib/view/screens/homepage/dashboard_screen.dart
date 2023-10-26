@@ -259,7 +259,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         endLongitude != 0.0 &&
         startLatitude != 0.0 &&
         startLongitude != 0.0) {
-      zoom = 11.5;
+      zoom = 11.0;
       marker.clear();
       marker.add(Marker(
         markerId: const MarkerId("1"),
@@ -277,11 +277,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
       await getDirections().then((value) {
         controller
             .animateCamera(CameraUpdate.newCameraPosition(newCameraPosition));
-        controller.animateCamera(CameraUpdate.newLatLngBounds(
-            LatLngBounds(
-                southwest: LatLng(startLatitude, startLongitude),
-                northeast: LatLng(endLatitude, endLongitude)),
-            5));
       });
     }
   }
