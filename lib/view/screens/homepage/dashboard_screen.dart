@@ -10,6 +10,7 @@ import 'package:cabskaro/view/screens/homepage/searching_locations/search_end_lo
 import 'package:cabskaro/view/screens/homepage/searching_locations/search_start_location.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -459,18 +460,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
               startLocation: startLocationName,
               endLocation: endLocationName,
               onTapStart: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>  SearchStartLocation(),
-                    ));
+                Get.to(SearchStartLocation());
               },
               onTapEnd: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const SearchEndLocation(),
-                    ));
+                Get.to(SearchEndLocation());
               },
               onTapInterchange: () {
                 interchangeLocations().then((value) {
@@ -483,33 +476,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 children: [
                   CabTypes(
                     onTapFourSeater: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const CabsAvaibilityScreen(),
-                          ));
+                    Get.to(CabsAvaibilityScreen());
                     },
                     onTapFourPlusSeater: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const CabsAvaibilityScreen(),
-                          ));
+                     Get.to(CabsAvaibilityScreen());
                     },
                     onTapAuto: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const CabsAvaibilityScreen(),
-                          ));
+                     Get.to(CabsAvaibilityScreen());
                     },
                     onTapBike: () {
-                      UberServices().generateAndStoreAccessToken();
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const CabsAvaibilityScreen(),
-                          ));
+                    UberServices().generateAndStoreAccessToken();
+                    Get.to(CabsAvaibilityScreen());
+
                     },
                   ),
                   Expanded(

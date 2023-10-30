@@ -1,10 +1,15 @@
 import 'dart:async';
+import 'package:cabskaro/controller/provider/splash_screen_provider.dart';
 import 'package:cabskaro/controller/services/services.dart';
+import 'package:cabskaro/projects/routes/app_route_constants.dart';
 import 'package:cabskaro/view/screens/homepage/components/round_button.dart';
 import 'package:cabskaro/view/screens/homepage/dashboard_screen.dart';
 import 'package:cabskaro/view/screens/otp_screen/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -50,6 +55,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void animate() {
+    
     Timer(const Duration(seconds: 0), () {
       setState(() {
         firstAnimation = true;
@@ -90,6 +96,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final splashProvider=Provider.of<SplashScreenProvider>(context,listen: false);
     return Scaffold(
       body: Stack(children: [
         Container(
@@ -273,6 +280,9 @@ class _SplashScreenState extends State<SplashScreen> {
                 child: RoundButton(
                     title: "LOG IN",
                     onPressed: () {
+                      // splashProvider.secondAnimations(true);
+                      // splashProvider.ropeOpacitys(0.0);
+                      // splashProvider.btnOpacitys(0.0);
                       setState(() {
                         secondAnimation = true;
                         ropeOpacity = 0.0;
@@ -281,11 +291,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       Timer(
                         const Duration(seconds: 1),
                         () {
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const LoginScreen(),
-                              ));
+                      Get.to(DashboardScreen());
                         },
                       );
                     }),

@@ -2,6 +2,7 @@ import 'package:cabskaro/view/screens/homepage/components/bottom_navigator.dart'
 import 'package:cabskaro/view/screens/homepage/components/cab_types.dart';
 import 'package:cabskaro/view/screens/homepage/components/location_points.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class CabsAvaibilityScreen extends StatelessWidget {
   const CabsAvaibilityScreen({super.key});
@@ -25,36 +26,16 @@ class CabsAvaibilityScreen extends StatelessWidget {
           ),
           CabTypes(
             onTapFourSeater: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const CabsAvaibilityScreen(),
-                ),
-              );
+             Get.to(CabsAvaibilityScreen());
             },
             onTapFourPlusSeater: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const CabsAvaibilityScreen(),
-                ),
-              );
+             Get.to(CabsAvaibilityScreen());
             },
             onTapAuto: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const CabsAvaibilityScreen(),
-                ),
-              );
+               Get.to(CabsAvaibilityScreen());
             },
             onTapBike: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const CabsAvaibilityScreen(),
-                ),
-              );
+            Get.to(CabsAvaibilityScreen());
             },
           ),
           Expanded(
