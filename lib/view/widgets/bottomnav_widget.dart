@@ -1,3 +1,4 @@
+
 import 'package:cabskaro/view/screens/bottomnav_screens/history_screens.dart';
 import 'package:cabskaro/view/screens/bottomnav_screens/profile_screens.dart';
 import 'package:cabskaro/view/screens/homepage/dashboard_screen.dart';
@@ -27,7 +28,7 @@ class BottomNavWidget extends StatelessWidget {
           InkWell(
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return const DashboardScreen();
+                  return  DashboardScreen();
                 }));
               },
               child: Image.asset(

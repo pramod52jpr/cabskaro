@@ -62,7 +62,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
     });
   }
 // start location
-
   void animateStartLocation(double latitude, double longitude) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString(STARTLOC, "Current Location");
@@ -622,7 +621,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ),
           );
         }
-        return Text("");
+        return Center(child: Text("Error"));
       },
     ));
   }

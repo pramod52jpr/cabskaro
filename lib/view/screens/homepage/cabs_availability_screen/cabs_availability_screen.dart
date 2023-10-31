@@ -26,16 +26,24 @@ class CabsAvaibilityScreen extends StatelessWidget {
           ),
           CabTypes(
             onTapFourSeater: () {
-             Get.to(CabsAvaibilityScreen());
+              Navigator.push(context, MaterialPageRoute(builder: (context){
+                      return CabsAvaibilityScreen();
+                    }));
             },
             onTapFourPlusSeater: () {
-             Get.to(CabsAvaibilityScreen());
+             Navigator.push(context, MaterialPageRoute(builder: (context){
+                      return CabsAvaibilityScreen();
+                    }));
             },
             onTapAuto: () {
-               Get.to(CabsAvaibilityScreen());
+               Navigator.push(context, MaterialPageRoute(builder: (context){
+                      return CabsAvaibilityScreen();
+                    }));
             },
             onTapBike: () {
-            Get.to(CabsAvaibilityScreen());
+             Navigator.push(context, MaterialPageRoute(builder: (context){
+                      return CabsAvaibilityScreen();
+                    }));
             },
           ),
           Expanded(

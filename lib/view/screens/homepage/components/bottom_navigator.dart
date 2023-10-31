@@ -1,3 +1,4 @@
+
 import 'package:cabskaro/view/screens/bottomnav_screens/history_screens.dart';
 import 'package:cabskaro/view/screens/bottomnav_screens/profile_screens.dart';
 import 'package:flutter/material.dart';
@@ -27,18 +28,23 @@ class BottomNavigator extends StatelessWidget {
               )),
           InkWell(
               onTap: () {
-                Get.to(HistoryScreen());
+                Navigator.push(context, MaterialPageRoute(builder: (context){
+                      return HistoryScreen();
+                    }));
               },
               child: Image.asset(
                 "assets/images/icons/bottom-btn-car.png",
 height: screenHeight*0.044,              )),
           InkWell(
               onTap: () {
-                 Get.to(ProfileScreen());
+                Navigator.push(context, MaterialPageRoute(builder: (context){
+                      return ProfileScreen();
+                    }));
               },
               child: Image.asset(
                 "assets/images/icons/bottom-btn-user.png",
-height: screenHeight*0.044,              ))
+height: screenHeight*0.044,
+              ))
         ],
       ),
     );
