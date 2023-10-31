@@ -1,5 +1,8 @@
 import 'dart:async';
+import 'package:cabskaro/view/screens/bottomnav_screens/history_screens.dart';
+import 'package:cabskaro/view/screens/bottomnav_screens/profile_screens.dart';
 import 'package:cabskaro/view/screens/homepage/components/bottom_navigator.dart';
+import 'package:cabskaro/view/screens/homepage/dashboard_screen.dart';
 import 'package:cabskaro/view/screens/indrive_ui/indrive_search_end_location.dart';
 import 'package:cabskaro/view/screens/indrive_ui/indrive_search_start_location.dart';
 import 'package:cabskaro/controller/services/services.dart';
@@ -480,7 +483,29 @@ class _IndriveScreenState extends State<IndriveScreen> {
               ),
             ),
             const CabCompaniessWidget(),
-            const BottomNavigator()
+            BottomNavigator(
+                      onTapDashboard: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DashboardScreen(),
+                            ));
+                      },
+                      onTapRebook: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => HistoryScreen(),
+                            ));
+                      },
+                      onTapAccount: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ProfileScreen(),
+                            ));
+                      },
+                    ),
           ],
         ),
       ),

@@ -4,7 +4,10 @@ import 'package:cabskaro/controller/services/services.dart';
 import 'package:cabskaro/view/screens/blabla_ui/blabla_search_end_location.dart';
 import 'package:cabskaro/view/screens/blabla_ui/blabla_search_start_location.dart';
 import 'package:cabskaro/view/screens/blusmart_ui/blusmart_screen.dart';
+import 'package:cabskaro/view/screens/bottomnav_screens/history_screens.dart';
+import 'package:cabskaro/view/screens/bottomnav_screens/profile_screens.dart';
 import 'package:cabskaro/view/screens/homepage/components/bottom_navigator.dart';
+import 'package:cabskaro/view/screens/homepage/dashboard_screen.dart';
 import 'package:cabskaro/view/screens/indrive_ui/indrive_screen.dart';
 import 'package:cabskaro/view/screens/meru_ui/meru_screen.dart';
 import 'package:cabskaro/view/screens/ola_ui/ola_screen.dart';
@@ -454,7 +457,8 @@ class _BlaBlaScreenState extends State<BlaBlaScreen> {
                         offset: Offset(0, -5),
                       )
                     ]),
-                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
@@ -553,7 +557,8 @@ class _BlaBlaScreenState extends State<BlaBlaScreen> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => const UberScreen(),
-                    ));},
+                    ));
+              },
               onTapOla: () {
                 Navigator.pushReplacement(
                     context,
@@ -566,33 +571,60 @@ class _BlaBlaScreenState extends State<BlaBlaScreen> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => const RapidoScreen(),
-                    ));},
+                    ));
+              },
               onTapMeru: () {
                 Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
                       builder: (context) => const MeruScreen(),
-                    ));},
+                    ));
+              },
               onTapBlueSmart: () {
                 Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
                       builder: (context) => const BlusmartScreen(),
-                    ));},
+                    ));
+              },
               onTapIndrive: () {
                 Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
                       builder: (context) => const IndriveScreen(),
-                    ));},
+                    ));
+              },
               onTapBlaBla: () {
                 Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
                       builder: (context) => const BlaBlaScreen(),
-                    ));},
+                    ));
+              },
             ),
-            const BottomNavigator()
+            BottomNavigator(
+              onTapDashboard: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DashboardScreen(),
+                    ));
+              },
+              onTapRebook: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => HistoryScreen(),
+                    ));
+              },
+              onTapAccount: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ProfileScreen(),
+                    ));
+              },
+            ),
           ],
         ),
       ),

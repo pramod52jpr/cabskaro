@@ -291,7 +291,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       Timer(
                         const Duration(seconds: 1),
                         () {
-                      Get.to(DashboardScreen());
+                      Get.to(LoginScreen());
                         },
                       );
                     }),

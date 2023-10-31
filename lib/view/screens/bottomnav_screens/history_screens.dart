@@ -3,7 +3,7 @@ import 'package:cabskaro/controller/provider/history_screen_provider.dart';
 import 'package:cabskaro/controller/services/services.dart';
 import 'package:cabskaro/view/const/sizedbox.dart';
 import 'package:cabskaro/view/screens/bottomnav_screens/profile_screens.dart';
-import 'package:cabskaro/view/screens/homepage/dashboard_screen.dart';
+import 'package:cabskaro/view/screens/homepage/components/bottom_navigator.dart';
 import 'package:cabskaro/view/widgets/back_button_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -241,48 +241,20 @@ TextButton(
               },
             ),
           ),
-          Container(
-            margin:  EdgeInsets.only(left: screenWidth*0.074, right: screenWidth*0.074, bottom: screenHeight*0.010),
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(screenHeight*0.050),
-                boxShadow: const [
-                  BoxShadow(color: Colors.grey, blurRadius: 5)
-                ]),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                InkWell(
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return const DashboardScreen();
-                      }));
-                    },
-                    child: Image.asset(
-                      "assets/images/icons/bottom-btn-first.png",
-                      height: screenHeight*0.044, 
-                    )),
-                InkWell(
-                    onTap: () {},
-                    child: Image.asset(
-                      "assets/images/icons/bottom-btn-car.png",
-                     height: screenHeight*0.044, 
-                    )),
-                InkWell(
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return ProfileScreen();
-                      }));
-                    },
-                    child: Image.asset(
-                      "assets/images/icons/bottom-btn-user.png",
-                    height: screenHeight*0.044, 
-                    ))
-              ],
-            ),
-          )
+          BottomNavigator(
+                      onTapDashboard: () {
+                        Navigator.pop(context);
+                      },
+                      onTapRebook: () {
+                      },
+                      onTapAccount: () {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ProfileScreen(),
+                            ));
+                      },
+                    ),
         ],
       )),
     );
