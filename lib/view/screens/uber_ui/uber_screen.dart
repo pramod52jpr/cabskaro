@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:cabskaro/controller/services/services.dart';
 import 'package:cabskaro/view/screens/blabla_ui/blabla_screen.dart';
 import 'package:cabskaro/view/screens/blusmart_ui/blusmart_screen.dart';
 import 'package:cabskaro/view/screens/bottomnav_screens/history_screens.dart';
@@ -11,7 +11,6 @@ import 'package:cabskaro/view/screens/meru_ui/meru_screen.dart';
 import 'package:cabskaro/view/screens/ola_ui/ola_screen.dart';
 import 'package:cabskaro/view/screens/rapido_ui/rapido_screen.dart';
 import 'package:cabskaro/view/widgets/cab_companies.dart';
-import 'package:cabskaro/controller/services/services.dart';
 import 'package:cabskaro/view/screens/ola_ui/ola_search_end_location.dart';
 import 'package:cabskaro/view/screens/ola_ui/ola_search_start_location.dart';
 import 'package:flutter/material.dart';

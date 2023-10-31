@@ -34,7 +34,7 @@ class ProfileScreen extends StatelessWidget {
         stream: firestore,
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
-            return Container();
+            return SizedBox();
           } else {
             List users = snapshot.data!.docs;
             users.retainWhere((element) =>

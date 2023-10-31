@@ -43,8 +43,7 @@ class BottomNavigator extends StatelessWidget {
               onTap: onTapAccount,
               child: Image.asset(
                 "assets/images/icons/bottom-btn-user.png",
-                height: screenHeight * 0.044,
-              ))
+                height: screenHeight * 0.044,))
         ],
       ),
     );
