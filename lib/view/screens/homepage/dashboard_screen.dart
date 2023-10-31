@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:cabskaro/controller/uber_api/uber_login.dart';
+import 'package:cabskaro/view/screens/bottomnav_screens/history_screens.dart';
+import 'package:cabskaro/view/screens/bottomnav_screens/profile_screens.dart';
 import 'package:cabskaro/view/screens/homepage/components/bottom_navigator.dart';
 import 'package:cabskaro/view/widgets/cab_companies.dart';
 import 'package:cabskaro/view/screens/homepage/components/cab_types.dart';
@@ -537,8 +539,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         child: GoogleMap(
                           mapType: MapType.terrain,
                           initialCameraPosition: CameraPosition(
-                              target: LatLng(28.1992,77.4512),
-                              zoom: zoom),
+                              target: LatLng(28.1992, 77.4512), zoom: zoom),
                           markers: Set.of(marker),
                           polylines: Set<Polyline>.of(polylines.values),
                           myLocationEnabled: true,
@@ -610,7 +611,23 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     const SizedBox(
                       height: 10,
                     ),
-                    const BottomNavigator(),
+                    BottomNavigator(
+                      onTapDashboard: () {},
+                      onTapRebook: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => HistoryScreen(),
+                            ));
+                      },
+                      onTapAccount: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ProfileScreen(),
+                            ));
+                      },
+                    ),
                   ],
                 ),
               )

@@ -1,5 +1,8 @@
+import 'package:cabskaro/controller/services/services.dart';
 import 'package:cabskaro/model/user_profile_model.dart';
 import 'package:cabskaro/view/const/sizedbox.dart';
+import 'package:cabskaro/view/screens/bottomnav_screens/history_screens.dart';
+import 'package:cabskaro/view/screens/homepage/components/bottom_navigator.dart';
 import 'package:cabskaro/view/screens/otp_screen/login_screen.dart';
 import 'package:cabskaro/view/screens/settings_pages/about_us.dart';
 import 'package:cabskaro/view/screens/settings_pages/customer_support.dart';
@@ -44,19 +47,45 @@ class ProfileScreen extends StatelessWidget {
                   text: '',
                 ),
                 Center(
-                  child: Container(
-                    width: screenWidth*0.290,
-                    height: screenHeight*0.150,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(color: Colors.grey, width: 1),
-                        image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: userData[UserProfile().photo].isEmpty
-                                ? AssetImage(
-                                    "assets/images/icons/bottom-btn-user.png")
-                                : NetworkImage(userData[UserProfile().photo])
-                                    as ImageProvider)),
+                  child: InkWell(
+                    onTap: () {
+                      userData[UserProfile().photo].isEmpty
+                          ? Services().toastmsg("No Profile Picture", true)
+                          : showDialog(
+                              barrierDismissible: true,
+                              barrierColor: Colors.white.withOpacity(0.8),
+                              context: context,
+                              builder: (context) {
+                                return Material(
+                                  child: Stack(
+                                    children: [Center(
+                                      child: Container(
+                                          child: Image.network(
+                                            userData[UserProfile().photo],
+                                          )),
+                                    ),
+                                        BackButtonWidget(text: ""),
+                                        ]
+                                  ),
+                                );
+                              },
+                            );
+                    },
+                    child: Container(
+                      width: screenWidth * 0.290,
+                      height: screenHeight * 0.150,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(color: Colors.grey, width: 1),
+                          image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: userData[UserProfile().photo].isEmpty
+                                  ? AssetImage(
+                                      "assets/images/icons/bottom-btn-user.png")
+                                  : NetworkImage(
+                                          userData[UserProfile().photo])
+                                      as ImageProvider)),
+                    ),
                   ),
                 ),
                 kHeight10,
@@ -66,8 +95,8 @@ class ProfileScreen extends StatelessWidget {
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
-                 SizedBox(
-                  height: screenHeight*0.020,
+                SizedBox(
+                  height: screenHeight * 0.020,
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -90,7 +119,7 @@ class ProfileScreen extends StatelessWidget {
                                   children: [
                                     Image.asset(
                                       'assets/images/icons/bottom-btn-user.png',
-                                      height: screenHeight*0.032,
+                                      height: screenHeight * 0.032,
                                     ),
                                     Expanded(
                                       child: Padding(
@@ -112,7 +141,7 @@ class ProfileScreen extends StatelessWidget {
                                     children: [
                                       Image.asset(
                                         'assets/images/icons/Screenshot 2023-10-16 3.29.48 PM.png',
-                                        height: screenHeight*0.024,
+                                        height: screenHeight * 0.024,
                                       ),
                                       Expanded(
                                         child: Padding(
@@ -136,7 +165,7 @@ class ProfileScreen extends StatelessWidget {
                                   children: [
                                     Image.asset(
                                       'assets/images/icons/Screenshot_2023-10-16_3.23.06_PM-removebg-preview.png',
-                                      height: screenHeight*0.035,
+                                      height: screenHeight * 0.035,
                                     ),
                                     Expanded(
                                       child: Padding(
@@ -158,14 +187,15 @@ class ProfileScreen extends StatelessWidget {
                         ),
                       ),
                       Container(
-                          margin: EdgeInsets.symmetric(horizontal: screenHeight*0.018),
+                          margin: EdgeInsets.symmetric(
+                              horizontal: screenHeight * 0.018),
                           child: Column(
                             children: [
                               InkWell(
                                 onTap: () {
                                   Navigator.push(context,
                                       MaterialPageRoute(builder: (context) {
-                                    return  SettingScreen();
+                                    return SettingScreen();
                                   }));
                                 },
                                 child: Column(
@@ -190,8 +220,7 @@ class ProfileScreen extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                              SizedBox(height: screenHeight*0.025),
-
+                              SizedBox(height: screenHeight * 0.025),
                               InkWell(
                                 onTap: () {
                                   Navigator.push(context,
@@ -244,12 +273,12 @@ class ProfileScreen extends StatelessWidget {
                                 padding: const EdgeInsets.all(5.0),
                                 child: Image.asset(
                                     "assets/images/icons/skills.png",
-                                    height: screenHeight*0.025),
+                                    height: screenHeight * 0.025),
                               ),
                               ontap: () {
                                 Navigator.push(context,
                                     MaterialPageRoute(builder: (context) {
-                                  return  ManageAccount();
+                                  return ManageAccount();
                                 }));
                               },
                             ),
@@ -259,7 +288,7 @@ class ProfileScreen extends StatelessWidget {
                                 padding: const EdgeInsets.all(5.0),
                                 child: Image.asset(
                                     "assets/images/icons/faq.png",
-                                    height: screenHeight*0.025),
+                                    height: screenHeight * 0.025),
                               ),
                               ontap: () {
                                 Navigator.push(context,
@@ -274,7 +303,7 @@ class ProfileScreen extends StatelessWidget {
                                 padding: const EdgeInsets.all(5.0),
                                 child: Image.asset(
                                     "assets/images/icons/group.png",
-                                    height: screenHeight*0.025),
+                                    height: screenHeight * 0.025),
                               ),
                               ontap: () {
                                 Navigator.push(context,
@@ -289,7 +318,7 @@ class ProfileScreen extends StatelessWidget {
                                 padding: const EdgeInsets.all(5.0),
                                 child: Image.asset(
                                     "assets/images/icons/contract.png",
-                                    height: screenHeight*0.025),
+                                    height: screenHeight * 0.025),
                               ),
                               ontap: () {
                                 Navigator.push(context,
@@ -304,7 +333,7 @@ class ProfileScreen extends StatelessWidget {
                                 padding: const EdgeInsets.all(5.0),
                                 child: Image.asset(
                                     "assets/images/icons/five.png",
-                                    height: screenHeight*0.025),
+                                    height: screenHeight * 0.025),
                               ),
                               ontap: () {
                                 Navigator.push(context,
@@ -344,7 +373,7 @@ class ProfileScreen extends StatelessWidget {
                                 padding: const EdgeInsets.all(5.0),
                                 child: Image.asset(
                                     "assets/images/icons/logout.png",
-                                    height: screenHeight*0.025),
+                                    height: screenHeight * 0.025),
                               ),
                               title: const Text(
                                 'Logout',
@@ -353,6 +382,20 @@ class ProfileScreen extends StatelessWidget {
                           ]),
                     ),
                   ),
+                ),
+
+                BottomNavigator(
+                  onTapDashboard: () {
+                    Navigator.pop(context);
+                  },
+                  onTapRebook: () {
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => HistoryScreen(),
+                        ));
+                  },
+                  onTapAccount: () {},
                 ),
               ],
             );
@@ -365,8 +408,8 @@ class ProfileScreen extends StatelessWidget {
   void logout(BuildContext context) {
     FirebaseAuth.instance.signOut();
     Navigator.pushAndRemoveUntil(
-    context,
-    MaterialPageRoute(builder: (context) => const LoginScreen()),
-    (route) => false);
+        context,
+        MaterialPageRoute(builder: (context) => const LoginScreen()),
+        (route) => false);
   }
 }
