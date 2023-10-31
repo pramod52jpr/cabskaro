@@ -299,7 +299,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                   pageBuilder:
                                       (context, animation, secondaryAnimation) {
                                     return VerifyCode(
-
                                         phoneNumber:
                                             "+91${_phoneController.text}",
                                         verificationCode: verificationId);

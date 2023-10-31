@@ -5,8 +5,8 @@ import 'package:cabskaro/view/screens/homepage/dashboard_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:pinput/pinput.dart';
+import 'package:sms_autofill/sms_autofill.dart';
 
 class VerifyCode extends StatefulWidget {
   final String phoneNumber;
@@ -22,12 +22,32 @@ class VerifyCode extends StatefulWidget {
 }
 
 class _VerifyCodeState extends State<VerifyCode> {
+  SmsAutoFill smsAutoFill = SmsAutoFill();
+  
   final _auth = FirebaseAuth.instance;
   final firestore =
       FirebaseFirestore.instance.collection(UserProfile().collection);
   TextEditingController pinputController = TextEditingController();
   bool loading = false;
 
+// @override
+// void initState() {
+//   super.initState();
+//   smsAutoFill.listenForCode;
+// }
+  @override
+  void initState() {
+    super.initState();
+    
+    // Listen for incoming SMS codes
+    smsAutoFill.listenForCode;
+    
+    // Set the OTP field value when an SMS code is received
+    smsAutoFill.code.listen((String code) {
+      pinputController.text = code;
+    });
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -223,18 +243,32 @@ class _VerifyCodeState extends State<VerifyCode> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30),
               child: Pinput(
-                controller: pinputController,
-                length: 6,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return "Please fill the input";
-                  } else if (value.length != 6) {
-                    return "Please write code correctly";
-                  }
-                  return null;
-                },
-              ),
+  controller: pinputController,
+  length: 6,
+  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  validator: (value) {
+    if (value == null || value.isEmpty) {
+      return "Please fill the input";
+    } else if (value.length != 6) {
+      return "Please write code correctly";
+    }
+    return null;
+  },
+)
+,
+              // child: Pinput(
+              //   controller: pinputController,
+              //   length: 6,
+              //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              //   validator: (value) {
+              //     if (value!.isEmpty) {
+              //       return "Please fill the input";
+              //     } else if (value.length != 6) {
+              //       return "Please write code correctly";
+              //     }
+              //     return null;
+              //   },
+              // ),
             )),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,

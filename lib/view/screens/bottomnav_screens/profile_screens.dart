@@ -9,7 +9,6 @@ import 'package:cabskaro/view/screens/settings_pages/send_feedback.dart';
 import 'package:cabskaro/view/screens/settings_pages/setting.dart';
 import 'package:cabskaro/view/screens/settings_pages/term_of_use.dart';
 import 'package:cabskaro/view/widgets/back_button_widget.dart';
-import 'package:cabskaro/view/widgets/bottomnav_widget.dart';
 import 'package:cabskaro/view/widgets/profile_widgets_listtile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -355,8 +354,6 @@ class ProfileScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                BottomNavWidget(
-                    screenWidth: screenWidth, screenHeight: screenHeight)
               ],
             );
           }

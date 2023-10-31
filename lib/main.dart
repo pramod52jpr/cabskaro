@@ -8,6 +8,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:get/get.dart';
 import 'firebase_options.dart';
 import 'package:provider/provider.dart'; 
 
@@ -34,7 +35,7 @@ class MyApp extends StatelessWidget {
          ChangeNotifierProvider(create: (context)=>FaqScreenProvider()),
          ChangeNotifierProvider(create: (context)=>SplashScreenProvider()),
         ],
-        child: MaterialApp(
+        child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'CabsKaro',
         theme: ThemeData(
