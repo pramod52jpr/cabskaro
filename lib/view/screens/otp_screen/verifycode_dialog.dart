@@ -232,7 +232,7 @@ class _VerifyCodeState extends State<VerifyCode> {
           savedpin = pin;
           focusNode.hasFocus;
         },
-          androidSmsAutofillMethod: AndroidSmsAutofillMethod.smsRetrieverApi,
+          androidSmsAutofillMethod: AndroidSmsAutofillMethod.none,
           controller: pinputController,
           length: 6,
           focusNode: focusNode,

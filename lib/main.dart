@@ -36,11 +36,13 @@ class MyApp extends StatelessWidget {
          ChangeNotifierProvider(create: (context)=>SplashScreenProvider()),
         ],
         child: GetMaterialApp(
+           theme: ThemeData(
+        brightness: Brightness.light,
+
+      ),
+      themeMode: ThemeMode.dark,
         debugShowCheckedModeBanner: false,
         title: 'CabsKaro',
-        theme: ThemeData(
-          primarySwatch: Colors.green,
-        ),
         home: SplashScreen(),
       ),
     );
