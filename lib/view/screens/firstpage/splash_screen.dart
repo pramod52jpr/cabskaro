@@ -5,7 +5,6 @@ import 'package:cabskaro/view/screens/homepage/dashboard_screen.dart';
 import 'package:cabskaro/view/screens/otp_screen/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -281,7 +280,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       Timer(
                         const Duration(seconds: 1),
                         () {
-                          Get.to(LoginScreen());
+                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen(),));
                         },
                       );
                     }),
