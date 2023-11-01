@@ -257,129 +257,132 @@ class ProfileScreen extends StatelessWidget {
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.all(12.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.white,
-                          border: Border.all(color: Colors.grey)),
-                      margin: const EdgeInsets.only(left: 10),
-                      width: screenWidth * 0.860,
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            ProfileWidgetListTile(
-                              text: 'Manage account',
-                              icon: Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: Image.asset(
-                                    "assets/images/icons/skills.png",
-                                    height: screenHeight * 0.025),
+                    child: SingleChildScrollView(
+                      child: Container(
+                        height: screenHeight*0.420,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.white,
+                            border: Border.all(color: Colors.grey)),
+                        margin: const EdgeInsets.only(left: 10),
+                        width: screenWidth * 0.860,
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              ProfileWidgetListTile(
+                                text: 'Manage account',
+                                icon: Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: Image.asset(
+                                      "assets/images/icons/skills.png",
+                                      height: screenHeight * 0.025),
+                                ),
+                                ontap: () {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) {
+                                    return ManageAccount();
+                                  }));
+                                },
                               ),
-                              ontap: () {
-                                Navigator.push(context,
-                                    MaterialPageRoute(builder: (context) {
-                                  return ManageAccount();
-                                }));
-                              },
-                            ),
-                            ProfileWidgetListTile(
-                              text: 'FAQs',
-                              icon: Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: Image.asset(
-                                    "assets/images/icons/faq.png",
-                                    height: screenHeight * 0.025),
+                              ProfileWidgetListTile(
+                                text: 'FAQs',
+                                icon: Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: Image.asset(
+                                      "assets/images/icons/faq.png",
+                                      height: screenHeight * 0.025),
+                                ),
+                                ontap: () {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) {
+                                    return FaqScreen();
+                                  }));
+                                },
                               ),
-                              ontap: () {
-                                Navigator.push(context,
-                                    MaterialPageRoute(builder: (context) {
-                                  return FaqScreen();
-                                }));
-                              },
-                            ),
-                            ProfileWidgetListTile(
-                              text: 'About us',
-                              icon: Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: Image.asset(
-                                    "assets/images/icons/group.png",
-                                    height: screenHeight * 0.025),
+                              ProfileWidgetListTile(
+                                text: 'About us',
+                                icon: Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: Image.asset(
+                                      "assets/images/icons/group.png",
+                                      height: screenHeight * 0.025),
+                                ),
+                                ontap: () {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) {
+                                    return const AboutUsPage();
+                                  }));
+                                },
                               ),
-                              ontap: () {
-                                Navigator.push(context,
-                                    MaterialPageRoute(builder: (context) {
-                                  return const AboutUsPage();
-                                }));
-                              },
-                            ),
-                            ProfileWidgetListTile(
-                              text: 'Term of use',
-                              icon: Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: Image.asset(
-                                    "assets/images/icons/contract.png",
-                                    height: screenHeight * 0.025),
+                              ProfileWidgetListTile(
+                                text: 'Term of use',
+                                icon: Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: Image.asset(
+                                      "assets/images/icons/contract.png",
+                                      height: screenHeight * 0.025),
+                                ),
+                                ontap: () {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) {
+                                    return const TermsOfUsePage();
+                                  }));
+                                },
                               ),
-                              ontap: () {
-                                Navigator.push(context,
-                                    MaterialPageRoute(builder: (context) {
-                                  return const TermsOfUsePage();
-                                }));
-                              },
-                            ),
-                            ProfileWidgetListTile(
-                              text: 'Send Feedback',
-                              icon: Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: Image.asset(
-                                    "assets/images/icons/five.png",
-                                    height: screenHeight * 0.025),
+                              ProfileWidgetListTile(
+                                text: 'Send Feedback',
+                                icon: Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: Image.asset(
+                                      "assets/images/icons/five.png",
+                                      height: screenHeight * 0.025),
+                                ),
+                                ontap: () {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) {
+                                    return SendFeedbackPage();
+                                  }));
+                                },
                               ),
-                              ontap: () {
-                                Navigator.push(context,
-                                    MaterialPageRoute(builder: (context) {
-                                  return SendFeedbackPage();
-                                }));
-                              },
-                            ),
-                            ListTile(
-                              onTap: () => showDialog<String>(
-                                context: context,
-                                builder: (BuildContext context) => AlertDialog(
-                                  title: const Text(
-                                    'Confirmation!',
-                                  ),
-                                  content: const Text(
-                                    'Do you wish to logout',
-                                  ),
-                                  actions: <Widget>[
-                                    TextButton(
-                                      onPressed: () =>
-                                          Navigator.pop(context, 'Cancel'),
-                                      child: const Text(
-                                        'Cancel',
-                                      ),
+                              ListTile(
+                                onTap: () => showDialog<String>(
+                                  context: context,
+                                  builder: (BuildContext context) => AlertDialog(
+                                    title: const Text(
+                                      'Confirmation!',
                                     ),
-                                    TextButton(
-                                      onPressed: () => logout(context),
-                                      child: const Text(
-                                        'OK',
-                                      ),
+                                    content: const Text(
+                                      'Do you wish to logout',
                                     ),
-                                  ],
+                                    actions: <Widget>[
+                                      TextButton(
+                                        onPressed: () =>
+                                            Navigator.pop(context, 'Cancel'),
+                                        child: const Text(
+                                          'Cancel',
+                                        ),
+                                      ),
+                                      TextButton(
+                                        onPressed: () => logout(context),
+                                        child: const Text(
+                                          'OK',
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                leading: Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: Image.asset(
+                                      "assets/images/icons/logout.png",
+                                      height: screenHeight * 0.025),
+                                ),
+                                title: const Text(
+                                  'Logout',
                                 ),
                               ),
-                              leading: Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: Image.asset(
-                                    "assets/images/icons/logout.png",
-                                    height: screenHeight * 0.025),
-                              ),
-                              title: const Text(
-                                'Logout',
-                              ),
-                            ),
-                          ]),
+                            ]),
+                      ),
                     ),
                   ),
                 ),
