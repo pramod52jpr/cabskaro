@@ -59,6 +59,7 @@ class _VerifyCodeState extends State<VerifyCode> {
   Widget build(BuildContext context) {
     final verifyCodeProvider =
     Provider.of<VerifyCodeProvider>(context, listen: true);
+        Provider.of<VerifyCodeProvider>(context, listen: false);
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 170),
       decoration: BoxDecoration(
@@ -291,8 +292,12 @@ class _VerifyCodeState extends State<VerifyCode> {
                 ? Material(
                     child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 17),
-                    child: Text(
-                      "00 : ${verifyCodeProvider.time}s",
+                    child: Consumer<VerifyCodeProvider>(
+                      builder: (context, value, child) {
+                        return Text(
+                        "00 : ${verifyCodeProvider.time}s",
+                      );
+                      },
                     ),
                   ))
                 : TextButton(
@@ -337,7 +342,7 @@ class _VerifyCodeState extends State<VerifyCode> {
             if (pinputController.text.toString().length == 6) {
               final credential = PhoneAuthProvider.credential(
                   verificationId: widget.verificationCode,
-                  //pinputController.text.toString()
+                  // pinputController.text.toString()
                   smsCode:savedpin);
               try {
                 await _auth.signInWithCredential(credential).then((value) {
