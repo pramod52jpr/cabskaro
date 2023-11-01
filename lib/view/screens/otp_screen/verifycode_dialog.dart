@@ -8,9 +8,9 @@ import 'package:cabskaro/view/screens/homepage/dashboard_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
+import 'package:sms_autofill/sms_autofill.dart';
 
 class VerifyCode extends StatefulWidget {
   final String phoneNumber;
@@ -26,11 +26,14 @@ class VerifyCode extends StatefulWidget {
 }
 
 class _VerifyCodeState extends State<VerifyCode> {
+  SmsAutoFill smsAutoFill = SmsAutoFill();
+  var savedpin;
   final _auth = FirebaseAuth.instance;
   final firestore =
-      FirebaseFirestore.instance.collection(UserProfile().collection);
+  FirebaseFirestore.instance.collection(UserProfile().collection);
   TextEditingController pinputController = TextEditingController();
   bool loading = false;
+  final FocusNode focusNode = FocusNode();
 
   late Timer _timer;
 
@@ -68,7 +71,7 @@ class _VerifyCodeState extends State<VerifyCode> {
             image: AssetImage("./assets/images/icons/backscreen.jpg"),
             fit: BoxFit.cover,
           )),
-      child: Column(children: [
+        child: Column(children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -251,19 +254,28 @@ class _VerifyCodeState extends State<VerifyCode> {
             color: Colors.transparent,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30),
+              // pinput-------------------------------------------
               child: Pinput(
-                controller: pinputController,
-                length: 6,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return "Please fill the input";
-                  } else if (value.length != 6) {
-                    return "Please write code correctly";
-                  }
-                  return null;
-                },
-              ),
+                pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
+                   onCompleted: (pin) async {
+          savedpin = pin;
+          focusNode.hasFocus;
+        },
+          androidSmsAutofillMethod: AndroidSmsAutofillMethod.smsRetrieverApi,
+          controller: pinputController,
+          length: 6,
+          focusNode: focusNode,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          listenForMultipleSmsOnAndroid: true,
+          validator: (value) {
+          if (value == null || value.isEmpty) {
+          return "Please fill the input";
+          } else if (value.length != 6) {
+          return "Please write code correctly";
+          }
+          return null;
+  },
+),
             )),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -327,16 +339,17 @@ class _VerifyCodeState extends State<VerifyCode> {
             if (pinputController.text.toString().length == 6) {
               final credential = PhoneAuthProvider.credential(
                   verificationId: widget.verificationCode,
-                  smsCode: pinputController.text.toString());
+                  //pinputController.text.toString()
+                  smsCode:savedpin);
               try {
                 await _auth.signInWithCredential(credential).then((value) {
                   if (value.additionalUserInfo!.isNewUser) {
                     firestore.doc(_auth.currentUser!.uid.toString()).set({
                       UserProfile().id: _auth.currentUser!.uid.toString(),
                       UserProfile().name: "",
-                      UserProfile().email: "",
+                      UserProfile().email:"",
                       UserProfile().phone:
-                          _auth.currentUser!.phoneNumber.toString(),
+                      _auth.currentUser!.phoneNumber.toString(),
                       UserProfile().photo: "",
                       UserProfile().home: "",
                       UserProfile().work: "",
@@ -352,13 +365,6 @@ class _VerifyCodeState extends State<VerifyCode> {
                       ),
                       (route) => false);
                 });
-
-                // Navigator.pushAndRemoveUntil(
-                //     context,
-                //     MaterialPageRoute(
-                //       builder: (context) => const DashboardScreen(),
-                //     ),
-                //     (route) => false);
               } catch (e) {
                 setState(() {
                   loading = false;

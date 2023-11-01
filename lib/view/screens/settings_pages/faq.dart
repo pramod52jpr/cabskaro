@@ -2,6 +2,7 @@ import 'package:cabskaro/controller/provider/faq_screen_provider.dart';
 import 'package:cabskaro/view/screens/settings_pages/faqs_questions_answers.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/components/accordion/gf_accordion.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 
@@ -59,7 +60,7 @@ class FaqScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: filteredItems.isEmpty
                     ? Center(
-                        child: Text('No Result'),
+                        child: Lottie.asset('animations/Animation - 1698729862860.json'),
                       )
                     : ListView.builder(
                         shrinkWrap: true,

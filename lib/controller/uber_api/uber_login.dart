@@ -10,6 +10,7 @@ class UberServices {
 
   Future<void> generateAndStoreAccessToken() async {
     final Uri uri = Uri.parse('https://login.uber.com/oauth/v2/token');
+
     final Map<String, String> body = {
       'client_secret': _clientSecret,
       'client_id': _clientId,
@@ -26,12 +27,12 @@ class UberServices {
     }
 
   else {
-  if (response.statusCode == 400) {
-  print('Request failed with status 400');
-  print('Response body: ${response.body}');
+   if (response.statusCode == 400) {
+   print('Request failed with status 400');
+   print('Response body: ${response.body}');
   }
 
- print('Request failed with status: ${response.statusCode}');
+  print('Request failed with status: ${response.statusCode}');
     }
   }
 

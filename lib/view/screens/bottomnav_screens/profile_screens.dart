@@ -383,6 +383,7 @@ class ProfileScreen extends StatelessWidget {
                     ),
                   ),
                 ),
+
                 BottomNavigator(
                   onTapDashboard: () {
                     Navigator.pop(context);

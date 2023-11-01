@@ -64,6 +64,7 @@ dependencies:
   get: ^4.6.6
   connectivity_plus: ^5.0.1
   lottie: ^2.7.0
+  sms_autofill: ^2.3.0
   
 dev_dependencies:
   flutter_test:
@@ -72,7 +73,9 @@ dev_dependencies:
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
-  # image_path: "assets/images/cabsicon/logo.png"
+  adaptive_icon_foreground: "assets/images/cabsicon/playstore-icon.png"
+  adaptive_icon_background: "#ed1e79"
+  image_path: "assets/images/cabsicon/playstore-icon.png"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

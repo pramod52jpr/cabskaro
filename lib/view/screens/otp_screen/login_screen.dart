@@ -27,7 +27,16 @@ class _LoginScreenState extends State<LoginScreen> {
       FirebaseFirestore.instance.collection(UserProfile().collection);
   final TextEditingController _phoneController = TextEditingController();
   var opacity = 0.0;
-  // bool loading = false;
+
+// void submit()async{
+//   if(_phoneController.text=="")return;
+//   var appSignatureId=await SmsAutoFill().getAppSignature;
+//   Map sendOtpData={
+//     "mobile_number":_phoneController.text,
+//     "app_signature_id":appSignatureId,
+//   };
+//   print(sendOtpData);
+// }
 
   @override
   void initState() {
@@ -304,7 +313,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               codeAutoRetrievalTimeout: (verificationId) {
                                 loadingProvider.setLoading(false);
                                 Services().toastmsg(
-                                    verificationId.split("]")[1], false);
+                                verificationId.split("]")[1], false);
                               },
                             );
                           }

@@ -51,7 +51,6 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void animate() {
-    
     Timer(const Duration(seconds: 0), () {
       setState(() {
         firstAnimation = true;
@@ -89,7 +88,6 @@ class _SplashScreenState extends State<SplashScreen> {
       );
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
