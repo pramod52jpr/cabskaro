@@ -12,6 +12,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:sms_autofill/sms_autofill.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -27,7 +28,16 @@ class _LoginScreenState extends State<LoginScreen> {
   final firestore=FirebaseFirestore.instance.collection(UserProfile().collection);
   final TextEditingController _phoneController = TextEditingController();
   var opacity = 0.0;
- // bool loading = false;
+
+// void submit()async{
+//   if(_phoneController.text=="")return;
+//   var appSignatureId=await SmsAutoFill().getAppSignature;
+//   Map sendOtpData={
+//     "mobile_number":_phoneController.text,
+//     "app_signature_id":appSignatureId,
+//   };
+//   print(sendOtpData);
+// }
 
   @override
   void initState() {
@@ -44,7 +54,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: Stack(children: [
         Container(
@@ -285,13 +294,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               verificationCompleted: (phoneAuthCredential) {
                                loadingProvider.setLoading(false);
                               },
-
                               verificationFailed: (error) {
                               loadingProvider.setLoading(false);
                                 Services().toastmsg(
                                     error.toString().split("]")[1], false);
                               },
-                              
                               codeSent: (verificationId, forceResendingToken) {
                                loadingProvider.setLoading(false);
                                 showGeneralDialog(
@@ -308,7 +315,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               codeAutoRetrievalTimeout: (verificationId) {
                                loadingProvider.setLoading(false);
                                 Services().toastmsg(
-                                    verificationId.split("]")[1], false);
+                                verificationId.split("]")[1], false);
                               },
                             );
                           }

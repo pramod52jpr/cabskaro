@@ -12,7 +12,7 @@ import 'package:get/get.dart';
 import 'firebase_options.dart';
 import 'package:provider/provider.dart'; 
 
-void main() async {
+  void main() async {
   await dotenv.load();
   WidgetsFlutterBinding.ensureInitialized();
     SystemChrome.setPreferredOrientations([
@@ -22,14 +22,14 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(MyApp());
-}
+  }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-         ChangeNotifierProvider( create: (context) => HistoryScreenProvider()),
+         ChangeNotifierProvider(create: (context)=>HistoryScreenProvider()),
          ChangeNotifierProvider(create: (context)=>SearchStartLocationModel()),
          ChangeNotifierProvider(create: (context)=>LoadingProvider()),
          ChangeNotifierProvider(create: (context)=>FaqScreenProvider()),
