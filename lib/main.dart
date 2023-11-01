@@ -40,7 +40,6 @@ class MyApp extends StatelessWidget {
         child: GetMaterialApp(
            theme: ThemeData(
         brightness: Brightness.light,
-
       ),
       themeMode: ThemeMode.dark,
         debugShowCheckedModeBanner: false,

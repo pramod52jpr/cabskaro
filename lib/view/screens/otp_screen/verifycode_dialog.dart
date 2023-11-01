@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:cabskaro/controller/provider/verifycode_provider.dart';
 import 'package:cabskaro/controller/services/services.dart';
 import 'package:cabskaro/model/user_profile_model.dart';
@@ -39,7 +38,6 @@ class _VerifyCodeState extends State<VerifyCode> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     final verifyCodeProvider =
         Provider.of<VerifyCodeProvider>(context, listen: false);
@@ -53,7 +51,6 @@ class _VerifyCodeState extends State<VerifyCode> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _timer.cancel();
   }
@@ -61,7 +58,7 @@ class _VerifyCodeState extends State<VerifyCode> {
   @override
   Widget build(BuildContext context) {
     final verifyCodeProvider =
-        Provider.of<VerifyCodeProvider>(context, listen: true);
+    Provider.of<VerifyCodeProvider>(context, listen: true);
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 170),
       decoration: BoxDecoration(
@@ -256,12 +253,13 @@ class _VerifyCodeState extends State<VerifyCode> {
               padding: const EdgeInsets.symmetric(horizontal: 30),
               // pinput-------------------------------------------
               child: Pinput(
+                 showCursor: true,
                 pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
                    onCompleted: (pin) async {
           savedpin = pin;
           focusNode.hasFocus;
         },
-          androidSmsAutofillMethod: AndroidSmsAutofillMethod.none,
+          androidSmsAutofillMethod: AndroidSmsAutofillMethod.smsUserConsentApi,
           controller: pinputController,
           length: 6,
           focusNode: focusNode,

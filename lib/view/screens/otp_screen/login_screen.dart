@@ -28,16 +28,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _phoneController = TextEditingController();
   var opacity = 0.0;
 
-// void submit()async{
-//   if(_phoneController.text=="")return;
-//   var appSignatureId=await SmsAutoFill().getAppSignature;
-//   Map sendOtpData={
-//     "mobile_number":_phoneController.text,
-//     "app_signature_id":appSignatureId,
-//   };
-//   print(sendOtpData);
-// }
-
   @override
   void initState() {
     super.initState();

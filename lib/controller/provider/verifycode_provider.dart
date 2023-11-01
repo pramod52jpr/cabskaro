@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 class VerifyCodeProvider extends ChangeNotifier {
   int _time = 59;
   int get time => _time;
+  
   void setInitialTime() {
     _time = 60;
     notifyListeners();
