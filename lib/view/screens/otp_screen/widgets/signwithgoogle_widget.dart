@@ -18,8 +18,8 @@ class SignInWithGoogle extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.network(
-            "https://static-00.iconduck.com/assets.00/google-icon-2048x2048-czn3g8x8.png",
+          Image.asset(
+            "assets/images/icons/google-icon.png",
             height: 30,
           ),
           const SizedBox(width: 20),

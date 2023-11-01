@@ -12,7 +12,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:sms_autofill/sms_autofill.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -22,10 +21,10 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-
   final _formKey = GlobalKey<FormState>();
   final _auth = FirebaseAuth.instance;
-  final firestore=FirebaseFirestore.instance.collection(UserProfile().collection);
+  final firestore =
+      FirebaseFirestore.instance.collection(UserProfile().collection);
   final TextEditingController _phoneController = TextEditingController();
   var opacity = 0.0;
 
@@ -281,26 +280,25 @@ class _LoginScreenState extends State<LoginScreen> {
                     const SizedBox(
                       height: 10,
                     ),
-                      Consumer<LoadingProvider>(
-                      builder: (context, loadingProvider, _) => 
-                      RoundButton(
+                    Consumer<LoadingProvider>(
+                      builder: (context, loadingProvider, _) => RoundButton(
                         title: "GET OTP",
-                        loading:loadingProvider.loading,
+                        loading: loadingProvider.loading,
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                              loadingProvider.setLoading(true);
+                            loadingProvider.setLoading(true);
                             _auth.verifyPhoneNumber(
                               phoneNumber: "+91${_phoneController.text}",
                               verificationCompleted: (phoneAuthCredential) {
-                               loadingProvider.setLoading(false);
+                                loadingProvider.setLoading(false);
                               },
                               verificationFailed: (error) {
-                              loadingProvider.setLoading(false);
+                                loadingProvider.setLoading(false);
                                 Services().toastmsg(
                                     error.toString().split("]")[1], false);
                               },
                               codeSent: (verificationId, forceResendingToken) {
-                               loadingProvider.setLoading(false);
+                                loadingProvider.setLoading(false);
                                 showGeneralDialog(
                                   context: context,
                                   pageBuilder:
@@ -313,7 +311,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 );
                               },
                               codeAutoRetrievalTimeout: (verificationId) {
-                               loadingProvider.setLoading(false);
+                                loadingProvider.setLoading(false);
                                 Services().toastmsg(
                                 verificationId.split("]")[1], false);
                               },
@@ -323,22 +321,25 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     InkWell(
-      onTap: () async {
-      try {
-      final user = await GoogleSignInService().signInWithGoogle();
-      if (user != null) {
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (context) => const DashboardScreen()),
-          (route) => false,
-        );
-      }
-    } catch (e) {
-      Services().toastmsg(e.toString(), false);
-    }
-  },
-  child: SignInWithGoogle(),
-)
+                      onTap: () async {
+                        try {
+                          final user =
+                              await GoogleSignInService().signInWithGoogle();
+                          if (user != null) {
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const DashboardScreen()),
+                              (route) => false,
+                            );
+                          }
+                        } catch (e) {
+                          Services().toastmsg(e.toString(), false);
+                        }
+                      },
+                      child: SignInWithGoogle(),
+                    )
                   ],
                 ),
               )
@@ -349,5 +350,3 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
-
-

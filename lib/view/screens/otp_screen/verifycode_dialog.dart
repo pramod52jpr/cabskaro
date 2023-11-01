@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:cabskaro/controller/provider/verifycode_provider.dart';
 import 'package:cabskaro/controller/services/services.dart';
 import 'package:cabskaro/model/user_profile_model.dart';
 import 'package:cabskaro/view/screens/homepage/components/round_button.dart';
@@ -6,6 +9,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
+import 'package:provider/provider.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 
 class VerifyCode extends StatefulWidget {
@@ -31,8 +35,33 @@ class _VerifyCodeState extends State<VerifyCode> {
   bool loading = false;
   final FocusNode focusNode = FocusNode();
 
+  late Timer _timer;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    final verifyCodeProvider =
+        Provider.of<VerifyCodeProvider>(context, listen: false);
+    verifyCodeProvider.setInitialTime();
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      if (verifyCodeProvider.time > 0) {
+        verifyCodeProvider.setTime();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _timer.cancel();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final verifyCodeProvider =
+        Provider.of<VerifyCodeProvider>(context, listen: true);
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 170),
       decoration: BoxDecoration(
@@ -260,36 +289,44 @@ class _VerifyCodeState extends State<VerifyCode> {
                 decoration: TextDecoration.none,
               ),
             ),
-            TextButton(
-                onPressed: () {
-                  _auth.verifyPhoneNumber(
-                    phoneNumber: widget.phoneNumber,
-                    verificationCompleted: (PhoneAuthCredential credential) {
-                    pinputController.setText(credential.smsCode.toString());
-                    },
-                    verificationFailed: (error) {
-                      Services()
-                          .toastmsg(error.toString().split("]")[1], false);
-                    },
-                    codeSent: (verificationId, forceResendingToken) {
-                      showGeneralDialog(
-                        context: context,
-                        pageBuilder: (context, animation, secondaryAnimation) {
-                          return VerifyCode(
-                              phoneNumber: widget.phoneNumber,
-                              verificationCode: verificationId);
+            verifyCodeProvider.time != 0
+                ? Material(
+                    child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 17),
+                    child: Text(
+                      "00 : ${verifyCodeProvider.time}s",
+                    ),
+                  ))
+                : TextButton(
+                    onPressed: () {
+                      _auth.verifyPhoneNumber(
+                        phoneNumber: widget.phoneNumber,
+                        verificationCompleted: (phoneAuthCredential) {},
+                        verificationFailed: (error) {
+                          Services()
+                              .toastmsg(error.toString().split("]")[1], false);
+                        },
+                        codeSent: (verificationId, forceResendingToken) {
+                          showGeneralDialog(
+                            context: context,
+                            pageBuilder:
+                                (context, animation, secondaryAnimation) {
+                              return VerifyCode(
+                                  phoneNumber: widget.phoneNumber,
+                                  verificationCode: verificationId);
+                            },
+                          );
+                        },
+                        codeAutoRetrievalTimeout: (verificationId) {
+                          Services()
+                              .toastmsg(verificationId.split("]")[1], false);
                         },
                       );
                     },
-                    codeAutoRetrievalTimeout: (verificationId) {
-                      Services().toastmsg(verificationId.split("]")[1], false);
-                    },
-                  );
-                },
-                child: const Text(
-                  "Resend Otp Again",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ))
+                    child: const Text(
+                      "Resend Otp Again",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ))
           ],
         ),
         RoundButton(
