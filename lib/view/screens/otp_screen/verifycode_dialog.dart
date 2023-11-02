@@ -254,8 +254,8 @@ class _VerifyCodeState extends State<VerifyCode> {
               padding: const EdgeInsets.symmetric(horizontal: 30),
               // pinput-------------------------------------------
               child: Pinput(
-                 showCursor: true,
-                pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
+                showCursor: true,
+                 pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
                    onCompleted: (pin) async {
           savedpin = pin;
           focusNode.hasFocus;
@@ -343,7 +343,7 @@ class _VerifyCodeState extends State<VerifyCode> {
               final credential = PhoneAuthProvider.credential(
                   verificationId: widget.verificationCode,
                   // pinputController.text.toString()
-                  smsCode:savedpin);
+                  smsCode: savedpin);
               try {
                 await _auth.signInWithCredential(credential).then((value) {
                   if (value.additionalUserInfo!.isNewUser) {
