@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:cabskaro/controller/provider/verifycode_provider.dart';
 import 'package:cabskaro/controller/services/services.dart';
 import 'package:cabskaro/model/user_profile_model.dart';
 import 'package:cabskaro/view/screens/homepage/components/round_button.dart';
@@ -8,7 +7,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
-import 'package:provider/provider.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 
 class VerifyCode extends StatefulWidget {
@@ -29,22 +27,23 @@ class _VerifyCodeState extends State<VerifyCode> {
   var savedpin;
   final _auth = FirebaseAuth.instance;
   final firestore =
-  FirebaseFirestore.instance.collection(UserProfile().collection);
+      FirebaseFirestore.instance.collection(UserProfile().collection);
   TextEditingController pinputController = TextEditingController();
-  bool loading = false;
   final FocusNode focusNode = FocusNode();
+  bool loading = false;
+  int time=59;
 
   late Timer _timer;
 
   @override
   void initState() {
     super.initState();
-    final verifyCodeProvider =
-        Provider.of<VerifyCodeProvider>(context, listen: false);
-    verifyCodeProvider.setInitialTime();
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      if (verifyCodeProvider.time > 0) {
-        verifyCodeProvider.setTime();
+      if (time > 0) {
+        time--;
+        setState(() {
+          
+        });
       }
     });
   }
@@ -57,9 +56,6 @@ class _VerifyCodeState extends State<VerifyCode> {
 
   @override
   Widget build(BuildContext context) {
-    final verifyCodeProvider =
-    Provider.of<VerifyCodeProvider>(context, listen: true);
-        Provider.of<VerifyCodeProvider>(context, listen: false);
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 170),
       decoration: BoxDecoration(
@@ -69,7 +65,7 @@ class _VerifyCodeState extends State<VerifyCode> {
             image: AssetImage("./assets/images/icons/backscreen.jpg"),
             fit: BoxFit.cover,
           )),
-        child: Column(children: [
+      child: Column(children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -254,27 +250,28 @@ class _VerifyCodeState extends State<VerifyCode> {
               padding: const EdgeInsets.symmetric(horizontal: 30),
               // pinput-------------------------------------------
               child: Pinput(
-                 showCursor: true,
+                showCursor: true,
                 pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
-                   onCompleted: (pin) async {
-          savedpin = pin;
-          focusNode.hasFocus;
-        },
-          androidSmsAutofillMethod: AndroidSmsAutofillMethod.smsUserConsentApi,
-          controller: pinputController,
-          length: 6,
-          focusNode: focusNode,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          listenForMultipleSmsOnAndroid: true,
-          validator: (value) {
-          if (value == null || value.isEmpty) {
-          return "Please fill the input";
-          } else if (value.length != 6) {
-          return "Please write code correctly";
-          }
-          return null;
-  },
-),
+                onCompleted: (pin) async {
+                  savedpin = pin;
+                  focusNode.hasFocus;
+                },
+                androidSmsAutofillMethod:
+                    AndroidSmsAutofillMethod.smsUserConsentApi,
+                controller: pinputController,
+                length: 6,
+                focusNode: focusNode,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                listenForMultipleSmsOnAndroid: true,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Please fill the input";
+                  } else if (value.length != 6) {
+                    return "Please write code correctly";
+                  }
+                  return null;
+                },
+              ),
             )),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -288,16 +285,13 @@ class _VerifyCodeState extends State<VerifyCode> {
                 decoration: TextDecoration.none,
               ),
             ),
-            verifyCodeProvider.time != 0
+            time != 0
                 ? Material(
                     child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 17),
-                    child: Consumer<VerifyCodeProvider>(
-                      builder: (context, value, child) {
-                        return Text(
-                        "00 : ${verifyCodeProvider.time}s",
-                      );
-                      },
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10, vertical: 17),
+                    child: Text(
+                      "00 : ${time}s",
                     ),
                   ))
                 : TextButton(
@@ -343,16 +337,16 @@ class _VerifyCodeState extends State<VerifyCode> {
               final credential = PhoneAuthProvider.credential(
                   verificationId: widget.verificationCode,
                   // pinputController.text.toString()
-                  smsCode:savedpin);
+                  smsCode: savedpin);
               try {
                 await _auth.signInWithCredential(credential).then((value) {
                   if (value.additionalUserInfo!.isNewUser) {
                     firestore.doc(_auth.currentUser!.uid.toString()).set({
                       UserProfile().id: _auth.currentUser!.uid.toString(),
                       UserProfile().name: "",
-                      UserProfile().email:"",
+                      UserProfile().email: "",
                       UserProfile().phone:
-                      _auth.currentUser!.phoneNumber.toString(),
+                          _auth.currentUser!.phoneNumber.toString(),
                       UserProfile().photo: "",
                       UserProfile().home: "",
                       UserProfile().work: "",
