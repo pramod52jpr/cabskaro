@@ -5,7 +5,6 @@ import 'package:cabskaro/view/screens/homepage/components/cab_types.dart';
 import 'package:cabskaro/view/screens/homepage/components/location_points.dart';
 import 'package:cabskaro/view/screens/homepage/dashboard_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class CabsAvaibilityScreen extends StatelessWidget {
   const CabsAvaibilityScreen({super.key});
