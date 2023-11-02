@@ -31,27 +31,18 @@ class _VerifyCodeState extends State<VerifyCode> {
   TextEditingController pinputController = TextEditingController();
   final FocusNode focusNode = FocusNode();
   bool loading = false;
-  int time=59;
-
-  late Timer _timer;
+  int time = 59;
 
   @override
   void initState() {
     super.initState();
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      if (time > 0) {
-        time--;
+    if (time > 0) {
+      Timer.periodic(Duration(seconds: 1), (timer) {
         setState(() {
-          
+          time--;
         });
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _timer.cancel();
+      });
+    }
   }
 
   @override
@@ -245,35 +236,35 @@ class _VerifyCodeState extends State<VerifyCode> {
           height: 20,
         ),
         Material(
-            color: Colors.transparent,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30),
-              // pinput-------------------------------------------
-              child: Pinput(
-                showCursor: true,
-                 pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
-                   onCompleted: (pin) async {
-          savedpin = pin;
-          focusNode.hasFocus;
-        },
-          androidSmsAutofillMethod: AndroidSmsAutofillMethod.smsUserConsentApi,
-          controller: pinputController,
-          length: 6,
-          focusNode: focusNode,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          listenForMultipleSmsOnAndroid: true,
-          validator: (value) {
-          if (value == null || value.isEmpty) {
-          return "Please fill the input";
-          } else if (value.length != 6) {
-          return "Please write code correctly";
-          }
-          return null;
-  },
-),
-             
-              ),
+          color: Colors.transparent,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30),
+            // pinput-------------------------------------------
+            child: Pinput(
+              showCursor: true,
+              pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
+              onCompleted: (pin) async {
+                savedpin = pin;
+                focusNode.hasFocus;
+              },
+              androidSmsAutofillMethod:
+                  AndroidSmsAutofillMethod.smsUserConsentApi,
+              controller: pinputController,
+              length: 6,
+              focusNode: focusNode,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              listenForMultipleSmsOnAndroid: true,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "Please fill the input";
+                } else if (value.length != 6) {
+                  return "Please write code correctly";
+                }
+                return null;
+              },
             ),
+          ),
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

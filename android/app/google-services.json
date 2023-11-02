@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "313226788999",
-    "project_id": "cabskaro-2fc88",
-    "storage_bucket": "cabskaro-2fc88.appspot.com"
+    "project_number": "980632885970",
+    "project_id": "cabskaro-a66d8",
+    "storage_bucket": "cabskaro-a66d8.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:313226788999:android:74b1fe08f7a0549453f822",
+        "mobilesdk_app_id": "1:980632885970:android:44c7e1a775fc8852c5eb0b",
         "android_client_info": {
-          "package_name": "com.example.cabskaro"
+          "package_name": "in.cabskaro.cabs_booking"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyC9hj-AeVscH1FVftdXYH74rPSdXGaeMOE"
+          "current_key": "AIzaSyCHLJCkp1X-48jeTUWwKMJsebEkmJG9zS4"
         }
       ],
       "services": {

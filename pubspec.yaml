@@ -74,7 +74,7 @@ flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
   adaptive_icon_foreground: "assets/images/cabsicon/logo.png"
-  adaptive_icon_background: "#ed1e79"
+  adaptive_icon_background: "#ffffff"
   image_path: "assets/images/cabsicon/logo.png"
 
   # The "flutter_lints" package below contains a set of recommended lints to
