@@ -1,19 +1,15 @@
 import 'dart:async';
-import 'package:cabskaro/controller/uber_api/uber_login.dart';
 import 'package:cabskaro/view/screens/bottomnav_screens/history_screens.dart';
 import 'package:cabskaro/view/screens/bottomnav_screens/profile_screens.dart';
 import 'package:cabskaro/view/screens/homepage/components/bottom_navigator.dart';
 import 'package:cabskaro/view/widgets/cab_companies.dart';
-import 'package:cabskaro/view/screens/homepage/components/cab_types.dart';
 import 'package:cabskaro/view/screens/homepage/components/location_points.dart';
 import 'package:cabskaro/controller/services/services.dart';
-import 'package:cabskaro/view/screens/homepage/cabs_availability_screen/cabs_availability_screen.dart';
 import 'package:cabskaro/view/screens/homepage/searching_locations/search_end_location.dart';
 import 'package:cabskaro/view/screens/homepage/searching_locations/search_start_location.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geocoding/geocoding.dart';
-import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart' as lottie;
@@ -433,10 +429,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               ),
                             ],
                           ),
-                          Image.asset(
-                            "assets/images/icons/notification.png",
-                            height: screenWidth * 0.060,
-                          )
                         ],
                       ),
                     ),
@@ -502,36 +494,36 @@ class _DashboardScreenState extends State<DashboardScreen> {
               Expanded(
                 child: Column(
                   children: [
-                    CabTypes(
-                      onTapFourSeater: () {
-                      Get.to(CabsAvaibilityScreen(),);
-                      },
-                      onTapFourPlusSeater: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  const CabsAvaibilityScreen(),
-                            ));
-                      },
-                      onTapAuto: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  const CabsAvaibilityScreen(),
-                            ));
-                      },
-                      onTapBike: () {
-                        UberServices().generateAndStoreAccessToken();
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  const CabsAvaibilityScreen(),
-                            ));
-                      },
-                    ),
+                    // CabTypes(
+                    //   onTapFourSeater: () {
+                    //   Get.to(CabsAvaibilityScreen(),);
+                    //   },
+                    //   onTapFourPlusSeater: () {
+                    //     Navigator.push(
+                    //         context,
+                    //         MaterialPageRoute(
+                    //           builder: (context) =>
+                    //               const CabsAvaibilityScreen(),
+                    //         ));
+                    //   },
+                    //   onTapAuto: () {
+                    //     Navigator.push(
+                    //         context,
+                    //         MaterialPageRoute(
+                    //           builder: (context) =>
+                    //               const CabsAvaibilityScreen(),
+                    //         ));
+                    //   },
+                    //   onTapBike: () {
+                    //     UberServices().generateAndStoreAccessToken();
+                    //     Navigator.push(
+                    //         context,
+                    //         MaterialPageRoute(
+                    //           builder: (context) =>
+                    //               const CabsAvaibilityScreen(),
+                    //         ));
+                    //   },
+                    // ),
                     Expanded(
                       child: Container(
                         margin: EdgeInsets.symmetric(
@@ -600,7 +592,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         //     ));
                       },
                       onTapBlaBla: () {
-                        launchUrl(Uri.parse("https://www.blablacar.in/"));
+                        launchUrl(Uri.parse("https://www.blablacar.in/search-car-sharing"));
                         // Navigator.push(
                         //     context,
                         //     MaterialPageRoute(

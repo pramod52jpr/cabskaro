@@ -44,38 +44,38 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyD2rI0woDqwD3f9NnMyERKFW1nMDRST6Rc',
-    appId: '1:313226788999:web:70749722fc6b53e853f822',
-    messagingSenderId: '313226788999',
-    projectId: 'cabskaro-2fc88',
-    authDomain: 'cabskaro-2fc88.firebaseapp.com',
-    storageBucket: 'cabskaro-2fc88.appspot.com',
-    measurementId: 'G-KZC15HZTT9',
+    apiKey: 'AIzaSyDFaa89ihoIY2y9WRk04_-R-X1YNl6suyk',
+    appId: '1:980632885970:web:77123f605b6ef29ac5eb0b',
+    messagingSenderId: '980632885970',
+    projectId: 'cabskaro-a66d8',
+    authDomain: 'cabskaro-a66d8.firebaseapp.com',
+    storageBucket: 'cabskaro-a66d8.appspot.com',
+    measurementId: 'G-TPWLCCD4TY',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyC9hj-AeVscH1FVftdXYH74rPSdXGaeMOE',
-    appId: '1:313226788999:android:74b1fe08f7a0549453f822',
-    messagingSenderId: '313226788999',
-    projectId: 'cabskaro-2fc88',
-    storageBucket: 'cabskaro-2fc88.appspot.com',
+    apiKey: 'AIzaSyCHLJCkp1X-48jeTUWwKMJsebEkmJG9zS4',
+    appId: '1:980632885970:android:44c7e1a775fc8852c5eb0b',
+    messagingSenderId: '980632885970',
+    projectId: 'cabskaro-a66d8',
+    storageBucket: 'cabskaro-a66d8.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBQCQzHyGtYWiCRxu0kUhK9INbIFIVEGVI',
-    appId: '1:313226788999:ios:a4122d471873f27d53f822',
-    messagingSenderId: '313226788999',
-    projectId: 'cabskaro-2fc88',
-    storageBucket: 'cabskaro-2fc88.appspot.com',
+    apiKey: 'AIzaSyC-BlSp8izBF2GMpheX5ax-E3OmdcYLVQM',
+    appId: '1:980632885970:ios:2824d0e92385b8e7c5eb0b',
+    messagingSenderId: '980632885970',
+    projectId: 'cabskaro-a66d8',
+    storageBucket: 'cabskaro-a66d8.appspot.com',
     iosBundleId: 'com.example.cabskaro',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyBQCQzHyGtYWiCRxu0kUhK9INbIFIVEGVI',
-    appId: '1:313226788999:ios:c7dce98ff3be544a53f822',
-    messagingSenderId: '313226788999',
-    projectId: 'cabskaro-2fc88',
-    storageBucket: 'cabskaro-2fc88.appspot.com',
+    apiKey: 'AIzaSyC-BlSp8izBF2GMpheX5ax-E3OmdcYLVQM',
+    appId: '1:980632885970:ios:b720ab540e86f351c5eb0b',
+    messagingSenderId: '980632885970',
+    projectId: 'cabskaro-a66d8',
+    storageBucket: 'cabskaro-a66d8.appspot.com',
     iosBundleId: 'com.example.cabskaro.RunnerTests',
   );
 }
