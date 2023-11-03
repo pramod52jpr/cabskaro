@@ -7,7 +7,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
-import 'package:sms_autofill/sms_autofill.dart';
 
 class VerifyCode extends StatefulWidget {
   final String phoneNumber;
@@ -23,16 +22,14 @@ class VerifyCode extends StatefulWidget {
 }
 
 class _VerifyCodeState extends State<VerifyCode> {
-  SmsAutoFill smsAutoFill = SmsAutoFill();
   var savedpin;
   final _auth = FirebaseAuth.instance;
   final firestore =
-      FirebaseFirestore.instance.collection(UserProfile().collection);
+  FirebaseFirestore.instance.collection(UserProfile().collection);
   TextEditingController pinputController = TextEditingController();
   final FocusNode focusNode = FocusNode();
   bool loading = false;
   int time=59;
-
   late Timer _timer;
 
   @override
@@ -42,7 +39,6 @@ class _VerifyCodeState extends State<VerifyCode> {
       if (time > 0) {
         time--;
         setState(() {
-          
         });
       }
     });
@@ -53,6 +49,7 @@ class _VerifyCodeState extends State<VerifyCode> {
     super.dispose();
     _timer.cancel();
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -261,7 +258,7 @@ class _VerifyCodeState extends State<VerifyCode> {
           length: 6,
           focusNode: focusNode,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          listenForMultipleSmsOnAndroid: true,
+          //listenForMultipleSmsOnAndroid: true,
           validator: (value) {
           if (value == null || value.isEmpty) {
           return "Please fill the input";
@@ -271,8 +268,7 @@ class _VerifyCodeState extends State<VerifyCode> {
           return null;
   },
 ),
-             
-              ),
+             ),
             ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -298,33 +294,30 @@ class _VerifyCodeState extends State<VerifyCode> {
                 : TextButton(
                     onPressed: () {
                       _auth.verifyPhoneNumber(
-                        phoneNumber: widget.phoneNumber,
-                        verificationCompleted: (phoneAuthCredential) {},
-                        verificationFailed: (error) {
-                          Services()
-                              .toastmsg(error.toString().split("]")[1], false);
-                        },
-                        codeSent: (verificationId, forceResendingToken) {
-                          showGeneralDialog(
-                            context: context,
-                            pageBuilder:
-                                (context, animation, secondaryAnimation) {
-                              return VerifyCode(
-                                  phoneNumber: widget.phoneNumber,
-                                  verificationCode: verificationId);
-                            },
-                          );
-                        },
-                        codeAutoRetrievalTimeout: (verificationId) {
-                          Services()
-                              .toastmsg(verificationId.split("]")[1], false);
-                        },
-                      );
+  phoneNumber: widget.phoneNumber,
+  verificationCompleted: (phoneAuthCredential) {},
+  verificationFailed: (error) {
+    Services().toastmsg(error.toString().split("]")[1], false);
+  },
+  codeSent: (verificationId, forceResendingToken) {
+    showGeneralDialog(
+      context: context,
+      pageBuilder: (context, animation, secondaryAnimation) {
+        return VerifyCode(
+            phoneNumber: widget.phoneNumber,
+            verificationCode: verificationId);
+      },
+    );
+  },
+  codeAutoRetrievalTimeout: (verificationId) {
+    Services().toastmsg(verificationId.split("]")[1], false);
+  },
+);
                     },
                     child: const Text(
                       "Resend Otp Again",
                       style: TextStyle(fontWeight: FontWeight.bold),
-                    ))
+  ))
           ],
         ),
         RoundButton(
