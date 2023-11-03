@@ -29,20 +29,28 @@ class _VerifyCodeState extends State<VerifyCode> {
   final firestore =
       FirebaseFirestore.instance.collection(UserProfile().collection);
   TextEditingController pinputController = TextEditingController();
-  final FocusNode focusNode = FocusNode();
+  // final FocusNode focusNode = FocusNode();
   bool loading = false;
   int time = 59;
+  late Timer _timer;
 
   @override
   void initState() {
     super.initState();
     if (time > 0) {
-      Timer.periodic(Duration(seconds: 1), (timer) {
+      _timer=Timer.periodic(Duration(seconds: 1), (timer) {
         setState(() {
           time--;
         });
       });
     }
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _timer.cancel();
   }
 
   @override
@@ -242,18 +250,18 @@ class _VerifyCodeState extends State<VerifyCode> {
             // pinput-------------------------------------------
             child: Pinput(
               showCursor: true,
-              pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
+              // pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
               onCompleted: (pin) async {
                 savedpin = pin;
-                focusNode.hasFocus;
+                // focusNode.hasFocus;
               },
-              androidSmsAutofillMethod:
-                  AndroidSmsAutofillMethod.smsUserConsentApi,
+              // androidSmsAutofillMethod:
+              //     AndroidSmsAutofillMethod.smsUserConsentApi,
               controller: pinputController,
               length: 6,
-              focusNode: focusNode,
+              // focusNode: focusNode,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              listenForMultipleSmsOnAndroid: true,
+              // listenForMultipleSmsOnAndroid: true,
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return "Please fill the input";
