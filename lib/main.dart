@@ -22,7 +22,8 @@ import 'package:provider/provider.dart';
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(MyApp());
-  }
+}
+
 
 class MyApp extends StatelessWidget {
   @override
@@ -37,9 +38,7 @@ class MyApp extends StatelessWidget {
         ],
         child: GetMaterialApp(
            theme: ThemeData(
-        brightness: Brightness.light,
-      ),
-      themeMode: ThemeMode.dark,
+        ),
         debugShowCheckedModeBanner: false,
         title: 'CabsKaro',
         home: SplashScreen(),
