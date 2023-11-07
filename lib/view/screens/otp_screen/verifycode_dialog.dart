@@ -29,11 +29,7 @@ class _VerifyCodeState extends State<VerifyCode> {
   TextEditingController pinputController = TextEditingController();
   // final FocusNode focusNode = FocusNode();
   bool loading = false;
-<<<<<<< HEAD
-  int time=59;
-=======
   int time = 59;
->>>>>>> f1751ff7a751b1422287db7d9009adb75c198e95
   late Timer _timer;
 
   @override
@@ -42,10 +38,7 @@ class _VerifyCodeState extends State<VerifyCode> {
     if (time > 0) {
       _timer=Timer.periodic(Duration(seconds: 1), (timer) {
         setState(() {
-<<<<<<< HEAD
-=======
           time--;
->>>>>>> f1751ff7a751b1422287db7d9009adb75c198e95
         });
       });
     }
@@ -250,35 +243,6 @@ class _VerifyCodeState extends State<VerifyCode> {
           height: 20,
         ),
         Material(
-<<<<<<< HEAD
-            color: Colors.transparent,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30),
-              // pinput-------------------------------------------
-              child: Pinput(
-                showCursor: true,
-                 pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
-                   onCompleted: (pin) async {
-          savedpin = pin;
-          focusNode.hasFocus;
-        },
-          androidSmsAutofillMethod: AndroidSmsAutofillMethod.smsUserConsentApi,
-          controller: pinputController,
-          length: 6,
-          focusNode: focusNode,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          //listenForMultipleSmsOnAndroid: true,
-          validator: (value) {
-          if (value == null || value.isEmpty) {
-          return "Please fill the input";
-          } else if (value.length != 6) {
-          return "Please write code correctly";
-          }
-          return null;
-  },
-),
-             ),
-=======
           color: Colors.transparent,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -305,7 +269,6 @@ class _VerifyCodeState extends State<VerifyCode> {
                 }
                 return null;
               },
->>>>>>> f1751ff7a751b1422287db7d9009adb75c198e95
             ),
           ),
         ),
