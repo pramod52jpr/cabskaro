@@ -25,13 +25,16 @@ import 'package:provider/provider.dart';
 }
 
 
-class MyApp extends StatelessWidget {
+  class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
          ChangeNotifierProvider(create: (context)=>HistoryScreenProvider()),
          ChangeNotifierProvider(create: (context)=>SearchStartLocationModel()),
+
+         
+         
          ChangeNotifierProvider(create: (context)=>LoadingProvider()),
          ChangeNotifierProvider(create: (context)=>FaqScreenProvider()),
          ChangeNotifierProvider(create: (context)=>SplashScreenProvider()),

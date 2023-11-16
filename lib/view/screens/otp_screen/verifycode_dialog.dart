@@ -25,15 +25,11 @@ class _VerifyCodeState extends State<VerifyCode> {
   var savedpin;
   final _auth = FirebaseAuth.instance;
   final firestore =
-  FirebaseFirestore.instance.collection(UserProfile().collection);
+      FirebaseFirestore.instance.collection(UserProfile().collection);
   TextEditingController pinputController = TextEditingController();
   // final FocusNode focusNode = FocusNode();
   bool loading = false;
-<<<<<<< HEAD
-  int time=59;
-=======
   int time = 59;
->>>>>>> f1751ff7a751b1422287db7d9009adb75c198e95
   late Timer _timer;
 
   @override
@@ -42,10 +38,7 @@ class _VerifyCodeState extends State<VerifyCode> {
     if (time > 0) {
       _timer=Timer.periodic(Duration(seconds: 1), (timer) {
         setState(() {
-<<<<<<< HEAD
-=======
           time--;
->>>>>>> f1751ff7a751b1422287db7d9009adb75c198e95
         });
       });
     }
@@ -57,7 +50,6 @@ class _VerifyCodeState extends State<VerifyCode> {
     super.dispose();
     _timer.cancel();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -250,35 +242,6 @@ class _VerifyCodeState extends State<VerifyCode> {
           height: 20,
         ),
         Material(
-<<<<<<< HEAD
-            color: Colors.transparent,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30),
-              // pinput-------------------------------------------
-              child: Pinput(
-                showCursor: true,
-                 pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
-                   onCompleted: (pin) async {
-          savedpin = pin;
-          focusNode.hasFocus;
-        },
-          androidSmsAutofillMethod: AndroidSmsAutofillMethod.smsUserConsentApi,
-          controller: pinputController,
-          length: 6,
-          focusNode: focusNode,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          //listenForMultipleSmsOnAndroid: true,
-          validator: (value) {
-          if (value == null || value.isEmpty) {
-          return "Please fill the input";
-          } else if (value.length != 6) {
-          return "Please write code correctly";
-          }
-          return null;
-  },
-),
-             ),
-=======
           color: Colors.transparent,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -305,7 +268,6 @@ class _VerifyCodeState extends State<VerifyCode> {
                 }
                 return null;
               },
->>>>>>> f1751ff7a751b1422287db7d9009adb75c198e95
             ),
           ),
         ),
@@ -333,30 +295,33 @@ class _VerifyCodeState extends State<VerifyCode> {
                 : TextButton(
                     onPressed: () {
                       _auth.verifyPhoneNumber(
-  phoneNumber: widget.phoneNumber,
-  verificationCompleted: (phoneAuthCredential) {},
-  verificationFailed: (error) {
-    Services().toastmsg(error.toString().split("]")[1], false);
-  },
-  codeSent: (verificationId, forceResendingToken) {
-    showGeneralDialog(
-      context: context,
-      pageBuilder: (context, animation, secondaryAnimation) {
-        return VerifyCode(
-            phoneNumber: widget.phoneNumber,
-            verificationCode: verificationId);
-      },
-    );
-  },
-  codeAutoRetrievalTimeout: (verificationId) {
-    Services().toastmsg(verificationId.split("]")[1], false);
-  },
-);
+                        phoneNumber: widget.phoneNumber,
+                        verificationCompleted: (phoneAuthCredential) {},
+                        verificationFailed: (error) {
+                          Services()
+                              .toastmsg(error.toString().split("]")[1], false);
+                        },
+                        codeSent: (verificationId, forceResendingToken) {
+                          showGeneralDialog(
+                            context: context,
+                            pageBuilder:
+                                (context, animation, secondaryAnimation) {
+                              return VerifyCode(
+                                  phoneNumber: widget.phoneNumber,
+                                  verificationCode: verificationId);
+                            },
+                          );
+                        },
+                        codeAutoRetrievalTimeout: (verificationId) {
+                          Services()
+                              .toastmsg(verificationId.split("]")[1], false);
+                        },
+                      );
                     },
                     child: const Text(
                       "Resend Otp Again",
                       style: TextStyle(fontWeight: FontWeight.bold),
-  ))
+                    ))
           ],
         ),
         RoundButton(
