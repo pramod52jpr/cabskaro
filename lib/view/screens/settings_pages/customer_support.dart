@@ -61,6 +61,12 @@ class CustomerSupportScreen extends StatelessWidget {
                     children: [
                       Expanded(
                           child: TextFormField(
+                            validator: (customerSupport) {
+                              if(customerSupport!.isEmpty){
+                                return 'Send any message';
+                              }
+                              return null;
+                            },
                             controller: customerSupportController,
                         decoration: InputDecoration(
                           hintText: "Send message",
@@ -85,7 +91,7 @@ class CustomerSupportScreen extends StatelessWidget {
                               Services().toastmsg('Thankyou we will check and inform',true );
                             }
                           },
-                          child: Text("Send"))
+                          child: Text("Send",style: TextStyle(color: Colors.white)))
                     ],
                   )
                 ],

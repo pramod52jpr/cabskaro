@@ -24,7 +24,6 @@ import 'package:provider/provider.dart';
   runApp(MyApp());
 }
 
-
   class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -32,15 +31,14 @@ import 'package:provider/provider.dart';
       providers: [
          ChangeNotifierProvider(create: (context)=>HistoryScreenProvider()),
          ChangeNotifierProvider(create: (context)=>SearchStartLocationModel()),
-
-         
-         
          ChangeNotifierProvider(create: (context)=>LoadingProvider()),
          ChangeNotifierProvider(create: (context)=>FaqScreenProvider()),
          ChangeNotifierProvider(create: (context)=>SplashScreenProvider()),
         ],
         child: GetMaterialApp(
            theme: ThemeData(
+            searchBarTheme: SearchBarThemeData(backgroundColor: MaterialStateProperty.all(Colors.white)),
+            scaffoldBackgroundColor: Colors.white
         ),
         debugShowCheckedModeBanner: false,
         title: 'CabsKaro',

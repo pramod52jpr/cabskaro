@@ -24,6 +24,12 @@ class SendFeedbackPage extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: TextFormField(
+                       validator: (feedback) {
+                              if(feedback!.isEmpty){
+                                return 'Send any feedback';
+                              }
+                              return null;
+                            },
                   controller: feedbackController,
                 ),
               ),
@@ -52,7 +58,7 @@ class SendFeedbackPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(20.0),
                     ),
                   ),
-                  child: const Text('Send'),
+                  child: const Text('Send',style: TextStyle(color: Colors.white),),
                 ),
               ),
             ],

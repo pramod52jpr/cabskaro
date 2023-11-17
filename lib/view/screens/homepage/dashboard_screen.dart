@@ -347,6 +347,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     Connectivity connectivity = Connectivity();
 
     return Scaffold(
+      backgroundColor: Colors.white,
         body: StreamBuilder<ConnectivityResult>(
       stream: connectivity.onConnectivityChanged,
       builder: (context, snapshot) {
