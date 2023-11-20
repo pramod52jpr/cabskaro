@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 
 class FaqScreen extends StatelessWidget {
 @override
-  Widget build(BuildContext context) {
+    Widget build(BuildContext context) {
     final queryProvider=Provider.of<FaqScreenProvider>(context,listen: true);
     final screenHeight = MediaQuery.of(context).size.height;
     List<Map<String, String>> filteredItems =queryProvider.query.isEmpty

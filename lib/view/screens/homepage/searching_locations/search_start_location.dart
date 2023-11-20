@@ -3,6 +3,7 @@ import 'package:cabskaro/controller/services/search_location.dart';
 import 'package:cabskaro/view/screens/homepage/dashboard_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
@@ -85,7 +86,10 @@ class _SearchStartLocationState extends State<SearchStartLocation> {
                               ),
                               title: const Text("Current Location"),
                             )
-                      : ListView.builder(
+                      : ListView.separated(
+                       separatorBuilder: (BuildContext context, int index){
+                        return Divider(thickness: 0.5,);
+                       },
                           itemCount:model.data.length,
                           itemBuilder: (context, index) {
                             return ListTile(
@@ -102,7 +106,7 @@ class _SearchStartLocationState extends State<SearchStartLocation> {
                               contentPadding: EdgeInsets.zero,
                               title: Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 30),
-                                child: Text(model.data[index]['description']),
+                                child: Text(model.data[index]['description'],style: GoogleFonts.lato(fontSize: 15),),
                               ),
                             );
                           },

@@ -93,7 +93,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   void animateStart(double latitude, double longitude) async {
     CameraPosition newCameraPosition =
-        CameraPosition(target: LatLng(latitude, longitude), zoom: zoom);
+    CameraPosition(target: LatLng(latitude, longitude), zoom: zoom);
     GoogleMapController controller = await _completer.future;
     controller
         .animateCamera(CameraUpdate.newCameraPosition(newCameraPosition))
@@ -530,6 +530,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         margin: EdgeInsets.symmetric(
                             horizontal: screenWidth * 0.074, vertical: 5),
                         child: GoogleMap(
+
+                          myLocationButtonEnabled: true,
+ cameraTargetBounds: CameraTargetBounds(
+    LatLngBounds(
+      southwest: LatLng(27.0, 76.0), 
+      northeast: LatLng(29.0, 78.0),
+    ),
+  ),                        
+                          buildingsEnabled: true,
                           mapType: MapType.terrain,
                           initialCameraPosition: CameraPosition(
                               target: LatLng(28.1992, 77.4512), zoom: zoom),
