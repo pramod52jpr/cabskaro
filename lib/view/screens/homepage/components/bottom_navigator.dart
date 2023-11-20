@@ -36,8 +36,8 @@ class BottomNavigator extends StatelessWidget {
           InkWell(
               onTap: onTapRebook,
               child: Image.asset(
-                "assets/images/icons/bottom-btn-car.png",
-                height: screenHeight * 0.044,
+                "assets/images/icons/press-release-icon-png-0.jpg",
+                 height: screenHeight * 0.030,
               )),
           InkWell(
               onTap: onTapAccount,

@@ -2,6 +2,7 @@ import 'package:cabskaro/controller/provider/search_location_provider.dart';
 import 'package:cabskaro/controller/services/search_location.dart';
 import 'package:cabskaro/view/screens/homepage/dashboard_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
@@ -64,7 +65,11 @@ final TextEditingController _searchController = TextEditingController();
               ),
             ),
             Expanded(
-              child:  ListView.builder(
+              child:  ListView.separated(
+separatorBuilder: (BuildContext context, int index){
+  return Divider(thickness: 0.5,);
+},
+
                       itemCount:model. data.length,
                       itemBuilder: (context, index) {
                         return ListTile(
@@ -81,7 +86,7 @@ final TextEditingController _searchController = TextEditingController();
                           contentPadding: EdgeInsets.zero,
                           title: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 30),
-                            child: Text(model. data[index]['description']),
+                            child: Text(model. data[index]['description'],style: GoogleFonts.lato(fontSize: 15),),
                           ),
                         );
                       },

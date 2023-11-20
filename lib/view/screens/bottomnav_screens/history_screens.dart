@@ -1,18 +1,11 @@
 import 'package:cabskaro/controller/services/news_api.dart';
 import 'package:cabskaro/model/news_model.dart';
-import 'package:cabskaro/view/const/news_api_key.dart';
 import 'package:cabskaro/view/const/sizedbox.dart';
-import 'package:cabskaro/view/screens/bottomnav_screens/profile_screens.dart';
-import 'package:cabskaro/view/screens/bottomnav_screens/widgets/history_page_widget.dart';
-import 'package:cabskaro/view/screens/homepage/components/bottom_navigator.dart';
-import 'package:cabskaro/view/screens/homepage/dashboard_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:intl/intl.dart';
 
 
 // class HistoryScreen extends StatelessWidget {
@@ -228,10 +221,8 @@ import 'package:intl/intl.dart';
 //     );
 //   }
 // }
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:intl/intl.dart';
 
+// class HistoryScreen extends StatelessWidget {//}
 class HistoryScreen extends StatelessWidget {
   final ScrollController _scrollController = ScrollController();
 
@@ -243,7 +234,35 @@ class HistoryScreen extends StatelessWidget {
       body: Consumer<NewsApiProvider>(
         builder: (context, newsApi, child) {
           if (newsApi.news.isEmpty) {
-            return Center(child: CircularProgressIndicator());
+            return Center(
+              child: Shimmer.fromColors(
+                baseColor: Color.fromARGB(255, 218, 218, 218),
+                highlightColor: Color.fromARGB(255, 237, 237, 237),
+                child: ListView.builder(
+                  itemCount: 20, 
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      title: Column(
+                        children: [
+                          Container(
+                            height: 150,
+                            color: Colors.white,
+                          ),kHeight10,
+                            Container(
+                            height: 60,
+                            color: Colors.white,
+                          ),
+                        ],
+                      ),
+                      subtitle: Container(
+                        height: 30,
+                        color: Colors.white,
+                      ),
+                    );
+                  },
+                ),
+              ),
+            );
           }
 
           return CustomScrollView(
@@ -253,17 +272,17 @@ class HistoryScreen extends StatelessWidget {
                 expandedHeight: 120.0,
                 floating: false,
                 pinned: true,
-                 leading: BackButton(color: Colors.white),
+                leading: BackButton(color: Colors.white),
                 flexibleSpace: FlexibleSpaceBar(
-                  title: Text('News',style: GoogleFonts.lato(fontWeight: FontWeight.bold),),
+                  title: Text('Cabs News', style: GoogleFonts.lato(fontWeight: FontWeight.bold)),
                 ),
                 backgroundColor: Colors.black,
               ),
               SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
-                    if (index == 11 || index == 10) {
-                      return Container(); 
+                    if (index == 4 ||index==12) {
+                      return Container();
                     }
                     if (index >= 0 && index < newsApi.news.length) {
                       ArticleModel article = newsApi.news[index];
@@ -271,7 +290,8 @@ class HistoryScreen extends StatelessWidget {
 
                       return InkWell(
                         onTap: () {
-                           launchUrl(Uri.parse(article.url));
+                          // Add your onTap logic here
+                          // launchUrl(Uri.parse(article.url));
                         },
                         child: ListTile(
                           title: isValidUrl
@@ -293,12 +313,12 @@ class HistoryScreen extends StatelessWidget {
                                 style: TextStyle(fontWeight: FontWeight.w400),
                               ),
                               SizedBox(height: 5),
-                              Text(
-                                article.publishedAt != null
-                                    ? DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.parse(article.publishedAt))
-                                    : 'No Description',
-                                style: TextStyle(fontWeight: FontWeight.w700),
-                              ),
+                              // Text(
+                              //   article.publishedAt != null
+                              //       ? DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.parse(article.publishedAt))
+                              //       : 'No Description',
+                              //   style: TextStyle(fontWeight: FontWeight.w700),
+                              // ),
                             ],
                           ),
                         ),
