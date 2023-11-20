@@ -347,6 +347,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
     Connectivity connectivity = Connectivity();
 
     return Scaffold(
+      floatingActionButton: FloatingActionButton(onPressed: () {
+        showModalBottomSheet(context: context, builder: (context) {
+          return Container();
+        },);
+      },backgroundColor: Colors.amber,child: Icon(Icons.recommend,size: 40,color: Colors.white,),),
       backgroundColor: Colors.white,
         body: StreamBuilder<ConnectivityResult>(
       stream: connectivity.onConnectivityChanged,
@@ -545,11 +550,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     CabCompanies(
                       onTapUber: () {
                         launchUrl(Uri.parse("https://m.uber.com/go/pickup"));
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //       builder: (context) => const UberScreen(),
-                        //     ));
                       },
                       onTapOla: () {
                         launchUrl(Uri.parse("https://www.olacabs.com/"));
