@@ -1,13 +1,16 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:cabskaro/view/screens/bottomnav_screens/history_screens.dart';
 import 'package:cabskaro/view/screens/bottomnav_screens/profile_screens.dart';
 import 'package:cabskaro/view/screens/homepage/components/bottom_navigator.dart';
+import 'package:cabskaro/view/screens/homepage/components/recommend_bottom_sheet.dart';
 import 'package:cabskaro/view/widgets/cab_companies.dart';
 import 'package:cabskaro/view/screens/homepage/components/location_points.dart';
 import 'package:cabskaro/controller/services/services.dart';
 import 'package:cabskaro/view/screens/homepage/searching_locations/search_end_location.dart';
 import 'package:cabskaro/view/screens/homepage/searching_locations/search_start_location.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -15,6 +18,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart' as lottie;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:http/http.dart';
 
 class DashboardScreen extends StatefulWidget {
   final String locType;
@@ -205,6 +209,23 @@ class _DashboardScreenState extends State<DashboardScreen> {
     });
   }
 
+  void showRecommendation()async{
+    String? apiKey=dotenv.env['APIurl'];
+    int radius=1000;
+      String url="https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=$apiKey&location=$startLatitude,$startLongitude&radius=$radius";
+    if(endLatitude!=0.0&&endLongitude!=0.0){
+      url="https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=$apiKey&location=$endLatitude,$endLongitude&radius=$radius";
+      setState(() {});
+    }
+    Response response=await get(Uri.parse(url));
+    showModalBottomSheet(
+      showDragHandle: true,
+      enableDrag: true,
+      context: context, builder: (context) {
+      return RecommendSheet(data:jsonDecode(response.body),);
+    },);
+  }
+
   void animateEnd(double latitude, double longitude) async {
     CameraPosition newCameraPosition =
         CameraPosition(target: LatLng(latitude, longitude), zoom: zoom);
@@ -242,13 +263,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
   void savedLocations() async {
     await customIcon();
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (prefs.getString(STARTLOC) != null) {
+    if (prefs.getDouble(STARTLAT) != null) {
       setState(() {
         startLocationName = prefs.getString(STARTLOC)!;
         startLatitude = prefs.getDouble(STARTLAT)!;
         startLongitude = prefs.getDouble(STARTLON)!;
         zoom = 14.0;
       });
+    }else{
+      startLocation();
     }
     if (prefs.getString(ENDLOC) != null) {
       setState(() {
@@ -347,11 +370,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
     Connectivity connectivity = Connectivity();
 
     return Scaffold(
-      floatingActionButton: FloatingActionButton(onPressed: () {
-        showModalBottomSheet(context: context, builder: (context) {
-          return Container();
-        },);
-      },backgroundColor: Colors.amber,child: Icon(Icons.recommend,size: 40,color: Colors.white,),),
       backgroundColor: Colors.white,
         body: StreamBuilder<ConnectivityResult>(
       stream: connectivity.onConnectivityChanged,
@@ -531,29 +549,38 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     //   },
                     // ),
                     Expanded(
-                      child: Container(
-                        margin: EdgeInsets.symmetric(
-                            horizontal: screenWidth * 0.074, vertical: 5),
-                        child: GoogleMap(
-
-                          myLocationButtonEnabled: true,
- cameraTargetBounds: CameraTargetBounds(
-    LatLngBounds(
-      southwest: LatLng(27.0, 76.0), 
-      northeast: LatLng(29.0, 78.0),
-    ),
-  ),                        
-                          buildingsEnabled: true,
-                          mapType: MapType.terrain,
-                          initialCameraPosition: CameraPosition(
-                              target: LatLng(28.1992, 77.4512), zoom: zoom),
-                          markers: Set.of(marker),
-                          polylines: Set<Polyline>.of(polylines.values),
-                          myLocationEnabled: true,
-                          onMapCreated: (controller) {
-                            _completer.complete(controller);
-                          },
+                      child: Stack(
+                        alignment: Alignment.topCenter,
+                        children:[ Container(
+                          margin: EdgeInsets.symmetric(
+                              horizontal: screenWidth * 0.074, vertical: 5),
+                          child: GoogleMap(
+                            myLocationButtonEnabled: true,
+                            buildingsEnabled: true,
+                            mapType: MapType.terrain,
+                            initialCameraPosition: CameraPosition(
+                                target: LatLng(28.1992, 77.4512), zoom: zoom),
+                            markers: Set.of(marker),
+                            polylines: Set<Polyline>.of(polylines.values),
+                            myLocationEnabled: true,
+                            onMapCreated: (controller) {
+                              _completer.complete(controller);
+                            },
+                          ),
                         ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: InkWell(
+                            onTap: () {
+                              showRecommendation();
+                            },
+                            child: Container(
+                              padding: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+                              decoration: BoxDecoration(color: Color.fromARGB(195, 255, 255, 255),borderRadius: BorderRadius.circular(100)),
+                              child: Text("Show Nearby Places"),),
+                          ),
+                        )
+                        ]
                       ),
                     ),
                     CabCompanies(
