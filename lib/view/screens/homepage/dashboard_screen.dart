@@ -97,7 +97,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   void animateStart(double latitude, double longitude) async {
     CameraPosition newCameraPosition =
-    CameraPosition(target: LatLng(latitude, longitude), zoom: zoom);
+        CameraPosition(target: LatLng(latitude, longitude), zoom: zoom);
     GoogleMapController controller = await _completer.future;
     controller
         .animateCamera(CameraUpdate.newCameraPosition(newCameraPosition))
@@ -209,21 +209,44 @@ class _DashboardScreenState extends State<DashboardScreen> {
     });
   }
 
-  void showRecommendation()async{
-    String? apiKey=dotenv.env['APIurl'];
-    int radius=1000;
-      String url="https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=$apiKey&location=$startLatitude,$startLongitude&radius=$radius";
-    if(endLatitude!=0.0&&endLongitude!=0.0){
-      url="https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=$apiKey&location=$endLatitude,$endLongitude&radius=$radius";
+  void showRecommendation() async {
+    String? apiKey = dotenv.env['APIurl'];
+    int radius = 10000;
+    String url =
+        "https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=$apiKey&location=$startLatitude,$startLongitude&radius=$radius";
+    if (endLatitude != 0.0 && endLongitude != 0.0) {
+      url =
+          "https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=$apiKey&location=$endLatitude,$endLongitude&radius=$radius";
       setState(() {});
     }
-    Response response=await get(Uri.parse(url));
-    showModalBottomSheet(
-      showDragHandle: true,
-      enableDrag: true,
-      context: context, builder: (context) {
-      return RecommendSheet(data:jsonDecode(response.body),);
-    },);
+    Response response = await get(Uri.parse(url));
+    if (endLatitude == 0.0 && endLongitude == 0.0) {
+      showModalBottomSheet(
+        showDragHandle: true,
+        enableDrag: true,
+        context: context,
+        builder: (context) {
+          return RecommendSheet(
+            data: jsonDecode(response.body),
+            latitude: startLatitude,
+            longitude: startLongitude,
+          );
+        },
+      );
+    } else {
+      showModalBottomSheet(
+        showDragHandle: true,
+        enableDrag: true,
+        context: context,
+        builder: (context) {
+          return RecommendSheet(
+            data: jsonDecode(response.body),
+            latitude: endLatitude,
+            longitude: endLongitude,
+          );
+        },
+      );
+    }
   }
 
   void animateEnd(double latitude, double longitude) async {
@@ -270,7 +293,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         startLongitude = prefs.getDouble(STARTLON)!;
         zoom = 14.0;
       });
-    }else{
+    } else {
       startLocation();
     }
     if (prefs.getString(ENDLOC) != null) {
@@ -370,301 +393,309 @@ class _DashboardScreenState extends State<DashboardScreen> {
     Connectivity connectivity = Connectivity();
 
     return Scaffold(
-      backgroundColor: Colors.white,
+        backgroundColor: Colors.white,
         body: StreamBuilder<ConnectivityResult>(
-      stream: connectivity.onConnectivityChanged,
-      builder: (context, snapshot) {
-        if (snapshot.data == ConnectivityResult.none) {
-          return Center(
-              child: lottie.Lottie.asset("animations/no_internet.json",
-                  width: double.infinity, fit: BoxFit.contain));
-        }
-        return SafeArea(
-          child: Column(
-            children: [
-              const SizedBox(height: 5),
-              Row(
+          stream: connectivity.onConnectivityChanged,
+          builder: (context, snapshot) {
+            if (snapshot.data == ConnectivityResult.none) {
+              return Center(
+                  child: lottie.Lottie.asset("animations/no_internet.json",
+                      width: double.infinity, fit: BoxFit.contain));
+            }
+            return SafeArea(
+              child: Column(
                 children: [
-                  Column(
+                  const SizedBox(height: 5),
+                  Row(
                     children: [
-                      Container(
-                        height: screenHeight * 0.010,
-                        width: screenWidth * 0.074,
-                        decoration: const BoxDecoration(
-                            color: Colors.white,
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Colors.grey,
-                                  spreadRadius: 1,
-                                  blurRadius: 5,
-                                  offset: Offset(0, 2))
-                            ]),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        height: screenHeight * 0.010,
-                        width: screenWidth * 0.074,
-                        decoration: const BoxDecoration(
-                            color: Colors.white,
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Colors.grey,
-                                  spreadRadius: 1,
-                                  blurRadius: 5,
-                                  offset: Offset(0, 2))
-                            ]),
-                      ),
-                    ],
-                  ),
-                  Expanded(
-                    child: Container(
-                      padding: EdgeInsets.all(screenWidth * 0.050),
-                      decoration: BoxDecoration(
-                          boxShadow: const [
-                            BoxShadow(
-                                color: Colors.grey,
-                                blurRadius: 5,
-                                spreadRadius: 1)
-                          ],
-                          border: Border.all(
-                              color: const Color.fromRGBO(227, 132, 42, 0.8)),
-                          borderRadius: BorderRadius.circular(10),
-                          image: const DecorationImage(
-                              image: AssetImage(
-                                  "assets/images/icons/backscreen.jpg"),
-                              fit: BoxFit.cover)),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      Column(
                         children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Hello",
-                                style:
-                                    TextStyle(fontSize: screenHeight * 0.018),
-                              ),
-                              Text(
-                                greeting(),
-                                style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold),
-                              ),
-                            ],
+                          Container(
+                            height: screenHeight * 0.010,
+                            width: screenWidth * 0.074,
+                            decoration: const BoxDecoration(
+                                color: Colors.white,
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Colors.grey,
+                                      spreadRadius: 1,
+                                      blurRadius: 5,
+                                      offset: Offset(0, 2))
+                                ]),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Container(
+                            height: screenHeight * 0.010,
+                            width: screenWidth * 0.074,
+                            decoration: const BoxDecoration(
+                                color: Colors.white,
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Colors.grey,
+                                      spreadRadius: 1,
+                                      blurRadius: 5,
+                                      offset: Offset(0, 2))
+                                ]),
                           ),
                         ],
                       ),
-                    ),
-                  ),
-                  Column(
-                    children: [
-                      Container(
-                        height: screenHeight * 0.010,
-                        width: screenWidth * 0.074,
-                        decoration: const BoxDecoration(
-                            color: Colors.white,
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Colors.grey,
-                                  spreadRadius: 1,
-                                  blurRadius: 5,
-                                  offset: Offset(0, 2))
-                            ]),
+                      Expanded(
+                        child: Container(
+                          padding: EdgeInsets.all(screenWidth * 0.050),
+                          decoration: BoxDecoration(
+                              boxShadow: const [
+                                BoxShadow(
+                                    color: Colors.grey,
+                                    blurRadius: 5,
+                                    spreadRadius: 1)
+                              ],
+                              border: Border.all(
+                                  color:
+                                      const Color.fromRGBO(227, 132, 42, 0.8)),
+                              borderRadius: BorderRadius.circular(10),
+                              image: const DecorationImage(
+                                  image: AssetImage(
+                                      "assets/images/icons/backscreen.jpg"),
+                                  fit: BoxFit.cover)),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Hello",
+                                    style: TextStyle(
+                                        fontSize: screenHeight * 0.018),
+                                  ),
+                                  Text(
+                                    greeting(),
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        height: screenHeight * 0.010,
-                        width: screenWidth * 0.074,
-                        decoration: const BoxDecoration(
-                            color: Colors.white,
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Colors.grey,
-                                  spreadRadius: 1,
-                                  blurRadius: 5,
-                                  offset: Offset(0, 2))
-                            ]),
+                      Column(
+                        children: [
+                          Container(
+                            height: screenHeight * 0.010,
+                            width: screenWidth * 0.074,
+                            decoration: const BoxDecoration(
+                                color: Colors.white,
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Colors.grey,
+                                      spreadRadius: 1,
+                                      blurRadius: 5,
+                                      offset: Offset(0, 2))
+                                ]),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Container(
+                            height: screenHeight * 0.010,
+                            width: screenWidth * 0.074,
+                            decoration: const BoxDecoration(
+                                color: Colors.white,
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Colors.grey,
+                                      spreadRadius: 1,
+                                      blurRadius: 5,
+                                      offset: Offset(0, 2))
+                                ]),
+                          ),
+                        ],
                       ),
                     ],
                   ),
+                  LocationPoints(
+                    startLocation: startLocationName,
+                    endLocation: endLocationName,
+                    onTapStart: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SearchStartLocation(),
+                          ));
+                    },
+                    onTapEnd: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const SearchEndLocation(),
+                          ));
+                    },
+                    onTapInterchange: () {
+                      interchangeLocations().then((value) {
+                        savedLocations();
+                      });
+                    },
+                  ),
+                  Expanded(
+                    child: Column(
+                      children: [
+                        // CabTypes(
+                        //   onTapFourSeater: () {
+                        //   Get.to(CabsAvaibilityScreen(),);
+                        //   },
+                        //   onTapFourPlusSeater: () {
+                        //     Navigator.push(
+                        //         context,
+                        //         MaterialPageRoute(
+                        //           builder: (context) =>
+                        //               const CabsAvaibilityScreen(),
+                        //         ));
+                        //   },
+                        //   onTapAuto: () {
+                        //     Navigator.push(
+                        //         context,
+                        //         MaterialPageRoute(
+                        //           builder: (context) =>
+                        //               const CabsAvaibilityScreen(),
+                        //         ));
+                        //   },
+                        //   onTapBike: () {
+                        //     UberServices().generateAndStoreAccessToken();
+                        //     Navigator.push(
+                        //         context,
+                        //         MaterialPageRoute(
+                        //           builder: (context) =>
+                        //               const CabsAvaibilityScreen(),
+                        //         ));
+                        //   },
+                        // ),
+                        Expanded(
+                          child:
+                              Stack(alignment: Alignment.topCenter, children: [
+                            Container(
+                              margin: EdgeInsets.symmetric(
+                                  horizontal: screenWidth * 0.074, vertical: 5),
+                              child: GoogleMap(
+                                myLocationButtonEnabled: true,
+                                buildingsEnabled: true,
+                                mapType: MapType.terrain,
+                                initialCameraPosition: CameraPosition(
+                                    target: LatLng(28.1992, 77.4512),
+                                    zoom: zoom),
+                                markers: Set.of(marker),
+                                polylines: Set<Polyline>.of(polylines.values),
+                                myLocationEnabled: true,
+                                onMapCreated: (controller) {
+                                  _completer.complete(controller);
+                                },
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: InkWell(
+                                onTap: () {
+                                  showRecommendation();
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 10, vertical: 5),
+                                  decoration: BoxDecoration(
+                                      color: Color.fromARGB(195, 255, 255, 255),
+                                      borderRadius: BorderRadius.circular(100)),
+                                  child: Text("Show Nearby Places"),
+                                ),
+                              ),
+                            )
+                          ]),
+                        ),
+                        CabCompanies(
+                          onTapUber: () {
+                            launchUrl(
+                                Uri.parse("https://m.uber.com/go/pickup"));
+                          },
+                          onTapOla: () {
+                            launchUrl(Uri.parse("https://www.olacabs.com/"));
+                            // Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //       builder: (context) => const OlaScreen(),
+                            //     ));
+                          },
+                          onTapRapido: () {
+                            launchUrl(Uri.parse("https://www.rapido.bike/"));
+                            // Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //       builder: (context) => const RapidoScreen(),
+                            //     ));
+                          },
+                          onTapMeru: () {
+                            launchUrl(Uri.parse("https://www.meru.in/"));
+                            // Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //       builder: (context) => const MeruScreen(),
+                            //     ));
+                          },
+                          onTapBlueSmart: () {
+                            launchUrl(Uri.parse("https://blu-smart.com/"));
+                            // Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //       builder: (context) => const BlusmartScreen(),
+                            //     ));
+                          },
+                          onTapIndrive: () {
+                            launchUrl(Uri.parse(
+                                "https://intercity.indrive.com/en?utm_source=google&utm_medium=cpc&utm_campaign=ic_client_ua_ga_search_launch_india_ppc_191222_main&adposition=&utm_term=indriver%20intercity&gclid=CjwKCAjwp8OpBhAFEiwAG7NaEudwDo_g8ntI0CjtCAhpATMY3szvMj5--Khn_-CVkUvsntJDSzoeqRoCLX8QAvD_BwE"));
+                            // Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //       builder: (context) => const IndriveScreen(),
+                            //     ));
+                          },
+                          onTapBlaBla: () {
+                            launchUrl(Uri.parse(
+                                "https://www.blablacar.in/search-car-sharing"));
+                            // Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //       builder: (context) => const BlaBlaScreen(),
+                            //     ));
+                          },
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        BottomNavigator(
+                          onTapDashboard: () {},
+                          onTapRebook: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => HistoryScreen(),
+                                ));
+                          },
+                          onTapAccount: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ProfileScreen(),
+                                ));
+                          },
+                        ),
+                      ],
+                    ),
+                  )
                 ],
               ),
-              LocationPoints(
-                startLocation: startLocationName,
-                endLocation: endLocationName,
-                onTapStart: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SearchStartLocation(),
-                      ));
-                },
-                onTapEnd: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const SearchEndLocation(),
-                      ));
-                },
-                onTapInterchange: () {
-                  interchangeLocations().then((value) {
-                    savedLocations();
-                  });
-                },
-              ),
-              Expanded(
-                child: Column(
-                  children: [
-                    // CabTypes(
-                    //   onTapFourSeater: () {
-                    //   Get.to(CabsAvaibilityScreen(),);
-                    //   },
-                    //   onTapFourPlusSeater: () {
-                    //     Navigator.push(
-                    //         context,
-                    //         MaterialPageRoute(
-                    //           builder: (context) =>
-                    //               const CabsAvaibilityScreen(),
-                    //         ));
-                    //   },
-                    //   onTapAuto: () {
-                    //     Navigator.push(
-                    //         context,
-                    //         MaterialPageRoute(
-                    //           builder: (context) =>
-                    //               const CabsAvaibilityScreen(),
-                    //         ));
-                    //   },
-                    //   onTapBike: () {
-                    //     UberServices().generateAndStoreAccessToken();
-                    //     Navigator.push(
-                    //         context,
-                    //         MaterialPageRoute(
-                    //           builder: (context) =>
-                    //               const CabsAvaibilityScreen(),
-                    //         ));
-                    //   },
-                    // ),
-                    Expanded(
-                      child: Stack(
-                        alignment: Alignment.topCenter,
-                        children:[ Container(
-                          margin: EdgeInsets.symmetric(
-                              horizontal: screenWidth * 0.074, vertical: 5),
-                          child: GoogleMap(
-                            myLocationButtonEnabled: true,
-                            buildingsEnabled: true,
-                            mapType: MapType.terrain,
-                            initialCameraPosition: CameraPosition(
-                                target: LatLng(28.1992, 77.4512), zoom: zoom),
-                            markers: Set.of(marker),
-                            polylines: Set<Polyline>.of(polylines.values),
-                            myLocationEnabled: true,
-                            onMapCreated: (controller) {
-                              _completer.complete(controller);
-                            },
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          child: InkWell(
-                            onTap: () {
-                              showRecommendation();
-                            },
-                            child: Container(
-                              padding: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
-                              decoration: BoxDecoration(color: Color.fromARGB(195, 255, 255, 255),borderRadius: BorderRadius.circular(100)),
-                              child: Text("Show Nearby Places"),),
-                          ),
-                        )
-                        ]
-                      ),
-                    ),
-                    CabCompanies(
-                      onTapUber: () {
-                        launchUrl(Uri.parse("https://m.uber.com/go/pickup"));
-                      },
-                      onTapOla: () {
-                        launchUrl(Uri.parse("https://www.olacabs.com/"));
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //       builder: (context) => const OlaScreen(),
-                        //     ));
-                      },
-                      onTapRapido: () {
-                        launchUrl(Uri.parse("https://www.rapido.bike/"));
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //       builder: (context) => const RapidoScreen(),
-                        //     ));
-                      },
-                      onTapMeru: () {
-                        launchUrl(Uri.parse("https://www.meru.in/"));
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //       builder: (context) => const MeruScreen(),
-                        //     ));
-                      },
-                      onTapBlueSmart: () {
-                        launchUrl(Uri.parse("https://blu-smart.com/"));
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //       builder: (context) => const BlusmartScreen(),
-                        //     ));
-                      },
-                      onTapIndrive: () {
-                        launchUrl(Uri.parse(
-                            "https://intercity.indrive.com/en?utm_source=google&utm_medium=cpc&utm_campaign=ic_client_ua_ga_search_launch_india_ppc_191222_main&adposition=&utm_term=indriver%20intercity&gclid=CjwKCAjwp8OpBhAFEiwAG7NaEudwDo_g8ntI0CjtCAhpATMY3szvMj5--Khn_-CVkUvsntJDSzoeqRoCLX8QAvD_BwE"));
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //       builder: (context) => const IndriveScreen(),
-                        //     ));
-                      },
-                      onTapBlaBla: () {
-                        launchUrl(Uri.parse("https://www.blablacar.in/search-car-sharing"));
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //       builder: (context) => const BlaBlaScreen(),
-                        //     ));
-                      },
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    BottomNavigator(
-                      onTapDashboard: () {},
-                      onTapRebook: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => HistoryScreen(),
-                            ));
-                      },
-                      onTapAccount: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ProfileScreen(),
-                            ));
-                      },
-                    ),
-                  ],
-                ),
-              )
-            ],
-          ),
-        );
-      },
-    ));
+            );
+          },
+        ));
   }
 
   String greeting() {
