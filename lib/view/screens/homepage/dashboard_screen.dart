@@ -227,7 +227,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         context: context,
         builder: (context) {
           return RecommendSheet(
-            data: jsonDecode(response.body),
+            data: jsonDecode(response.body)["results"],
             latitude: startLatitude,
             longitude: startLongitude,
           );
@@ -240,7 +240,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         context: context,
         builder: (context) {
           return RecommendSheet(
-            data: jsonDecode(response.body),
+            data: jsonDecode(response.body)["results"],
             latitude: endLatitude,
             longitude: endLongitude,
           );

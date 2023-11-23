@@ -4,10 +4,12 @@ import 'package:cabskaro/view/screens/homepage/components/webview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_share/flutter_share.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart';
 
 class RecommendSheet extends StatefulWidget {
-  final Map data;
+  final List data;
   final double latitude;
   final double longitude;
   RecommendSheet({
@@ -22,19 +24,22 @@ class RecommendSheet extends StatefulWidget {
 }
 
 class _RecommendSheetState extends State<RecommendSheet> {
-  Map extractedData = {};
+  List extractedData = [];
   bool loading = false;
 
-  void showRecommendationTypes(String type) async {
+  void showRecommendationTypes(List<String> type) async {
     setState(() {
+      extractedData = [];
       loading = true;
     });
     String? apiKey = dotenv.env['APIurl'];
     int radius = 10000;
-    String url =
-        "https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=$apiKey&location=${widget.latitude},${widget.longitude}&radius=$radius&type=$type";
-    Response response = await get(Uri.parse(url));
-    extractedData = jsonDecode(response.body);
+    for (var element in type) {
+      String url =
+          "https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=$apiKey&location=${widget.latitude},${widget.longitude}&radius=$radius&type=$element";
+      Response response = await get(Uri.parse(url));
+      extractedData.addAll(jsonDecode(response.body)["results"]);
+    }
     loading = false;
     setState(() {});
   }
@@ -53,32 +58,82 @@ class _RecommendSheetState extends State<RecommendSheet> {
                 title: "All",
                 onTap: () {
                   setState(() {
-                    extractedData = {};
+                    extractedData = [];
                   });
                 },
               ),
               Category(
-                title: "Restaurent",
+                title: "Explore",
                 onTap: () {
-                  showRecommendationTypes("restaurant");
+                  showRecommendationTypes(["tourist_attraction", "airport"]);
                 },
               ),
               Category(
-                title: "Hospital",
+                title: "Railway station",
                 onTap: () {
-                  showRecommendationTypes("hospital");
+                  showRecommendationTypes(["train_station"]);
                 },
               ),
               Category(
-                title: "Night Club",
+                title: "Bakery",
                 onTap: () {
-                  showRecommendationTypes("night_club");
+                  showRecommendationTypes(["bakery"]);
                 },
               ),
               Category(
-                title: "school",
+                title: "bank/ATM",
                 onTap: () {
-                  showRecommendationTypes("school");
+                  showRecommendationTypes(["bank", "atm"]);
+                },
+              ),
+              Category(
+                title: "Cafe/Restaurant",
+                onTap: () {
+                  showRecommendationTypes(["cafe", "restaurant"]);
+                },
+              ),
+              Category(
+                title: "Gas Station",
+                onTap: () {
+                  showRecommendationTypes(["gas_station"]);
+                },
+              ),
+              Category(
+                title: "Liquor Store",
+                onTap: () {
+                  showRecommendationTypes(["liquor_store"]);
+                },
+              ),
+              Category(
+                title: "Beauty, Health & Wellness",
+                onTap: () {
+                  showRecommendationTypes([
+                    "beauty_salon",
+                    "doctor",
+                    "drugstore",
+                    "gym",
+                    "hair_care",
+                    "hospital"
+                  ]);
+                },
+              ),
+              Category(
+                title: "Pet Essentials",
+                onTap: () {
+                  showRecommendationTypes(
+                      ["pet_store", "pharmacy", "veterinary_care"]);
+                },
+              ),
+              Category(
+                title: "Night Outs",
+                onTap: () {
+                  showRecommendationTypes(["night_club"]);
+                },
+              ),
+              Category(
+                title: "Shopping",
+                onTap: () {
+                  showRecommendationTypes(["shopping_mall", "shoe_store"]);
                 },
               ),
               SizedBox(width: 10),
@@ -88,133 +143,106 @@ class _RecommendSheetState extends State<RecommendSheet> {
         loading
             ? Expanded(child: Center(child: CircularProgressIndicator()))
             : extractedData.isEmpty
-                ? Expanded(
-                    child: ListView.builder(
-                      itemCount: widget.data["results"].length,
-                      itemBuilder: (context, index) {
-                        if (index == 0) {
-                          return Container();
-                        }
-                        if (widget.data["results"][index]['rating'] == null) {
-                          return Container();
-                        }
-                        if (widget.data["results"][index]["photos"] == null) {
-                          return Container();
-                        }
-                        return ListTile(
-                          onTap: () {
-                            String url = widget.data["results"][index]["photos"]
-                                    [0]["html_attributions"][0]
-                                .toString()
-                                .split('href="')[1]
-                                .split('">')[0];
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ShowWebView(url: url),
-                                ));
-                          },
-                          title: Text(widget.data["results"][index]["name"]),
-                          subtitle: Row(
-                            children: [
-                              Text(widget.data["results"][index]['rating']
-                                  .toString()),
-                              RatingBar.builder(
-                                itemSize: 20,
-                                glow: false,
-                                ignoreGestures: true,
-                                allowHalfRating: true,
-                                initialRating: widget.data["results"][index]
-                                        ['rating']
-                                    .toDouble(),
-                                unratedColor: Colors.grey,
-                                itemBuilder: (context, index) {
-                                  return Icon(
-                                    Icons.star,
-                                    color: Colors.amber,
-                                  );
-                                },
-                                onRatingUpdate: (value) {},
-                              ),
-                              Text(" (" +
-                                  widget.data["results"][index]
-                                          ["user_ratings_total"]
-                                      .toString() +
-                                  ")"),
-                            ],
-                          ),
-                          leading: Image.network(
-                            widget.data["results"][index]["icon"],
-                            width: 30,
-                          ),
-                        );
-                      },
-                    ),
-                  )
-                : Expanded(
-                    child: ListView.builder(
-                      itemCount: extractedData["results"].length,
-                      itemBuilder: (context, index) {
-                        if (index == 0) {
-                          return Container();
-                        }
-                        if (extractedData["results"][index]['rating'] == null) {
-                          return Container();
-                        }
-                        if (extractedData["results"][index]["photos"] == null) {
-                          return Container();
-                        }
-                        return ListTile(
-                          onTap: () {
-                            String url = extractedData["results"][index]
-                                    ["photos"][0]["html_attributions"][0]
-                                .toString()
-                                .split('href="')[1]
-                                .split('">')[0];
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ShowWebView(url: url),
-                                ));
-                          },
-                          title: Text(extractedData["results"][index]["name"]),
-                          subtitle: Row(
-                            children: [
-                              Text(extractedData["results"][index]['rating']
-                                  .toString()),
-                              RatingBar.builder(
-                                itemSize: 20,
-                                glow: false,
-                                ignoreGestures: true,
-                                allowHalfRating: true,
-                                initialRating: extractedData["results"][index]
-                                        ['rating']
-                                    .toDouble(),
-                                unratedColor: Colors.grey,
-                                itemBuilder: (context, index) {
-                                  return Icon(
-                                    Icons.star,
-                                    color: Colors.amber,
-                                  );
-                                },
-                                onRatingUpdate: (value) {},
-                              ),
-                              Text(" (" +
-                                  extractedData["results"][index]
-                                          ["user_ratings_total"]
-                                      .toString() +
-                                  ")"),
-                            ],
-                          ),
-                          leading: Image.network(
-                            extractedData["results"][index]["icon"],
-                            width: 30,
-                          ),
-                        );
-                      },
-                    ),
-                  )
+                ? CategoryData(data: widget.data)
+                : CategoryData(data: extractedData)
       ],
+    );
+  }
+}
+
+class CategoryData extends StatelessWidget {
+  final List data;
+  CategoryData({super.key, required this.data});
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: ListView.separated(
+        separatorBuilder: (context, index) {
+          if (data[index]['rating'] == null) {
+            return Container();
+          }
+          if (data[index]["photos"] == null) {
+            return Container();
+          }
+          return Divider();
+        },
+        itemCount: data.length,
+        itemBuilder: (context, index) {
+          if (data[index]['rating'] == null) {
+            return Container();
+          }
+          if (data[index]["photos"] == null) {
+            return Container();
+          }
+          return ListTile(
+            onTap: () {
+              String url = data[index]["photos"][0]["html_attributions"][0]
+                  .toString()
+                  .split('href="')[1]
+                  .split('">')[0];
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ShowWebView(url: url),
+                  ));
+            },
+            title: Text(data[index]["name"]),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(data[index]["vicinity"]),
+                Row(
+                  children: [
+                    Text(data[index]['rating'].toString()),
+                    RatingBar.builder(
+                      itemSize: 20,
+                      glow: false,
+                      ignoreGestures: true,
+                      allowHalfRating: true,
+                      initialRating: data[index]['rating'].toDouble(),
+                      unratedColor: Colors.grey,
+                      itemBuilder: (context, index) {
+                        return Icon(
+                          Icons.star,
+                          color: Colors.amber,
+                        );
+                      },
+                      onRatingUpdate: (value) {},
+                    ),
+                    Text(" (" +
+                        data[index]["user_ratings_total"].toString() +
+                        ")"),
+                  ],
+                ),
+              ],
+            ),
+            leading: Image.network(
+              data[index]["icon"],
+              width: 30,
+            ),
+            trailing: InkWell(
+                focusColor: Colors.red,
+                onTap: () async {
+                  await FlutterShare.share(
+                    title: "Share Link",
+                    linkUrl: data[index]["photos"][0]["html_attributions"][0]
+                        .toString()
+                        .split('href="')[1]
+                        .split('">')[0],
+                  );
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: FaIcon(
+                    FontAwesomeIcons.share,
+                    size: 20,
+                    color: Colors.green,
+                  ),
+                )),
+          );
+        },
+      ),
     );
   }
 }
@@ -235,11 +263,12 @@ class Category extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-            decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey, width: 1),
-                borderRadius: BorderRadius.circular(100)),
-            child: Text(title)),
+          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          decoration: BoxDecoration(
+              border: Border.all(color: Colors.grey, width: 1),
+              borderRadius: BorderRadius.circular(100)),
+          child: Text(title),
+        ),
       ),
     );
   }
