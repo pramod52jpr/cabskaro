@@ -60,8 +60,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
       });
     });
   }
-// start location
-
+  
+  // start location
   void animateStartLocation(double latitude, double longitude) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString(STARTLOC, "Current Location");

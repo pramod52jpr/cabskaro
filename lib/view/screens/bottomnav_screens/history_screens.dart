@@ -266,6 +266,7 @@ class HistoryScreen extends StatelessWidget {
           }
 
           return CustomScrollView(
+            
             controller: _scrollController,
             slivers: [
               SliverAppBar(
@@ -281,7 +282,7 @@ class HistoryScreen extends StatelessWidget {
               SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
-                    if (index == 4 ||index==12) {
+                    if (index == 4 ||index==12||index==3) {
                       return Container();
                     }
                     if (index >= 0 && index < newsApi.news.length) {
@@ -290,8 +291,7 @@ class HistoryScreen extends StatelessWidget {
 
                       return InkWell(
                         onTap: () {
-                          // Add your onTap logic here
-                          // launchUrl(Uri.parse(article.url));
+                          launchUrl(Uri.parse(article.url));
                         },
                         child: ListTile(
                           title: isValidUrl
