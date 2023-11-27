@@ -102,6 +102,7 @@ flutter:
   assets:
     - assets/images/icons/
     - assets/images/cabsicon/
+    - assets/images/nearbyplaces/
     - .env
     - animations/
 

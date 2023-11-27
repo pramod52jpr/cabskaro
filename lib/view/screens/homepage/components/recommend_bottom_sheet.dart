@@ -26,11 +26,13 @@ class RecommendSheet extends StatefulWidget {
 class _RecommendSheetState extends State<RecommendSheet> {
   List extractedData = [];
   bool loading = false;
+  bool allData = true;
 
   void showRecommendationTypes(List<String> type) async {
     setState(() {
       extractedData = [];
       loading = true;
+      allData = false;
     });
     String? apiKey = dotenv.env['APIurl'];
     int radius = 10000;
@@ -38,7 +40,12 @@ class _RecommendSheetState extends State<RecommendSheet> {
       String url =
           "https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=$apiKey&location=${widget.latitude},${widget.longitude}&radius=$radius&type=$element";
       Response response = await get(Uri.parse(url));
-      extractedData.addAll(jsonDecode(response.body)["results"]);
+      List data = jsonDecode(response.body)["results"];
+      for (var e in data) {
+        e.putIfAbsent("category", () => element);
+      }
+      extractedData.addAll(data);
+      print(url);
     }
     loading = false;
     setState(() {});
@@ -59,6 +66,7 @@ class _RecommendSheetState extends State<RecommendSheet> {
                 onTap: () {
                   setState(() {
                     extractedData = [];
+                    allData = true;
                   });
                 },
               ),
@@ -142,9 +150,13 @@ class _RecommendSheetState extends State<RecommendSheet> {
         ),
         loading
             ? Expanded(child: Center(child: CircularProgressIndicator()))
-            : extractedData.isEmpty
+            : allData
                 ? CategoryData(data: widget.data)
-                : CategoryData(data: extractedData)
+                : extractedData.isEmpty
+                    ? Expanded(
+                        child: Center(
+                            child: Text("no places found regarding the category")))
+                    : CategoryData(data: extractedData)
       ],
     );
   }
@@ -169,6 +181,43 @@ class CategoryData extends StatelessWidget {
         },
         itemCount: data.length,
         itemBuilder: (context, index) {
+          String symbol() {
+            switch (data[index]["category"]) {
+              case "tourist_attraction" || "airport":
+                return "assets/images/nearbyplaces/explore.png";
+              case "train_station":
+                return "assets/images/nearbyplaces/train.png";
+              case "bakery":
+                return "assets/images/nearbyplaces/bakery.png";
+              case "bank":
+                return "assets/images/nearbyplaces/bank.png";
+              case "atm":
+                return "assets/images/nearbyplaces/atm.png";
+              case "cafe":
+                return "assets/images/nearbyplaces/cafe.png";
+              case "restaurant":
+                return "assets/images/nearbyplaces/restaurant.png";
+              case "gas_station":
+                return "assets/images/nearbyplaces/gas_station.png";
+              case "liquor_store":
+                return "assets/images/nearbyplaces/liquor.png";
+              case "beauty_salon":
+                return "assets/images/nearbyplaces/beauty.png";
+              case ("doctor" || "drugstore" || "hospital"):
+                return "assets/images/nearbyplaces/health.png";
+              case "gym" || "hair_care":
+                return "assets/images/nearbyplaces/wellness.png";
+              case "pet_store" || "pharmacy" || "veterinary_care":
+                return "assets/images/nearbyplaces/pet.png";
+              case "night_club":
+                return "assets/images/nearbyplaces/night_out.png";
+              case "shopping_mall" || "shoe_store":
+                return "assets/images/nearbyplaces/shopping.png";
+              default:
+                return "assets/images/nearbyplaces/cafe.png";
+            }
+          }
+
           if (data[index]['rating'] == null) {
             return Container();
           }
@@ -217,10 +266,15 @@ class CategoryData extends StatelessWidget {
                 ),
               ],
             ),
-            leading: Image.network(
-              data[index]["icon"],
-              width: 30,
-            ),
+            leading: data[index]["category"] == null
+                ? Image.network(
+                    data[index]["icon"],
+                    width: 30,
+                  )
+                : Image.asset(
+                    symbol(),
+                    width: 30,
+                  ),
             trailing: InkWell(
                 focusColor: Colors.red,
                 onTap: () async {
