@@ -19,7 +19,7 @@ class ArticleModel {
     required this.content,
   });
 
-factory ArticleModel.fromJson(Map<String, dynamic> json) {
+  factory ArticleModel.fromJson(Map<String, dynamic> json) {
   return ArticleModel(
     source: Source.fromJson(json['source'] as Map<String, dynamic>),
     author: json['author'] as String? ?? '', 

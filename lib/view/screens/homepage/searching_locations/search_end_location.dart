@@ -64,12 +64,11 @@ final TextEditingController _searchController = TextEditingController();
                 ),
               ),
             ),
-            Expanded(
-              child:  ListView.separated(
-separatorBuilder: (BuildContext context, int index){
-  return Divider(thickness: 0.5,);
-},
-
+                      Expanded(
+                      child:ListView.separated(
+                      separatorBuilder: (BuildContext context, int index){
+                      return Divider(thickness: 0.5,);
+                      },
                       itemCount:model. data.length,
                       itemBuilder: (context, index) {
                         return ListTile(

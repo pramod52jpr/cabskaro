@@ -26,25 +26,24 @@ class CategoryData extends StatelessWidget {
           String symbol() {
             switch (data[index]["category"]) {
               case "tourist_attraction" || "airport":
-                return "assets/images/nearbyplaces/explore.png";
+              return "assets/images/nearbyplaces/explore.png";
               case "train_station":
-                return "assets/images/nearbyplaces/train.png";
+              return "assets/images/nearbyplaces/train.png";
               case "bakery":
-                return "assets/images/nearbyplaces/bakery.png";
+              return "assets/images/nearbyplaces/bakery.png";
               case "bank":
-                return "assets/images/nearbyplaces/bank.png";
+              return "assets/images/nearbyplaces/bank.png";
               case "atm":
-                return "assets/images/nearbyplaces/atm.png";
+              return "assets/images/nearbyplaces/atm.png";
               case "restaurant":
                 if (data[index]["name"].toString().startsWith("KFC")) {
                   return "assets/images/nearbyplaces/download.png";
                 }
-                    else if (data[index]["name"]
+              else if (data[index]["name"]
                     .toString()
                     .startsWith("Pizza Hut")) {
                   return "assets/images/nearbyplaces/logo-300x300.ed09f0955306cb0be42c35092733b5c2.png";
                 }
-                
                 return "assets/images/nearbyplaces/cafe.png";
               case "cafe":
                 if (data[index]["name"].toString().startsWith("Starbucks")) {
@@ -56,7 +55,6 @@ class CategoryData extends StatelessWidget {
                     .startsWith("McDonald's")) {
                   return "assets/images/nearbyplaces/images.png";
                 }
-             
                 
                 else if (data[index]["name"]
                     .toString()
@@ -66,7 +64,7 @@ class CategoryData extends StatelessWidget {
                 
                 
                 return "assets/images/nearbyplaces/restaurant.png";
-              default:
+                default:
                 return "assets/images/nearbyplaces/cafe.png";
             }
           }

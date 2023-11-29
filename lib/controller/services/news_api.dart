@@ -16,7 +16,6 @@ class NewsApiProvider extends ChangeNotifier{
     final response = await http.get(Uri.parse(apiUrl));
     if (response.statusCode == 200) {
     dynamic jsonData = jsonDecode(response.body);
-
      if (jsonData is List) {
      List<ArticleModel> fetchedNews =
      jsonData.map((item) => ArticleModel.fromJson(item)).toList();
