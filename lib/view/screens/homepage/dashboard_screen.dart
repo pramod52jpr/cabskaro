@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:cabskaro/view/screens/bottomnav_screens/history_screens.dart';
 import 'package:cabskaro/view/screens/bottomnav_screens/profile_screens.dart';
 import 'package:cabskaro/view/screens/homepage/components/bottom_navigator.dart';
-import 'package:cabskaro/view/screens/homepage/components/recommend_bottom_sheet.dart';
+import 'package:cabskaro/view/screens/homepage/recommended_screen/recommend_bottom_sheet.dart';
 import 'package:cabskaro/view/widgets/cab_companies.dart';
 import 'package:cabskaro/view/screens/homepage/components/location_points.dart';
 import 'package:cabskaro/controller/services/services.dart';

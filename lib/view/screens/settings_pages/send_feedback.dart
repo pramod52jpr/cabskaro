@@ -1,7 +1,15 @@
+import 'dart:convert';
+
 import 'package:cabskaro/view/widgets/back_button_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+
+import '../../../controller/chatbot_api.dart/chatbot.dart';
+import 'package:http/http.dart' as http;
 
 class SendFeedbackPage extends StatelessWidget {
   
@@ -68,3 +76,129 @@ class SendFeedbackPage extends StatelessWidget {
     );
   }
 }
+
+
+
+
+
+
+// class ArrivalController extends GetxController {
+//   late RxInt currentIndex = 0.obs;
+//   RxList<NewArrivalModel> arrivals = <NewArrivalModel>[].obs;
+
+//   @override
+//   void onInit() {
+//     super.onInit();
+//     fetchProduct();
+//   }
+
+//   void fetchProduct() async {
+//     try {
+//       final response = await http.get(Uri.parse(
+//           'https://dev-api.myhraki.com/web/productgen/api/v1/search?PageNumber=0&PageSize=10'));
+
+//       if (response.statusCode == 200) {
+//         final Map<String, dynamic> data = json.decode(response.body);
+//         print('API Response: $data');
+
+//         if (data.containsKey('result')) {
+//           final List<dynamic>? resultData = data['result'];
+
+//           if (resultData != null) {
+//             List<NewArrivalModel> newArrivals = resultData
+//                 .cast<Map<String, dynamic>>()
+//                 .map((map) {
+//                   var model = NewArrivalModel.fromJson(map);
+//                   print('Parsed Model: $model');
+//                   return model;
+//                 })
+//                 .toList();
+
+//             arrivals.assignAll(newArrivals);
+//           } else {
+//             print('Error fetching products: Results data is null.');
+//           }
+//         } else {
+//           print('Error fetching products: Results key not found.');
+//         }
+//       } else {
+//         throw Exception(
+//             'Failed to load products. Status code: ${response.statusCode}');
+//       }
+//     } catch (e) {
+//       print('Error fetching products: $e');
+//     }
+//   }
+// }
+
+// class NewArrivalModel {
+//   final String productId;
+//   final String title;
+//   final String quantity;
+//   final String description;
+//   final String price;
+//   final String thumbnailURI;
+
+//   NewArrivalModel({
+//     required this.productId,
+//     required this.title,
+//     required this.quantity,
+//     required this.description,
+//     required this.price,
+//     required this.thumbnailURI,
+//   });
+
+//   factory NewArrivalModel.fromJson(Map<String, dynamic> json) {
+//     return NewArrivalModel(
+//       productId: json['productId'].toString(),
+//       title: json['title'].toString(),
+//       quantity: json['quantity'].toString(),
+//       description: json['description'].toString(),
+//       price: json['price'].toString(),
+//       thumbnailURI: json['thumbnailURI'].toString(),
+//     );
+//   }
+
+//   Map<String, dynamic> toJson() {
+//     return {
+//       'productId': productId,
+//       'title': title,
+//       'quantity': quantity,
+//       'description': description,
+//       'price': price,
+//       'thumbnailURI': thumbnailURI,
+//     };
+//   }
+// }
+
+// class ProductPage extends StatelessWidget {
+//   final ArrivalController arrivalController = Get.put(ArrivalController());
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text('Product Page'),
+//       ),
+//       body: Obx(() {
+//         if (arrivalController.arrivals.isEmpty) {
+//           return Center(
+//             child: CircularProgressIndicator(),
+//           );
+//         } else {
+//           return ListView.builder(
+//             itemCount: arrivalController.arrivals.length,
+//             itemBuilder: (context, index) {
+//               final product = arrivalController.arrivals[index];
+//               return ListTile(
+//                 title: Text(product.title),
+//                 subtitle: Text(product.productId),
+//               );
+//             },
+//           );
+//         }
+//       }),
+//     );
+//   }
+// }
+

@@ -1,3 +1,5 @@
+import 'package:cabskaro/controller/chatbot_api.dart/chatbot.dart';
+import 'package:cabskaro/controller/provider/categorie_provider.dart';
 import 'package:cabskaro/controller/provider/faq_screen_provider.dart';
 import 'package:cabskaro/controller/provider/history_screen_provider.dart';
 import 'package:cabskaro/controller/provider/loading_provider.dart';
@@ -5,6 +7,8 @@ import 'package:cabskaro/controller/provider/search_location_provider.dart';
 import 'package:cabskaro/controller/provider/splash_screen_provider.dart';
 import 'package:cabskaro/controller/services/news_api.dart';
 import 'package:cabskaro/view/screens/firstpage/splash_screen.dart';
+import 'package:cabskaro/view/screens/homepage/recommended_screen/categiorie_screen.dart';
+import 'package:cabskaro/view/screens/settings_pages/send_feedback.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,6 +18,7 @@ import 'firebase_options.dart';
 import 'package:provider/provider.dart'; 
 
   void main() async {
+    
   await dotenv.load();
   WidgetsFlutterBinding.ensureInitialized();
     SystemChrome.setPreferredOrientations([
@@ -30,12 +35,17 @@ import 'package:provider/provider.dart';
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        
          ChangeNotifierProvider(create: (context)=>HistoryScreenProvider()),
          ChangeNotifierProvider(create: (context)=>SearchStartLocationModel()),
          ChangeNotifierProvider(create: (context)=>LoadingProvider()),
          ChangeNotifierProvider(create: (context)=>FaqScreenProvider()),
          ChangeNotifierProvider(create: (context)=>SplashScreenProvider()),
          ChangeNotifierProvider(create: (context)=>NewsApiProvider()),
+                  ChangeNotifierProvider(create: (context)=>RecommendationProvider()),
+                                    ChangeNotifierProvider(create: (context)=>CategoryProvider()),
+
+
         ],
         child: GetMaterialApp(
            theme: ThemeData(

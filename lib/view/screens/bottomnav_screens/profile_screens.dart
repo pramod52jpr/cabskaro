@@ -1,7 +1,9 @@
+import 'package:cabskaro/controller/chatbot_api.dart/chatbot.dart';
 import 'package:cabskaro/controller/services/services.dart';
 import 'package:cabskaro/model/user_profile_model.dart';
 import 'package:cabskaro/view/const/sizedbox.dart';
 import 'package:cabskaro/view/screens/bottomnav_screens/history_screens.dart';
+import 'package:cabskaro/view/screens/bottomnav_screens/test.dart';
 import 'package:cabskaro/view/screens/homepage/components/bottom_navigator.dart';
 import 'package:cabskaro/view/screens/otp_screen/login_screen.dart';
 import 'package:cabskaro/view/screens/settings_pages/about_us.dart';
@@ -284,6 +286,7 @@ class ProfileScreen extends StatelessWidget {
                                   }));
                                 },
                               ),
+              // -------------------------------------------//?---------------------------------------------------------------------------------------------------------------------
                               ProfileWidgetListTile(
                                 text: 'FAQs',
                                 icon: Padding(
@@ -293,6 +296,7 @@ class ProfileScreen extends StatelessWidget {
                                       height: screenHeight * 0.025),
                                 ),
                                 ontap: () {
+
                                   Navigator.push(context,
                                       MaterialPageRoute(builder: (context) {
                                     return FaqScreen();
@@ -344,6 +348,7 @@ class ProfileScreen extends StatelessWidget {
                                   }));
                                 },
                               ),
+                              
                               ListTile(
                                 onTap: () => showDialog<String>(
                                   context: context,

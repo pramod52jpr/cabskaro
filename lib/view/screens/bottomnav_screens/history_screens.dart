@@ -282,7 +282,7 @@ class HistoryScreen extends StatelessWidget {
               SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
-                    if (index == 4 ||index==12||index==3) {
+                    if (index == 2 ||index==12||index==3) {
                       return Container();
                     }
                     if (index >= 0 && index < newsApi.news.length) {
@@ -327,7 +327,7 @@ class HistoryScreen extends StatelessWidget {
                       return Container();
                     }
                   },
-                  childCount: 34,
+                  childCount: newsApi.news.length,
                 ),
               ),
             ],
