@@ -43,20 +43,35 @@ class CategoryData extends StatelessWidget {
                     .contains("Pizza Hut")) {
                   return "assets/images/nearbyplaces/logo-300x300.ed09f0955306cb0be42c35092733b5c2.png";
                 }
-
                 return "assets/images/nearbyplaces/cafe.png";
               case "cafe":
-                if (data[index]["name"].toString().startsWith("Starbucks")) {
+                if (data[index]["name"].toString().contains("Starbucks")) {
                   return "assets/images/nearbyplaces/Starbucks_Corporation_Logo_2011.svg.png";
                 } else if (data[index]["name"]
                     .toString()
-                    .startsWith("McDonald's")) {
+                    .contains("McDonald's")) {
                   return "assets/images/nearbyplaces/images.png";
-                } else if (data[index]["name"].toString().startsWith("KFC")) {
+                } else if (data[index]["name"].toString().contains("KFC")) {
                   return "assets/images/nearbyplaces/png-transparent-kfc-logo-colonel-sanders-kfc-fried-chicken-fast-food-hot-chicken-kfc-bucket-s-text-fast-food-restaurant-logo.png";
                 }
-
                 return "assets/images/nearbyplaces/restaurant.png";
+
+              case "gas_station":
+                return "assets/images/nearbyplaces/gas_station.png";
+              case "liquor_store":
+                return "assets/images/nearbyplaces/liquor.png";
+              case "beauty_salon" || "hair_care":
+                return "assets/images/nearbyplaces/beauty.png";
+              case "doctor" || "drugstore" || "hospital":
+                return "assets/images/nearbyplaces/health.png";
+              case "gym":
+                return "assets/images/nearbyplaces/wellness.png";
+              case "pet_store" || "pharmacy" || "veterinary_care":
+                return "assets/images/nearbyplaces/pet.png";
+              case "night_club":
+                return "assets/images/nearbyplaces/night_out.png";
+              case "shopping_mall" || "shoe_store":
+                return "assets/images/nearbyplaces/shopping.png";
               default:
                 return "assets/images/nearbyplaces/cafe.png";
             }
