@@ -1,4 +1,3 @@
-import 'package:cabskaro/controller/chatbot_api.dart/chatbot.dart';
 import 'package:cabskaro/controller/provider/categorie_provider.dart';
 import 'package:cabskaro/controller/provider/faq_screen_provider.dart';
 import 'package:cabskaro/controller/provider/history_screen_provider.dart';
@@ -7,8 +6,6 @@ import 'package:cabskaro/controller/provider/search_location_provider.dart';
 import 'package:cabskaro/controller/provider/splash_screen_provider.dart';
 import 'package:cabskaro/controller/services/news_api.dart';
 import 'package:cabskaro/view/screens/firstpage/splash_screen.dart';
-import 'package:cabskaro/view/screens/homepage/recommended_screen/categiorie_screen.dart';
-import 'package:cabskaro/view/screens/settings_pages/send_feedback.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
