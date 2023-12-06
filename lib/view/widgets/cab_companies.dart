@@ -35,18 +35,19 @@ class CabCompanies extends StatelessWidget {
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                 child: Image.asset(
                   "assets/images/icons/uber-logo.png",
-                  height: screenHeight*0.050,
+                  height: screenHeight*0.057,
                 ),
               ),
             ),
             InkWell(
               onTap: onTapOla,
               child: Container(
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
                 padding:
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                 child: Image.asset(
-                  "assets/images/icons/ola-logo.png",
-                  height:  screenHeight*0.060,
+                  "assets/images/cabsicon/Ola.png",
+                  height:  screenHeight*0.057,
                 ),
               ),
             ),
@@ -56,8 +57,8 @@ class CabCompanies extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                 child: Image.asset(
-                  "assets/images/icons/rapido-logo.png",
-                  height: screenHeight*0.050,
+                  "assets/images/cabsicon/6266fe312b8ca 2.png",
+                  height: screenHeight*0.055,
                 ),
               ),
             ),
@@ -67,8 +68,8 @@ class CabCompanies extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                 child: Image.asset(
-                  "assets/images/icons/meru-logo.png",
-                  height: screenHeight*0.050,
+                  "assets/images/cabsicon/download 2.png",
+                  height: screenHeight*0.055,
                 ),
               ),
             ),
@@ -79,7 +80,7 @@ class CabCompanies extends StatelessWidget {
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                 child: Image.asset(
                   "assets/images/icons/blu-smart-logo.png",
-                  height: screenHeight*0.050,
+                  height: screenHeight*0.055,
                 ),
               ),
             ),
@@ -90,7 +91,7 @@ class CabCompanies extends StatelessWidget {
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                 child: Image.asset(
                   "assets/images/icons/indrive-logo.png",
-                  height: screenHeight*0.050,
+                  height: screenHeight*0.055,
                 ),
               ),
             ),
@@ -100,7 +101,7 @@ class CabCompanies extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                 child: Image.asset(
-                  "assets/images/icons/bla-bla-logo.png",
+                  "assets/images/cabsicon/blabla.png",
                   height: screenHeight*0.055,
                 ),
               ),

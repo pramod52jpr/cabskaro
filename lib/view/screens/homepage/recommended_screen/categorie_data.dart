@@ -26,20 +26,19 @@ class CategoryData extends StatelessWidget {
           String symbol() {
             switch (data[index]["category"]) {
               case "tourist_attraction" || "airport":
-              return "assets/images/nearbyplaces/explore.png";
+                return "assets/images/nearbyplaces/explore.png";
               case "train_station":
-              return "assets/images/nearbyplaces/train.png";
+                return "assets/images/nearbyplaces/train.png";
               case "bakery":
-              return "assets/images/nearbyplaces/bakery.png";
+                return "assets/images/nearbyplaces/bakery.png";
               case "bank":
-              return "assets/images/nearbyplaces/bank.png";
+                return "assets/images/nearbyplaces/bank.png";
               case "atm":
-              return "assets/images/nearbyplaces/atm.png";
+                return "assets/images/nearbyplaces/atm.png";
               case "restaurant":
                 if (data[index]["name"].toString().contains("KFC")) {
                   return "assets/images/nearbyplaces/download.png";
-                }
-                    else if (data[index]["name"]
+                } else if (data[index]["name"]
                     .toString()
                     .contains("Pizza Hut")) {
                   return "assets/images/nearbyplaces/logo-300x300.ed09f0955306cb0be42c35092733b5c2.png";
@@ -52,15 +51,27 @@ class CategoryData extends StatelessWidget {
                     .toString()
                     .contains("McDonald's")) {
                   return "assets/images/nearbyplaces/images.png";
-                }
-             
-                
-                else if (data[index]["name"]
-                    .toString()
-                    .startsWith("KFC")) {
+                } else if (data[index]["name"].toString().contains("KFC")) {
                   return "assets/images/nearbyplaces/png-transparent-kfc-logo-colonel-sanders-kfc-fried-chicken-fast-food-hot-chicken-kfc-bucket-s-text-fast-food-restaurant-logo.png";
                 }
                 return "assets/images/nearbyplaces/restaurant.png";
+
+              case "gas_station":
+                return "assets/images/nearbyplaces/gas_station.png";
+              case "liquor_store":
+                return "assets/images/nearbyplaces/liquor.png";
+              case "beauty_salon" || "hair_care":
+                return "assets/images/nearbyplaces/beauty.png";
+              case "doctor" || "drugstore" || "hospital":
+                return "assets/images/nearbyplaces/health.png";
+              case "gym":
+                return "assets/images/nearbyplaces/wellness.png";
+              case "pet_store" || "pharmacy" || "veterinary_care":
+                return "assets/images/nearbyplaces/pet.png";
+              case "night_club":
+                return "assets/images/nearbyplaces/night_out.png";
+              case "shopping_mall" || "shoe_store":
+                return "assets/images/nearbyplaces/shopping.png";
               default:
                 return "assets/images/nearbyplaces/cafe.png";
             }

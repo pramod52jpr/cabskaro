@@ -604,8 +604,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   padding: EdgeInsets.symmetric(
                                       horizontal: 10, vertical: 5),
                                   decoration: BoxDecoration(
+                                    
                                       color: Color.fromARGB(195, 255, 255, 255),
-                                      borderRadius: BorderRadius.circular(100)),
+                                      borderRadius: BorderRadius.circular(100),border: Border.all(color: Colors.black)),
                                   child: Text("Show Nearby Places"),
                                 ),
                               ),
