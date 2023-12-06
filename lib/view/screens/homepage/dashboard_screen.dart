@@ -64,7 +64,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       });
     });
   }
-  
+
   // start location
   void animateStartLocation(double latitude, double longitude) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -604,9 +604,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   padding: EdgeInsets.symmetric(
                                       horizontal: 10, vertical: 5),
                                   decoration: BoxDecoration(
-                                    
-                                      color: Color.fromARGB(195, 255, 255, 255),
-                                      borderRadius: BorderRadius.circular(100),border: Border.all(color: Colors.black)),
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(100),
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color: const Color.fromARGB(255, 51, 51, 51),
+                                            offset: Offset(0, 2),
+                                            blurRadius: 3),
+                                      ]),
                                   child: Text("Show Nearby Places"),
                                 ),
                               ),

@@ -266,12 +266,11 @@ class HistoryScreen extends StatelessWidget {
           }
 
           return CustomScrollView(
-            
             controller: _scrollController,
             slivers: [
               SliverAppBar(
                 expandedHeight: 120.0,
-                floating: false,
+                floating: true,
                 pinned: true,
                 leading: BackButton(color: Colors.white),
                 flexibleSpace: FlexibleSpaceBar(
@@ -313,12 +312,6 @@ class HistoryScreen extends StatelessWidget {
                                 style: TextStyle(fontWeight: FontWeight.w400),
                               ),
                               SizedBox(height: 5),
-                              // Text(
-                              //   article.publishedAt != null
-                              //       ? DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.parse(article.publishedAt))
-                              //       : 'No Description',
-                              //   style: TextStyle(fontWeight: FontWeight.w700),
-                              // ),
                             ],
                           ),
                         ),
