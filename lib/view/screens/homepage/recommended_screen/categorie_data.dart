@@ -36,35 +36,32 @@ class CategoryData extends StatelessWidget {
               case "atm":
               return "assets/images/nearbyplaces/atm.png";
               case "restaurant":
-                if (data[index]["name"].toString().startsWith("KFC")) {
+                if (data[index]["name"].toString().contains("KFC")) {
                   return "assets/images/nearbyplaces/download.png";
                 }
-              else if (data[index]["name"]
+                    else if (data[index]["name"]
                     .toString()
-                    .startsWith("Pizza Hut")) {
+                    .contains("Pizza Hut")) {
                   return "assets/images/nearbyplaces/logo-300x300.ed09f0955306cb0be42c35092733b5c2.png";
                 }
                 return "assets/images/nearbyplaces/cafe.png";
               case "cafe":
-                if (data[index]["name"].toString().startsWith("Starbucks")) {
+                if (data[index]["name"].toString().contains("Starbucks")) {
                   return "assets/images/nearbyplaces/Starbucks_Corporation_Logo_2011.svg.png";
-                }
-                
-                 else if (data[index]["name"]
+                } else if (data[index]["name"]
                     .toString()
-                    .startsWith("McDonald's")) {
+                    .contains("McDonald's")) {
                   return "assets/images/nearbyplaces/images.png";
                 }
+             
                 
                 else if (data[index]["name"]
                     .toString()
                     .startsWith("KFC")) {
                   return "assets/images/nearbyplaces/png-transparent-kfc-logo-colonel-sanders-kfc-fried-chicken-fast-food-hot-chicken-kfc-bucket-s-text-fast-food-restaurant-logo.png";
                 }
-                
-                
                 return "assets/images/nearbyplaces/restaurant.png";
-                default:
+              default:
                 return "assets/images/nearbyplaces/cafe.png";
             }
           }
@@ -87,14 +84,21 @@ class CategoryData extends StatelessWidget {
                     builder: (context) => ShowWebView(url: url),
                   ));
             },
-            title: Text(data[index]["name"],style: GoogleFonts.lato(fontWeight: FontWeight.w600),),
+            title: Text(
+              data[index]["name"],
+              style: GoogleFonts.lato(fontWeight: FontWeight.w600),
+            ),
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(data[index]["vicinity"],style: GoogleFonts.lato(),),
+                Text(
+                  data[index]["vicinity"],
+                  style: GoogleFonts.lato(),
+                ),
                 Row(
                   children: [
-                    Text(data[index]['rating'].toString(),style: GoogleFonts.lato()),
+                    Text(data[index]['rating'].toString(),
+                        style: GoogleFonts.lato()),
                     RatingBar.builder(
                       itemSize: 20,
                       glow: false,
@@ -110,9 +114,10 @@ class CategoryData extends StatelessWidget {
                       },
                       onRatingUpdate: (value) {},
                     ),
-                    Text(" (" +
-                        data[index]["user_ratings_total"].toString() +
-                        ")",style: GoogleFonts.lato(),),
+                    Text(
+                      " (" + data[index]["user_ratings_total"].toString() + ")",
+                      style: GoogleFonts.lato(),
+                    ),
                   ],
                 ),
               ],
@@ -140,7 +145,7 @@ class CategoryData extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Icon(
-                   Icons.ios_share,
+                    Icons.ios_share,
                     size: 27,
                     color: Colors.black,
                   ),
@@ -151,4 +156,3 @@ class CategoryData extends StatelessWidget {
     );
   }
 }
-

@@ -122,6 +122,7 @@ class RecommendSheet extends StatelessWidget {
            ],
           ),
         ),
+        kHeight10,
         Consumer<RecommendationProvider>(
           builder: (context, provider, _) {
             return provider.loading
